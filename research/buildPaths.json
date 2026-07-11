@@ -1,0 +1,150 @@
+{
+  "papers": [
+    {
+      "paper": "AlexNet — ImageNet Classification with Deep CNNs (2012)",
+      "artifact": "Train a small AlexNet-style CNN on CIFAR-10 in a free Colab (conv → pool → FC, ~60% acc in minutes; add depth/augmentation and watch accuracy climb — the 'general methods + compute' lesson felt firsthand). AUTHOR PROOF: cite dogs-vs-cats repo (NavSha/dogs-vs-cats, MobileNetV2 transfer learning + Flask UI) — the modern descendant of the AlexNet playbook, already built.",
+      "tools": "Official PyTorch CIFAR-10 tutorial with Run-in-Colab button: https://docs.pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html (torchvision loads CIFAR-10 in 2 lines)",
+      "costUSD": "$0 (free Colab T4)",
+      "timeEstimate": "2-4 hours",
+      "difficulty": "evening",
+      "verifiedHow": "Fetched the tutorial July 2026 — live, official, includes Colab launcher covering data/net/training loop/eval"
+    },
+    {
+      "paper": "ResNet — Deep Residual Learning (2015)",
+      "artifact": "Reproduce Figure 1 of the paper yourself: train plain-20 vs plain-56 vs ResNet-20 vs ResNet-56 on CIFAR-10 and watch the deeper plain net do WORSE until you add skip connections — the degradation problem and its fix, on one chart you made.",
+      "tools": "akamaster/pytorch_resnet_cifar10 (https://github.com/akamaster/pytorch_resnet_cifar10) — reproduces the paper's exact CIFAR-10 numbers for ResNet-20/32/44/56; 1.4k stars",
+      "costUSD": "$0-5 (free Colab; ResNet-20 ~1h on T4, the 4-model comparison needs a few GPU-hours)",
+      "timeEstimate": "1-2 days (mostly training wall-clock)",
+      "difficulty": "weekend",
+      "verifiedHow": "gh api check July 2026: repo live (last push Jun 2024, stable educational repo), explicitly built to match the paper's CIFAR-10 results"
+    },
+    {
+      "paper": "Transformer — Attention Is All You Need (2017)",
+      "artifact": "Build a GPT from scratch and train it character-level on Shakespeare (nanoGPT shakespeare_char config: minutes on any GPU, runs on a MacBook via MPS). You write the attention block yourself; the paper's core diagram becomes ~30 lines of code. AUTHOR PROOF: cite tiny-llm-pipeline (BPE tokenizer + ~12M-param GPT pretrained on TinyStories on MPS) and the taylor-transformer site.",
+      "tools": "karpathy/nanoGPT (https://github.com/karpathy/nanoGPT, 61k stars) + his 'Let's build GPT' Zero-to-Hero video as the guided path",
+      "costUSD": "$0-10",
+      "timeEstimate": "a weekend (a focused day if following the video)",
+      "difficulty": "weekend",
+      "verifiedHow": "gh api July 2026: nanoGPT live (last push Nov 2025, not archived, 61k stars); shakespeare_char config unchanged"
+    },
+    {
+      "paper": "GPT-2 — Language Models are Unsupervised Multitask Learners (2019)",
+      "artifact": "Actually reproduce GPT-2 124M — the real model, not a toy: llm.c does it in ~90 min for ~$20 on an 8xA100 node (Lambda ~$14/hr), or 4-24h on a single GPU. Budget version: fine-tune OpenAI's GPT-2 weights on your own writing with nanoGPT for free. Stretch: karpathy/nanochat trains a full ChatGPT-style pipeline (tokenizer→pretrain→SFT→RL→WebUI) for ~$100. AUTHOR PROOF: tiny-llm-pipeline is this paper's whole arc at toy scale.",
+      "tools": "karpathy/llm.c discussion #481 (https://github.com/karpathy/llm.c/discussions/481); karpathy/nanoGPT; kellerjordan/modded-nanogpt (same target in <90s on 8xH100 — the speedrun era); karpathy/nanochat (https://github.com/karpathy/nanochat, 56k stars)",
+      "costUSD": "$20 verified for full 124M repro; $0 for the fine-tune path; ~$100 for nanochat",
+      "timeEstimate": "90 min compute + half a day setup (full repro); one evening (fine-tune)",
+      "difficulty": "weekend",
+      "verifiedHow": "The '$20 / 90 minutes' claim verified against Karpathy's own llm.c discussion #481 and Simon Willison's writeup; modded-nanogpt confirms the target is now routinely beaten; nanochat actively pushed July 2026"
+    },
+    {
+      "paper": "Scaling Laws for Neural Language Models (2020)",
+      "artifact": "Discover the law yourself: train 3-4 nanoGPT sizes (e.g., 0.1M / 1M / 6M params) on the same data, plot final loss vs params on log-log axes, and watch the straight line appear. Kaplan's trends are visible at 6.3M params — verified by an existing open replication. This is the site's flagship widget, backed by 'I plotted this myself.' Natural extension of tiny-llm-pipeline.",
+      "tools": "shehper/scaling_laws (https://github.com/shehper/scaling_laws) — open-source Kaplan replication using nanoGPT with public W&B training curves; nanoGPT ships its own scaling_laws.ipynb notebook",
+      "costUSD": "$10-30 GPU rental (or $0 with free-Colab patience across sessions)",
+      "timeEstimate": "a weekend (mostly unattended training)",
+      "difficulty": "weekend",
+      "verifiedHow": "shehper/scaling_laws verified via search + repo: reproduces Kaplan et al. trends with largest model only 6.3M params, with public W&B project and analysis notebook"
+    },
+    {
+      "paper": "GPT-3 — Language Models are Few-Shot Learners (2020)",
+      "artifact": "Run the in-context-learning curve yourself: pick one task (e.g., a made-up word cipher or sentiment labels), run it at 0/1/5/10 shots against (a) a strong API model and (b) a small local BASE model (GPT-2 or Qwen2.5-0.5B-base via transformers), plot accuracy vs shots. You see ICL work at scale and barely exist below it — the paper's thesis in one chart.",
+      "tools": "Any API with a playground (OpenAI/Anthropic); HF transformers for the local base-model contrast; eval sets from the HF Hub (e.g., SST-2, openai/gsm8k)",
+      "costUSD": "<$5 in API credit",
+      "timeEstimate": "one evening",
+      "difficulty": "evening",
+      "verifiedHow": "Standard current practice — 2026 prompting guides still benchmark zero- vs few-shot exactly this way; all datasets live on the HF Hub; no fragile dependency"
+    },
+    {
+      "paper": "Switch Transformers / Mixture-of-Experts (2021)",
+      "artifact": "Build a ~9M-param sparse MoE language model from scratch: makeMoE walks you through swapping a dense FFN for 4-8 expert MLPs with (noisy) top-k gating, character-level on Shakespeare. Log which tokens route to which expert — you can watch specialization emerge, and you understand exactly why 'active params ≠ total params' in frontier pricing.",
+      "tools": "AviSoori1x/makeMoE (https://github.com/AviSoori1x/makeMoE) + the step-by-step HF blog walkthrough (https://huggingface.co/blog/AviSoori1x/makemoe-from-scratch)",
+      "costUSD": "$0-10 (author used one A100; at character-level scale a free Colab T4 works)",
+      "timeEstimate": "a weekend",
+      "difficulty": "weekend",
+      "verifiedHow": "Fetched the HF blog July 2026: confirms from-scratch sparse MoE (~9M params, single GPU, top-k + noisy gating) with fully open repo; repo stable at 809 stars (last push Oct 2024 — educational, not rotting)"
+    },
+    {
+      "paper": "InstructGPT / RLHF (2022)",
+      "artifact": "Turn a raw base model into an assistant with your own hands: SFT then DPO on Qwen2.5-0.5B (or SmolLM2-360M) using UltraFeedback preference pairs, on a free Colab T4 — then chat with before/after checkpoints and feel the alignment layer. AUTHOR PROOF: tiny-llm-pipeline already includes the SFT→DPO stage; cite it directly.",
+      "tools": "huggingface/trl (https://github.com/huggingface/trl) — DPOTrainer docs use exactly Qwen-0.5B + UltraFeedback as the worked example; PPOTrainer available for the historically-faithful version",
+      "costUSD": "$0 (free Colab T4; short QLoRA-DPO run finishes in minutes)",
+      "timeEstimate": "one evening (DPO); a weekend if adding PPO for fidelity",
+      "difficulty": "evening",
+      "verifiedHow": "TRL actively pushed July 11 2026 (18.8k stars); docs example verified via search: Qwen-0.5B on UltraFeedback with DPOTrainer on free-tier Colab"
+    },
+    {
+      "paper": "Constitutional AI (2022)",
+      "artifact": "Two-level path. Evening: write your own 5-principle constitution, then run the CAI loop by hand via API — model answers a red-team prompt, critiques its answer against your principles, revises; compare pre/post. Weekend: the full Hugging Face recipe — generate an AI-feedback preference dataset from a constitution and DPO-train Mistral-7B on it (their result resisted jailbreaks better without losing helpfulness).",
+      "tools": "HF blog 'Constitutional AI with Open LLMs' (https://huggingface.co/blog/constitutional_ai) + the alignment-handbook constitutional-ai recipe (https://github.com/huggingface/alignment-handbook/tree/main/recipes/constitutional-ai)",
+      "costUSD": "~$1 in API calls (prompt-level loop); ~$20-40 GPU rental (full recipe)",
+      "timeEstimate": "one evening (loop) / a weekend (train)",
+      "difficulty": "evening",
+      "verifiedHow": "Fetched the HF blog July 2026: end-to-end open CAI recipe confirmed (Feb 2024, Mistral-7B, released datasets + code); alignment-handbook repo last pushed May 2026, 5.6k stars"
+    },
+    {
+      "paper": "Chain-of-Thought Prompting (2022)",
+      "artifact": "Reproduce the paper's headline jump with a cost meter attached: run 50 GSM8K problems in three conditions (direct answer / 'think step by step' / few-shot CoT), track accuracy AND tokens per condition from API usage data, plot accuracy-vs-tokens. This IS the site's CoT widget — the data behind it is an evening of your own API calls, and it makes 'buy quality with tokens' a number, not a slogan.",
+      "tools": "openai/gsm8k dataset on the HF Hub; any metered API (Anthropic/OpenAI both return token usage per call); ~30 lines of Python",
+      "costUSD": "<$5",
+      "timeEstimate": "one evening",
+      "difficulty": "evening",
+      "verifiedHow": "GSM8K live on HF Hub; the canonical deltas (17.7%→58.1% with CoT; 10.4%→40.7% zero-shot-CoT on InstructGPT-175B) confirmed in current 2026 guides; one honest caveat to state on the page: modern instruct models CoT by default, so use weaker/base models or explicit 'answer only' constraints to see the raw effect"
+    },
+    {
+      "paper": "DeepSeek-R1 (2025)",
+      "artifact": "TinyZero: run RL (veRL, GRPO-style) on a Qwen2.5-3B BASE model on the Countdown arithmetic game and watch the 'aha moment' happen in your own logs — the model spontaneously starts self-verifying and revising its reasoning. The <$30 claim is real and is the claim of the authors themselves (Jiayi Pan et al., Berkeley). Alternative: philschmid's Mini-R1 tutorial, or HF open-r1's GRPO recipes.",
+      "tools": "Jiayi-Pan/TinyZero (https://github.com/Jiayi-Pan/TinyZero, 13.2k stars); huggingface/open-r1 (https://github.com/huggingface/open-r1, 26.4k stars); philschmid Mini-R1 walkthrough (https://www.philschmid.de/mini-deepseek-r1)",
+      "costUSD": "~$30 GPU rental (verified authors' claim; needs 2x A100/H100-class for the 3B run — the only paper of the 14 that won't fit free Colab)",
+      "timeEstimate": "a weekend of wall-clock, spread over a week realistically (infra setup + training + reading logs)",
+      "difficulty": "week",
+      "verifiedHow": "The '<$30 aha moment' claim verified against the TinyZero repo and multiple independent writeups; repo actively maintained (pushed Feb 2026); open-r1 pushed Apr 2026. Honest framing: $30 buys the Countdown-task R1-Zero effect on a 3B model, not an R1-class model"
+    },
+    {
+      "paper": "CLIP (2021)",
+      "artifact": "Evening version: build a zero-shot image classifier for YOUR own photo library in ~10 lines with open_clip embeddings — search your photos by typing text, which is the RAG/vector-search intuition live. Weekend version: train a mini-CLIP from scratch (ResNet + DistilBERT encoders, contrastive loss) on Flickr8k (8k image-caption pairs) and watch retrieval start working.",
+      "tools": "mlfoundations/open_clip (https://github.com/mlfoundations/open_clip, 14k stars, pushed July 2026); W&B 'Implementing CLIP with PyTorch Lightning' COCO tutorial (https://wandb.ai/manan-goel/coco-clip/reports/Implementing-CLIP-With-PyTorch-Lightning--VmlldzoyMzg4Njk1); ramanakshay/clip for a clean from-scratch reference",
+      "costUSD": "$0 (zero-shot) / $0-10 (Flickr8k training on Colab)",
+      "timeEstimate": "one evening (zero-shot) / a weekend (train tiny CLIP)",
+      "difficulty": "evening",
+      "verifiedHow": "open_clip actively pushed July 11 2026; multiple maintained from-scratch tutorials on Flickr8k/COCO confirmed via search"
+    },
+    {
+      "paper": "Stable Diffusion / Latent Diffusion (2022)",
+      "artifact": "Train a DDPM from scratch on MNIST/FashionMNIST (~2M-param U-Net, ~10 min on a small GPU) and sample from it — watch pure noise denoise into digits you generated; this is the denoising-scrubber widget backed by your own model. Extension: LoRA-fine-tune actual Stable Diffusion on ~20 of your own photos with diffusers.",
+      "tools": "HF Diffusion Course Unit 1 'Diffusion Models from Scratch' (https://huggingface.co/learn/diffusion-course/en/unit1/3) + notebook (https://github.com/huggingface/diffusion-models-class); 'The Annotated Diffusion Model' (https://huggingface.co/blog/annotated-diffusion); diffusers DreamBooth-LoRA scripts for the SD extension",
+      "costUSD": "$0 (free Colab)",
+      "timeEstimate": "one evening (MNIST DDPM) / weekend with the SD-LoRA extension",
+      "difficulty": "evening",
+      "verifiedHow": "HF diffusion course + annotated-diffusion post confirmed live; a cited run: DDPM on MNIST, 100 epochs, ~2.2M params, ~10 min on a g4dn.xlarge; diffusers repo actively maintained (8 open good-first-issues, July 2026)"
+    },
+    {
+      "paper": "LoRA (2021)",
+      "artifact": "Fine-tune a 1-3B model on your own MacBook: mlx_lm.lora --train with a JSONL of 200-500 examples (e.g., re-use the Taylor Swift lyrics data from taylor-lstm — the perfect callback: same data, LSTM 2023 vs LoRA'd LLM 2026). Print trainable vs total params (<1%) to see the low-rank idea numerically. QLoRA of an 8B fits a 16GB Mac in ~1 hour; Mistral-7B on 5k examples ≈ 90 min on M2 Max at ~7GB peak.",
+      "tools": "mlx-lm LoRA (Apple MLX, https://github.com/ml-explore/mlx-lm, plus WWDC25 session 298); huggingface/peft (https://github.com/huggingface/peft, 21k stars, pushed July 2026) + TRL SFTTrainer for the Colab/CUDA path",
+      "costUSD": "$0 (runs locally on Apple Silicon)",
+      "timeEstimate": "one evening",
+      "difficulty": "evening",
+      "verifiedHow": "Multiple 2026 guides (DZone, KDnuggets, InsiderLLM, Apple WWDC25) confirm the mlx-lm LoRA workflow and the 16GB-MacBook/8B-model-in-~1hr figures; PEFT actively pushed July 10 2026"
+    }
+  ],
+  "doorInPage": {
+    "openSourceProjects": [
+      "vLLM (https://github.com/vllm-project/vllm) — 86k stars, pushed daily, 27 open 'good first issue' labels as of July 2026. The inference engine behind most LLM serving; contributions: docs, model-support PRs, kernel/perf fixes, CI. Best fit for backend engineers.",
+      "llama.cpp (https://github.com/ggml-org/llama.cpp) — 120k stars, pushed daily, 17 open good-first-issues. Local inference in C/C++; contributions: quantization formats, platform fixes (great for Mac users), model conversion scripts.",
+      "EleutherAI lm-evaluation-harness (https://github.com/EleutherAI/lm-evaluation-harness) — 13k stars, 19 open good-first-issues. THE standard eval harness; adding or fixing a benchmark task is mostly YAML + a little Python — the single most accessible 'real AI contribution' for a PM or product engineer, and eval literacy is directly job-relevant.",
+      "Hugging Face diffusers (https://github.com/huggingface/diffusers) — 8 open good-first-issues, active July 2026; contributions: pipelines, docs, community examples.",
+      "Hugging Face open-r1 (https://github.com/huggingface/open-r1) — 26.4k stars; the community R1 reproduction; contributions: training recipes, eval scripts, dataset work. Honest note: transformers/TRL/open-r1 had zero 'good first issue' labels open at check time — they absolutely merge outside PRs, but the door is docs/examples/reported-bug fixes, not curated starter issues.",
+      "Axolotl (https://github.com/axolotl-ai-cloud/axolotl) — fine-tuning framework, 3 open good-first-issues; contributions: model configs, docs, integration fixes."
+    ],
+    "communities": [
+      "EleutherAI Discord (https://discord.gg/2kpBev9nCd) — open research done in public; join, read #research, pick a project. Their SOAR program (Summer of Open AI Research, 5-week online mentorship, July 13-Aug 16 2026 cohort) is explicitly designed for people with NO prior research experience — the strongest structured door-in that exists (https://www.eleuther.ai/soar).",
+      "GPU MODE Discord (https://discord.com/invite/gpumode) — ~29k members, weekly GPU-programming lectures, kernel leaderboard (NVIDIA engineers compete on it); the door into performance/systems work.",
+      "Hugging Face Discord + forums — the town square of open-source ML; also their free courses (LLM course, diffusion course, smol-course) each have active channels.",
+      "Cohere Labs Open Science Community (https://huggingface.co/CohereLabs) — explicitly built to 'create more points of entry into ML research'; runs open collaborative projects (Aya lineage).",
+      "LAION Discord — open datasets and multimodal tooling collaboration (the community that made Stable Diffusion's training data possible).",
+      "Mechanistic interpretability community — ARENA curriculum (free, self-serve, the standard on-ramp), Neel Nanda's ecosystem, ICML 2026 MechInterp workshop; unusually welcoming to career-switchers with only toy-model experience.",
+      "r/LocalLLaMA — where fine-tuning/quantization practice actually circulates; good for finding what to build next."
+    ],
+    "labHiringReality": "Sourced from Epoch AI's analysis of frontier-lab job postings (Mar 24, 2026, https://epoch.ai/gradient-updates/ai-lab-job-postings): research roles are now only 12% of Anthropic's and 7% of OpenAI's open positions. Go-to-market grew from 17%→31% of Anthropic's openings and 18%→28% of OpenAI's in one year; within that, customer-adoption ENGINEERING roles roughly doubled (Anthropic 5%→11%, OpenAI 11%→17%) — titles like Forward Deployed Engineer, Solutions Architect, Applied AI Engineer, AI Success Engineer, Partner AI Deployment Engineer. These are exactly the roles this site's audience can reach: they require product engineering + model fluency (prompting, evals, fine-tuning, serving), not a PhD. Also real: infrastructure (OpenAI listed 21 custom-silicon roles; Anthropic datacenter-oversight roles), human-data/eval operations (xAI: 27 human-data roles), technical PM, developer relations, and policy. Comp signal: senior FDE base $215-310k US, total comp >$500k at frontier labs (KORE1/fd.engineer, 2026). The honest closing line for the page: the scarce skill isn't inventing the next transformer — it's being the person who has actually trained, aligned, evaluated, and served a model at ANY scale, which is precisely what the 14 weekend builds above produce."
+  }
+}

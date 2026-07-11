@@ -1,0 +1,29 @@
+{
+  "tools": [
+    {
+      "name": "Transformer Explainer",
+      "url": "https://poloclub.github.io/transformer-explainer/",
+      "license": "MIT (confirmed via GitHub API for poloclub/transformer-explainer; LICENSE file + README badge)",
+      "iframeEmbeddable": "yes — curl -sI returned HTTP/2 200 from GitHub Pages with NO X-Frame-Options and NO Content-Security-Policy frame-ancestors header (GitHub Pages cannot set custom headers, so this is stable). No meta-CSP or frame-busting JS found in the served HTML. Bonus: access-control-allow-origin: * is set.",
+      "selfHostFeasibility": "High. SvelteKit/Vite static build (npm install && npm run dev, Node 20+), already deployed on GitHub Pages by the authors. Fully self-contained: the GPT-2 ONNX weights are committed in-repo as 10MB chunks (static/model-v2/gpt2.onnx.part0..24+, ~250MB total) and fetched relatively with Cache API caching, so a fork onto your own GitHub Pages works without external model hosting (10MB chunks are under the 100MB/file limit; repo is under the 1GB Pages limit). Main caveat: it streams ~250MB of model weights to each visitor's browser, so use a click-to-load facade rather than eager iframe loading.",
+      "recommendation": "embed via iframe (lazy/click-to-activate, with attribution link). Since it is MIT, a self-host fork is a solid upgrade if you want version pinning and zero dependence on poloclub's deployment — both options are fully legal."
+    },
+    {
+      "name": "Diffusion Explainer",
+      "url": "https://poloclub.github.io/diffusion-explainer/",
+      "license": "MIT (confirmed via GitHub API for poloclub/diffusion-explainer; README states MIT)",
+      "iframeEmbeddable": "yes — curl -sI returned HTTP/2 200 from GitHub Pages with NO X-Frame-Options and NO frame-ancestors CSP. Only meta tag is X-UA-Compatible; no frame-busting scripts. access-control-allow-origin: * present.",
+      "selfHostFeasibility": "Trivial. Plain HTML/CSS/JS + D3 v7 with zero build step — the repo IS the site (README says run with python -m http.server). Visuals are pre-computed assets in the repo, no live model. Caveats: index.html hard-codes min-width:1200px on <html> (desktop-only; needs a wide iframe or CSS transform scale, or link-out on mobile), and it loads Google Analytics, Google Fonts, and a FontAwesome kit from CDNs — easy to strip in a fork.",
+      "recommendation": "embed via iframe on desktop with a link-out fallback below ~1200px viewport; self-host fork is the easy alternative if you want to remove the authors' Google Analytics tag or patch the min-width for responsive embedding."
+    },
+    {
+      "name": "LLM Visualization (Brendan Bycroft)",
+      "url": "https://bbycroft.net/llm",
+      "license": "NONE — bbycroft/llm-viz has no LICENSE file (GitHub API license: null) and the README grants no reuse permissions. Default copyright applies: all rights reserved; forking/redistributing/self-hosting is not legally permitted without the author's permission.",
+      "iframeEmbeddable": "yes (technically) — curl -sI returned HTTP/2 200 from Vercel with NO X-Frame-Options and NO frame-ancestors CSP; only strict-transport-security is set (irrelevant to framing). No frame-busting JS detected in the HTML. Unlike GitHub Pages, Vercel CAN set custom headers, so the author could restrict framing at any time.",
+      "selfHostFeasibility": "Technically plausible (Next.js/TypeScript/WebGL app, yarn dev; could likely be static-exported) but legally blocked by the absent license. If you really want a self-hosted copy, email Brendan Bycroft for permission first.",
+      "recommendation": "link out with screenshot teaser (safest and best UX — it is a full-page immersive 3D scroll experience that fights iframe scroll capture and is heavy on mobile). An iframe embed with prominent attribution is a technically-working fallback since the content stays served by the author, but do not fork or rehost."
+    }
+  ],
+  "overallAdvice": "Mixed strategy works cleanly on a static GitHub Pages site. (1) Both Polo Club tools are MIT and served from GitHub Pages, which never sends X-Frame-Options or frame-ancestors, so plain <iframe> embedding works today and won't silently break via header changes; still, prefer forking them under your own account for longevity and version pinning since the license fully allows it (Transformer Explainer is a self-contained SvelteKit static build including ~250MB of in-repo GPT-2 ONNX chunks; Diffusion Explainer is buildless vanilla JS). Use loading=\"lazy\" plus a click-to-activate poster for Transformer Explainer so visitors don't pull ~250MB of model weights on page load, and gate Diffusion Explainer's embed behind a >=1200px viewport check (it hard-codes min-width:1200px), linking out on mobile. (2) bbycroft.net/llm has no license, so never fork it; it is iframe-able today (Vercel, no framing headers), but since the author could add headers anytime and the 3D scroll experience embeds poorly anyway, a screenshot teaser card linking out is the right pattern — with attribution. General hygiene for all three: add title attributes, allow=\"fullscreen\", referrerpolicy, visible attribution + source links under each embed, and a static screenshot fallback in case any upstream site moves or adds framing restrictions."
+}

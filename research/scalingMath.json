@@ -1,0 +1,81 @@
+{
+  "kaplanFormulas": [
+    {
+      "name": "Loss vs model size L(N)",
+      "expression": "L(N) = (N_c / N)^alpha_N",
+      "constants": "alpha_N = 0.076, N_c = 8.8e13 (NON-embedding parameters); loss in nats/token on WebText2",
+      "source": "Kaplan et al. 2020, arXiv:2001.08361, Eq. 1.5 / Table 2 (verified via ar5iv HTML)"
+    },
+    {
+      "name": "Loss vs dataset size L(D)",
+      "expression": "L(D) = (D_c / D)^alpha_D",
+      "constants": "alpha_D = 0.095, D_c = 5.4e13 tokens (early-stopped, large-model limit)",
+      "source": "Kaplan et al. 2020, Eq. 1.6 / Table 2"
+    },
+    {
+      "name": "Loss vs compute L(C_min)",
+      "expression": "L(C_min) = (C_c / C_min)^alpha_C",
+      "constants": "alpha_C = 0.050, C_c = 3.1e8 PF-days. Unit conversion for JS: 1 PF-day = 8.64e19 FLOPs, so L(C) = (2.678e28 / C_FLOPs)^0.050. Sanity check: C = 3.14e23 FLOPs (GPT-3 scale) gives L = 1.76",
+      "source": "Kaplan et al. 2020, Eq. 1.7 / Table 6 (compute-efficient frontier)"
+    },
+    {
+      "name": "Combined L(N, D)",
+      "expression": "L(N,D) = [ (N_c/N)^(alpha_N/alpha_D) + D_c/D ]^alpha_D",
+      "constants": "Same constants as above: alpha_N=0.076, alpha_D=0.095, N_c=8.8e13, D_c=5.4e13",
+      "source": "Kaplan et al. 2020, Eq. 1.5 (the unified equation)"
+    },
+    {
+      "name": "Kaplan compute-optimal allocation (the claim Chinchilla overturned)",
+      "expression": "N_opt ∝ C^0.73, B ∝ C^0.24, S ∝ C^0.03",
+      "constants": "Exponent relation alpha_C = 1/(1/alpha_S + 1/alpha_B + 1/alpha_N) ≈ 0.050, with alpha_S=0.76, alpha_B=0.21 (B_crit(L)=B*/L^(1/alpha_B), B*≈2e8 tokens). Practical implication: spend almost all extra compute on bigger models, barely more data — this is why GPT-3 was 175B params on only 300B tokens (1.7 tokens/param)",
+      "source": "Kaplan et al. 2020, Section 6 / Table 6"
+    }
+  ],
+  "chinchillaFormulas": [
+    {
+      "name": "Parametric loss surface L(N, D) — use this for the widget's loss readout",
+      "expression": "L(N,D) = E + A / N^alpha + B / D^beta",
+      "constants": "E = 1.69, A = 406.4, B = 410.7, alpha = 0.34, beta = 0.28. N = total parameters, D = training tokens, loss in nats/token on MassiveText. Sanity checks (verified numerically): L(70e9, 1.4e12) = 1.937 (Chinchilla); L(175e9, 300e9) = 2.002 (GPT-3 config — worse than Chinchilla despite 2.5x params)",
+      "source": "Hoffmann et al. 2022, arXiv:2203.15556, Eq. 10 / Approach 3 (verified via ar5iv HTML)"
+    },
+    {
+      "name": "Compute-optimal frontier — USE THE 20:1 RULE, not the Approach-3 analytic constants",
+      "expression": "N_opt(C) = sqrt(C / 120) ; D_opt(C) = 20 * N_opt(C) = sqrt(C / 0.3) ; equivalently a = b = 0.5 with D ≈ 20 N and C = 6*N*D = 120*N^2",
+      "constants": "Derived from D = 20N (the paper's headline rule, consistent with its Approaches 1 & 2: a=0.50/0.49, b=0.50/0.51). Verified: C = 5.76e23 gives N_opt = 69.3B, D_opt = 1.386T — exactly Chinchilla. WARNING (verified numerically): the paper's analytic Approach-3 frontier N_opt = G*(C/6)^a, D_opt = G^-1*(C/6)^b with G = (alpha*A/(beta*B))^(1/(alpha+beta)) = 1.345, a = beta/(alpha+beta) = 0.4516, b = 0.5484 yields ~93 tokens/param at Chinchilla scale — inconsistent with the paper's own 20:1 result. Do not use it for the frontier",
+      "source": "Hoffmann et al. 2022, Table 3 + Approaches 1-2; inconsistency documented by Besiroglu et al. 2024, arXiv:2404.10102"
+    },
+    {
+      "name": "Training compute approximation",
+      "expression": "C ≈ 6 * N * D  (FLOPs)",
+      "constants": "N = parameters (ACTIVE parameters for MoE), D = tokens. Verified against reality: GPT-3 6*175e9*300e9 = 3.15e23 vs paper's 3.14e23; Llama 3.1 405B 6*405e9*15.6e12 = 3.79e25 vs Meta's reported 3.8e25",
+      "source": "Kaplan et al. 2020 Section 2.1; standard in both papers"
+    },
+    {
+      "name": "Epoch AI replication re-fit (show as the modern-consensus fit)",
+      "expression": "L(N,D) = E + A/N^alpha + B/D^beta (same form, different constants)",
+      "constants": "A = 482.01, B = 2085.43, E = 1.82, alpha = 0.3478, beta = 0.3658. This re-fit is internally consistent: implies ~20 tokens/param and a = beta/(alpha+beta) ≈ 0.51, reconciling Approach 3 with Approaches 1-2. Original Hoffmann beta = 0.28 rejected at p = 4.3e-5",
+      "source": "Besiroglu et al. 2024, 'Chinchilla Scaling: A replication attempt', arXiv:2404.10102 (verified via ar5iv HTML)"
+    }
+  ],
+  "computeToDollars": "USD(C) = C_FLOPs × price_per_GPU_hour / (peak_FLOPs_per_sec × MFU × 3600). Concrete JS defaults: H100 SXM peak dense BF16 = 989e12 FLOP/s; MFU = 0.40 (validated: Llama 3.1 405B's reported 3.8e25 FLOPs over 30.84M H100-hours implies 34.6% end-to-end, and Meta reported 38-43% instantaneous BF16 MFU); price = $2.50/GPU-hr (mid-2026 neocloud on-demand central estimate). That gives 1.424e18 FLOPs per GPU-hour, i.e. cost ≈ C × 1.755e-18 dollars ≈ $1.76 per exaFLOP (inverse: ~5.7e17 FLOPs per dollar). 2026 price anchors (July 2026, per-GPU on-demand): RunPod community $1.99 / secure $2.39; Lambda $2.49-2.99; Spheron $2.50; CoreWeave $4.25-6.16; GCP A3 ~$3.00; AWS p5 ~$6.88; Azure ~$12.29; observed market range $1.49-6.98. Widget should expose price ($1.50-$7 slider, default $2.50) and optionally MFU (20-50%, default 40%) as advanced settings, and label the axis 'compute rental cost at 2026 neocloud prices'. Important framing note: H100 rates fell 64-75% between Q4 2024 and early 2026 (was $8-10/hr), so the dollar axis is an exchange rate that improves every year — historical models cost far more on contemporaneous hardware than the widget's today-price shows. Sanity outputs at defaults: GPT-2 ~$2.6k, GPT-3 ~$550k, Chinchilla ~$1.0M, GPT-4 ~$37M, Llama 3.1 405B ~$67M. Sources: intuitionlabs.ai/articles/h100-rental-prices-cloud-comparison, spheron.network/blog/gpu-cloud-pricing-comparison-2026, lambda.ai/pricing, runpod.io/pricing, coreweave.com/pricing.",
+  "capabilityAnchors": [
+    "GPT-2 (2019): N = 1.5B, D ≈ 28B-token WebText corpus trained multiple epochs, C ≈ 1.5e21-2.5e21 FLOPs (Epoch AI 6ND estimate). Cost: ~$2.6k of compute at 2026 prices (~$50k+ on 2019 hardware). Capability label: coherent paragraphs, no reliable task-following",
+    "GPT-3 (2020): N = 175B, D = 300B tokens (only 1.7 tokens/param — Kaplan-style, badly undertrained by Chinchilla standards), C = 3.14e23 FLOPs (paper's own figure). Cost: ~$550k at 2026 prices; ~$4.6M contemporaneous V100 estimate (Lambda). Capability label: few-shot in-context learning — prompting becomes an interface",
+    "Chinchilla (2022): N = 70B, D = 1.4T tokens (exactly 20 tokens/param), C = 5.76e23 FLOPs. Cost: ~$1.0M at 2026 prices. Capability label: beat 280B Gopher with a 4x smaller model on the same compute — pure allocation win; predicted L(N,D) = 1.937",
+    "GPT-4 (2023, reported/leaked figures — label as estimates): ~1.8T total params MoE with ~280B active, ~13T tokens, C ≈ 2.1e25 FLOPs (6 × 280e9 × 13e12 ≈ 2.2e25 checks out; Epoch AI ~2e25). Cost: ~$37M at 2026 prices; ~$63M reported on ~25k A100s for ~95 days (SemiAnalysis); Altman said 'more than $100M' all-in. Capability label: passes the bar exam — the 'wait for the next model' bet paying off",
+    "Llama 3.1 405B (2024, fully documented open weights): N = 405B, D = 15.6T tokens (~38 tokens/param — deliberately overtrained past Chinchilla-optimal for cheaper inference), C = 3.8e25 FLOPs (Meta's own figure; 6ND gives 3.79e25), 30.84M H100 GPU-hours on up to 16,384 H100s. Cost: ~$62-92M at $2-3/GPU-hr (~$67M at defaults). Capability label: GPT-4-class in the open — the best 'reality anchor' since every number is public"
+  ],
+  "widgetImplementationNotes": "TWO MODES. Mode A 'Spend the budget' (default, founder-framed): one slider, log10(C) in FLOPs, range 1e18 to 1e27 (or a linked $ slider $2 to $2B via the cost mapping). Compute: Nopt = Math.sqrt(C/120); Dopt = 20*Nopt; loss = 1.69 + 406.4/Math.pow(Nopt,0.34) + 410.7/Math.pow(Dopt,0.28); usd = C*price/(989e12*mfu*3600). Readouts: N_opt (params), D_opt (tokens), loss, $, nearest capability anchor. Mode B 'Allocate it yourself' (the Chinchilla aha): two sliders, log10(N) range 1e7-1e13 and log10(D) range 1e9-1e15; compute C = 6*N*D, loss = 1.69 + 406.4/N**0.34 + 410.7/D**0.28, and the punchline delta: lossOptimal at the same C vs user's loss, plus 'you are undertrained/overtrained: X tokens/param vs ~20'. Preset button 'GPT-3's mistake' sets N=175e9, D=300e9 and shows Chinchilla (70B, 1.4T) beating it at equal compute (2.002 vs 1.937 nats). MAIN PLOT: log-log, x = C from 1e17 to 1e27 FLOPs (secondary $ axis below at 2026 prices: ~$0.18 to ~$1.8B), y = loss; if y is log-scaled plot (L - 1.69) so the frontier is a straight line, else linear y from 1.6 to 4.0 with a dashed horizontal asymptote at E = 1.69 labeled 'irreducible entropy of text'. Draw the Chinchilla-optimal frontier curve L_opt(C) (verified points: 3.54 @ 1e18, 2.34 @ 1e21, 1.92 @ 1e24, 1.77 @ 1e27), optionally the Kaplan L(C) = (2.678e28/C)^0.05 as a second dashed curve clearly labeled 'Kaplan 2020 fit (different dataset — not same y-axis meaning)'. Place the 5 anchor dots at (C, L(N,D)) using the parametric formula: GPT-2 (1.5e21), GPT-3 (3.14e23, visibly ABOVE the frontier — undertrained), Chinchilla (5.76e23, on frontier), GPT-4 (2.1e25), Llama 3.1 405B (3.8e25, slightly above frontier — deliberately overtrained, annotate why: cheaper inference). Advanced panel: GPU price slider $1.50-$7 (default $2.50), MFU 20-50% (default 40%), toggle Hoffmann vs Epoch-refit constants (A=482.01, B=2085.43, E=1.82, alpha=0.3478, beta=0.3658). Numbers formatted with engineering suffixes (91M params, 1.8B tokens, $2.6k). Everything is 5 lines of vanilla JS per mode — no libraries needed beyond the plotting layer.",
+  "caveats": [
+    "Kaplan and Chinchilla contradict each other on the frontier: Kaplan said N ∝ C^0.73 (grow the model, barely grow data — this is why GPT-3 was 175B on 300B tokens); Chinchilla corrected it to N ∝ C^0.5 with ~20 tokens/param. Causes since identified (Pearce & Song 2024, arXiv:2406.12907): Kaplan counted non-embedding params only, used a learning-rate schedule not tuned to token budget, and fit at much smaller scales. The widget follows Chinchilla",
+    "The two papers' loss values are NOT on the same scale: different datasets (WebText2 vs MassiveText) and different tokenizers, so nats/token differ. Never plot both fits on one y-axis without saying the Kaplan curve is illustrative shape only",
+    "Chinchilla's own published Approach-3 constants are internally inconsistent: plugged into the analytic frontier they imply ~70-90 tokens/param, not the paper's headline 20. Epoch AI's replication (Besiroglu et al. 2024, arXiv:2404.10102) found the fit non-reproducible with implausibly tight confidence intervals and re-fit constants that restore ~20:1. The widget uses the parametric form for loss but the 20:1 rule for the frontier — say so in a footnote",
+    "These laws describe PRETRAINING loss only. Post-training (RLHF, reasoning RL a la DeepSeek-R1) and inference-time compute (chain-of-thought) move capability without moving pretraining FLOPs — most of what changed between 2023 and 2025 lives there and is invisible on this chart",
+    "Loss → capability is nonlinear: a 0.05-nat drop can unlock qualitatively new behavior (or nothing). The capability labels on the anchors are honest vibes, not measurements; specific downstream skills can appear abruptly ('emergence') even though loss falls smoothly",
+    "C ≈ 6ND is an approximation: it ignores attention FLOPs (matters at long context), and for MoE models you must use ACTIVE parameters (GPT-4: ~280B active, not 1.8T total — using total overestimates compute 6x)",
+    "The dollar axis is compute-rental-only at mid-2026 neocloud prices (~$2.50/H100-hr, 40% MFU): it excludes salaries, failed runs, ablation experiments, data acquisition, and networking/storage — real all-in budgets are typically 2-5x the rental number. And prices fell 64-75% from Q4 2024 to 2026, so historical models cost far more on the hardware of their day (GPT-3: ~$4.6M then vs ~$550k of compute now)",
+    "Chinchilla-optimal means optimal for a single training run, ignoring inference: if you will serve the model to millions of users, it's rational to overtrain a smaller model past 20:1 (Llama 3.1 405B used ~38 tokens/param; Llama 3 8B used ~1,900). The frontier is a floor on loss per training FLOP, not a business recommendation",
+    "The fits are extrapolations beyond ~1e24 FLOPs: Chinchilla's largest fitted models were ~16B params; every curve point at GPT-4 scale and beyond extends the power law two-plus orders of magnitude past the data. It has held remarkably well so far, but the chart should shade the extrapolated region",
+    "The irreducible term E = 1.69 nats/token is the entropy of the text distribution itself — loss never reaches zero no matter the spend; the curve flattens toward the asymptote, which is the visual argument for why pure pretraining scaling has diminishing returns and the industry pivoted to post-training and inference-time compute"
+  ]
+}
