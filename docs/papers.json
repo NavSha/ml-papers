@@ -130,7 +130,7 @@
       "act": 2,
       "category": "foundations",
       "tier": "widget",
-      "status": "plate",
+      "status": "live",
       "minutes": 8,
       "hook": "Eight GPUs, three and a half days, one equation — and the machine-translation record fell to an architecture that deleted the thing everyone thought language required: reading in order.",
       "consequence": "Attention compares every token against every other, so cost grows with the square of context — this one equation is your API bill, your latency, and the reason prompt caching exists.",

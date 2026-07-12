@@ -931,6 +931,39 @@ input[type="text"], input[type="number"], select {
 .cai-principle .chip-quote { font-style: italic; font-size: 16px; margin: 0 0 6px; }
 .cai-principle .chip-meta { font-family: var(--font-mono); font-size: 11px; }
 
+/* --- transformer attention widget ------------------------------------- */
+.attn-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: var(--s2) 0; }
+.attn-pick[aria-selected="true"] { background: color-mix(in srgb, var(--cat-base) 16%, var(--surface-2)); color: var(--cat-light); border-color: var(--cat-base); }
+.attn-pick--breaks { border-color: color-mix(in srgb, var(--err) 45%, var(--border)); color: var(--err); }
+.attn-pick--breaks[aria-selected="true"] { background: color-mix(in srgb, var(--err) 14%, var(--surface-2)); color: var(--err); border-color: var(--err); }
+.attn-stage { position: relative; margin: var(--s2) 0; }
+.attn-arcs { width: 100%; height: 70px; display: block; overflow: visible; }
+.attn-tokens { display: flex; flex-wrap: wrap; gap: 4px; align-items: baseline; }
+.attn-tok { font-family: var(--font-mono); font-size: 14px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r1); padding: 4px 7px; color: var(--text); cursor: pointer; transition: all var(--dur-1) var(--ease-out); }
+.attn-tok:hover, .attn-tok.is-focus { border-color: var(--cat-base); color: var(--cat-light); }
+.attn-tok.is-focus { background: color-mix(in srgb, var(--cat-base) 20%, var(--surface-2)); }
+.attn-tok.is-target { border-color: var(--cat-light); box-shadow: 0 0 0 1px var(--cat-light); }
+.attn-heat { border-collapse: collapse; font-family: var(--font-mono); font-size: 9px; }
+.attn-heat th { color: var(--muted); font-weight: 400; padding: 1px 2px; white-space: nowrap; }
+.attn-heat th[scope="col"] { writing-mode: vertical-rl; text-orientation: mixed; height: 54px; vertical-align: bottom; }
+.attn-heat td { width: 16px; height: 16px; border: 1px solid var(--ground); }
+.attn-controls { display: flex; align-items: center; gap: var(--s2); margin-top: var(--s1); }
+.attn-foot { color: var(--muted); font-size: 12px; }
+
+/* --- embed facades (transformer go-deeper) ---------------------------- */
+.embed-facades { display: grid; gap: var(--s3); }
+.embed-facade { border: 1px solid var(--border); border-radius: var(--r3); overflow: hidden; background: var(--surface); }
+.embed-activate { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; position: relative; }
+.embed-activate img { width: 100%; height: auto; display: block; opacity: .72; transition: opacity var(--dur-1) var(--ease-out); }
+.embed-activate:hover img, .embed-activate:focus-visible img { opacity: 1; }
+.embed-play { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-mono); font-size: 15px; color: var(--text); text-shadow: 0 2px 12px rgba(0,0,0,.7); }
+.embed-attr { font-size: 13px; color: var(--muted); padding: 10px 14px; margin: 0; }
+.embed-attr a { color: var(--cat-base); }
+.embed-frame { width: 100%; height: 640px; border: 0; display: block; }
+.embed-linkout { display: block; border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s3); background: var(--surface); text-decoration: none; transition: border-color var(--dur-1) var(--ease-out); }
+.embed-linkout:hover { border-color: var(--cat-base); }
+.embed-linkout-title { font-family: var(--font-serif); font-size: 20px; color: var(--text); margin: 4px 0 6px; }
+
 /* --- build.html ladder ------------------------------------------------- */
 .ladder-group { margin-top: var(--s5); }
 .ladder-paper { margin-top: var(--s3); }

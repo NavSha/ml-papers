@@ -98,6 +98,69 @@
       </div>
     </section>
 
+    <section class="section" id="see-it">
+      <p class="kicker"><span class="cat">attention, running for real</span> · touch it</p>
+      <div class="scrolly" data-scrolly>
+        <div class="steps">
+          <div class="step" data-step="0">
+            <p class="kicker">step 01 / 03</p>
+            <h3>Watch a word find what it needs</h3>
+            <p>These are the real attention weights of GPT-2 small, baked offline — not a
+            cartoon. Pick a token and the arcs show what it attends to. On
+            <span class="num">"were on the table,"</span> the verb reaches back across the
+            whole phrase to its true subject, <span class="num">"keys,"</span> not the nearest
+            noun. That reach is the softmax in the equation, running.</p>
+          </div>
+          <div class="step" data-step="1">
+            <p class="kicker">step 02 / 03</p>
+            <h3>The engineer's view</h3>
+            <p>Flip to the grid: every cell is one <span class="num">Q·K</span> comparison — a
+            token against a token. It's triangular because a token can only attend backwards.
+            And it is exactly this <span class="num">N×N</span> shape that makes long context
+            expensive: double the tokens, quadruple the cells. This grid is your latency and
+            your bill.</p>
+          </div>
+          <div class="step" data-step="2">
+            <p class="kicker">step 03 / 03</p>
+            <h3>Where it breaks</h3>
+            <p>Now the Winograd sentence: <span class="num">"…because it was too big"</span> —
+            does <span class="num">"it"</span> mean the trophy or the suitcase? A human knows
+            instantly; GPT-2 small's best head can't commit, spreading its attention instead of
+            linking <span class="num">"it"</span> to <span class="num">"trophy."</span> Resolving
+            that needs world knowledge this small model doesn't have. Bigger models push the wall
+            out — none of them remove it.</p>
+          </div>
+        </div>
+        <div class="sticky">
+          <div class="widget-panel" data-widget="transformer">
+            <p class="placeholder widget-fallback">
+              the interactive attention view needs JavaScript — the equation above is what it runs.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="go-deeper">
+      <p class="kicker"><span class="cat">go deeper</span> · two more views</p>
+      <div class="embed-facades">
+        <div class="embed-facade" data-embed="transformer">
+          <button class="embed-activate" type="button" data-activate>
+            <img src="../assets/poster-transformer-explainer.webp" alt="Preview of the Transformer Explainer — a live GPT-2 with attention flows"
+                 loading="lazy" width="1440" height="900">
+            <span class="embed-play">▶ run a live GPT-2 in your browser</span>
+          </button>
+          <p class="embed-attr">Transformer Explainer — Georgia Tech Polo Club (MIT).
+            <a href="https://poloclub.github.io/transformer-explainer/" rel="noopener">open it in a new tab →</a></p>
+        </div>
+        <a class="embed-linkout" href="https://bbycroft.net/llm" rel="noopener">
+          <p class="kicker">external · WebGL 3D walkthrough</p>
+          <p class="embed-linkout-title">Every matrix multiply in a GPT, in 3D →</p>
+          <p class="small">Brendan Bycroft's scrollable 3D model of GPT — best on desktop.</p>
+        </a>
+      </div>
+    </section>
+
     <section class="section" id="what-it-changed">
       <p class="kicker"><span class="cat">what it changed</span></p>
       <h2>This equation is your API <em>bill</em></h2>
@@ -178,5 +241,22 @@
       </p>
     </div>
   </footer>
+  <script type="module">
+    // Click-to-activate embed facade (SPEC §6c): zero network until clicked;
+    // iframe only on wide viewports, else open in a new tab.
+    const f = document.querySelector('.embed-facade[data-embed="transformer"] [data-activate]');
+    if (f) f.addEventListener('click', () => {
+      if (window.innerWidth < 1200) { window.open('https://poloclub.github.io/transformer-explainer/', '_blank', 'noopener'); return; }
+      const wrap = f.closest('.embed-facade');
+      const ifr = document.createElement('iframe');
+      ifr.src = 'https://poloclub.github.io/transformer-explainer/';
+      ifr.title = 'Transformer Explainer (Georgia Tech Polo Club)';
+      ifr.setAttribute('allow', 'fullscreen');
+      ifr.setAttribute('referrerpolicy', 'no-referrer');
+      ifr.loading = 'lazy';
+      ifr.className = 'embed-frame';
+      f.replaceWith(ifr);
+    });
+  </script>
 </body>
 </html>
