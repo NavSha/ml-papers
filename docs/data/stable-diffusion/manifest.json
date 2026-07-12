@@ -1,0 +1,31 @@
+{
+  "baker": "tools/bake_diffusion_strip.py",
+  "source": {
+    "title": "The Earth seen from Apollo 17 (Blue Marble)",
+    "url": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Earth_seen_from_Apollo_17.jpg",
+    "license": "public domain (NASA)"
+  },
+  "schedule": {
+    "beta": "linear 1e-4 -> 0.02",
+    "T": 1000
+  },
+  "timesteps": [
+    0,
+    40,
+    90,
+    150,
+    220,
+    300,
+    400,
+    520,
+    650,
+    780,
+    900,
+    999
+  ],
+  "seeds": 2,
+  "size": 480,
+  "latent": 64,
+  "seedFallbackBelowT": 150,
+  "note": "64px variants illustrate latent-space SCALE; they are downsamples, not a real VAE latent (see colophon)."
+}
