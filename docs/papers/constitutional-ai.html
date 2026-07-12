@@ -126,6 +126,41 @@
       </div>
     </section>
 
+    <section class="section" id="see-it">
+      <p class="kicker"><span class="cat">governance as config</span> · watch it work</p>
+      <div class="scrolly" data-scrolly>
+        <div class="steps">
+          <div class="step" data-step="0">
+            <p class="kicker">step 01 / 04</p>
+            <h3>The labeling problem</h3>
+            <p>The standard way to make a model harmless was tens of thousands of human labels — is this response OK or not. Slow, expensive, opaque, and inconsistent between labelers. You can't read it, argue with it, or diff it.</p>
+          </div>
+          <div class="step" data-step="1">
+            <p class="kicker">step 02 / 04</p>
+            <h3>Phase 1: the model revises itself</h3>
+            <p>Give the model a short written constitution and it critiques its own harmful answers against those principles, then rewrites them — and you fine-tune on the revisions. The principles are plain, readable English, shown right here from the paper's appendix.</p>
+          </div>
+          <div class="step" data-step="2">
+            <p class="kicker">step 03 / 04</p>
+            <h3>Phase 2: AI feedback</h3>
+            <p>An AI compares response pairs against the constitution; those judgments train a preference model, and reinforcement learning optimises against it. Humans still author the constitution and still provide every helpfulness label — what got automated is applying the rules at scale, not choosing them.</p>
+          </div>
+          <div class="step" data-step="3">
+            <p class="kicker">step 04 / 04</p>
+            <h3>The practice</h3>
+            <p>Per the paper, the result was less harmful without refusing more. The pattern — supervise a model with another model plus explicit written rules — is now everywhere: LLM-as-judge, self-critique loops, policy-in-the-prompt. Write your agent guardrails as testable principles you can read, audit, and diff.</p>
+          </div>
+        </div>
+        <div class="sticky">
+          <div class="widget-panel" data-widget="constitutional-ai">
+            <p class="placeholder widget-fallback">
+              the animated version needs JavaScript — the figure above shows the idea.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="what-it-changed">
       <p class="kicker"><span class="cat">what it changed</span></p>
       <h2>Models now supervise <em>models</em></h2>

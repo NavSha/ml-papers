@@ -921,6 +921,16 @@ input[type="text"], input[type="number"], select {
   .cot-headline .num { font-size: clamp(24px, 7vw, 32px); }
 }
 
+/* --- rlhf preference bars + CAI principle chip (scrolly widgets) ------- */
+.rlhf-bar { display: grid; grid-template-columns: 130px 1fr 48px; gap: 10px; align-items: center; margin: 8px 0; }
+.rlhf-bar-lbl { font-size: 13px; color: var(--muted); }
+.rlhf-bar-track { height: 20px; background: var(--surface-2); border-radius: var(--r1); overflow: hidden; }
+.rlhf-bar-fill { display: block; height: 100%; background: var(--cat-base); border-radius: var(--r1); transition: width 700ms var(--ease-out); }
+.rlhf-bar-val { font-family: var(--font-mono); font-size: 13px; color: var(--cat-light); text-align: right; }
+.cai-principle { margin-top: var(--s2); }
+.cai-principle .chip-quote { font-style: italic; font-size: 16px; margin: 0 0 6px; }
+.cai-principle .chip-meta { font-family: var(--font-mono); font-size: 11px; }
+
 /* --- build.html ladder ------------------------------------------------- */
 .ladder-group { margin-top: var(--s5); }
 .ladder-paper { margin-top: var(--s3); }

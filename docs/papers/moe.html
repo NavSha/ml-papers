@@ -113,6 +113,41 @@
       </div>
     </section>
 
+    <section class="section" id="see-it">
+      <p class="kicker"><span class="cat">the load balancer</span> · watch it work</p>
+      <div class="scrolly" data-scrolly>
+        <div class="steps">
+          <div class="step" data-step="0">
+            <p class="kicker">step 01 / 04</p>
+            <h3>The dense tax</h3>
+            <p>In a normal Transformer every token flows through every parameter. Double the parameters and you double the cost of every single token. That coupling is what made scaling expensive — until someone broke it.</p>
+          </div>
+          <div class="step" data-step="1">
+            <p class="kicker">step 02 / 04</p>
+            <h3>One expert per token</h3>
+            <p>Replace the dense layer with many parallel experts and a small router. Each token is sent to exactly one expert; the rest sit idle. Total parameters can climb into the trillions while the compute spent on any given token stays flat.</p>
+          </div>
+          <div class="step" data-step="2">
+            <p class="kicker">step 03 / 04</p>
+            <h3>The receipts</h3>
+            <p>Switch Transformers reported up to a 7× pre-training speedup over the dense T5-Base baseline at the same compute budget. Same money, far more model — the router is just a load balancer, and every engineer has drawn this exact box-and-arrows picture for microservices.</p>
+          </div>
+          <div class="step" data-step="3">
+            <p class="kicker">step 04 / 04</p>
+            <h3>The pricing lesson</h3>
+            <p>This is why 'parameters' and 'inference cost' stopped being the same axis. When you compare models on price and speed, ask about ACTIVE parameters, not the headline size — an MoE with hundreds of billions of total params can cost like a small dense model per token. It's a big part of why API prices keep falling while capability rises.</p>
+          </div>
+        </div>
+        <div class="sticky">
+          <div class="widget-panel" data-widget="moe">
+            <p class="placeholder widget-fallback">
+              the animated version needs JavaScript — the figure above shows the idea.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="what-it-changed">
       <p class="kicker"><span class="cat">what it changed</span></p>
       <h2>Ask about <em>active</em> parameters</h2>
