@@ -1,0 +1,129 @@
+{
+  "baker": "tools/bake_paper_figures.py",
+  "bakedAt": "2026-07-12T11:25:00+00:00",
+  "slug": "deepseek-r1",
+  "source": {
+    "arxivId": "2501.12948",
+    "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+    "url": "https://ar5iv.labs.arxiv.org/html/2501.12948",
+    "figure": "Figure 2 — AIME accuracy of DeepSeek-R1-Zero during training (pass@1 averaged over 16 samples/question)"
+  },
+  "provenance": "traced, approximate",
+  "notes": "Training-curve interior points are traced by eye from the published Figure 2 (no data table exists); x = RL steps, axis approximate (paper says only 'thousands of RL steps'). Endpoints and all values in the 'aime-anchors' series are exact numbers stated in the paper.",
+  "series": [
+    {
+      "id": "r1-zero-aime-training",
+      "label": "DeepSeek-R1-Zero — AIME 2024 pass@1 during RL",
+      "provenance": "traced, approximate",
+      "sectionRef": "Figure 2; §2.2.4",
+      "xAxis": {
+        "label": "RL steps",
+        "note": "approximate; traced from Figure 2"
+      },
+      "yAxis": {
+        "label": "AIME 2024 pass@1",
+        "unit": "%"
+      },
+      "points": [
+        {
+          "x": 0,
+          "y": 15.6,
+          "provenance": "tabulated",
+          "note": "RL start; 'increases from 15.6%' (Abstract; §2.2.4)"
+        },
+        {
+          "x": 800,
+          "y": 26.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 1600,
+          "y": 35.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 2400,
+          "y": 42.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 3200,
+          "y": 48.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 4000,
+          "y": 53.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 4800,
+          "y": 57.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 5600,
+          "y": 61.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 6400,
+          "y": 64.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 7200,
+          "y": 67.5,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 8000,
+          "y": 71.0,
+          "provenance": "tabulated",
+          "note": "end of RL; 71.0 pass@1 (Abstract; Table 2)"
+        }
+      ]
+    },
+    {
+      "id": "aime-anchors",
+      "label": "AIME 2024 anchors (exact values from paper)",
+      "provenance": "tabulated",
+      "yAxis": {
+        "label": "AIME 2024 accuracy",
+        "unit": "%"
+      },
+      "points": [
+        {
+          "label": "DeepSeek-R1-Zero at RL start (pass@1)",
+          "y": 15.6,
+          "provenance": "tabulated",
+          "sectionRef": "Abstract; §2.2.4"
+        },
+        {
+          "label": "DeepSeek-R1-Zero after RL (pass@1)",
+          "y": 71.0,
+          "provenance": "tabulated",
+          "sectionRef": "Abstract; Table 2"
+        },
+        {
+          "label": "DeepSeek-R1-Zero cons@64 (majority voting)",
+          "y": 86.7,
+          "provenance": "tabulated",
+          "sectionRef": "Abstract; Table 2"
+        },
+        {
+          "label": "DeepSeek-R1 (pass@1)",
+          "y": 79.8,
+          "provenance": "tabulated",
+          "sectionRef": "§1.2; Table 4"
+        },
+        {
+          "label": "OpenAI-o1-1217 (pass@1)",
+          "y": 79.2,
+          "provenance": "tabulated",
+          "sectionRef": "Table 4"
+        }
+      ]
+    }
+  ]
+}

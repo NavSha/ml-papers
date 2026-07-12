@@ -1,0 +1,151 @@
+{
+  "baker": "tools/bake_cot.py",
+  "baked": "2026-07-12",
+  "provenance": "reproduced verbatim from arXiv 2201.11903 appendix",
+  "provenanceDetail": {
+    "paper": "Wei et al. (2022). Chain-of-Thought Prompting Elicits Reasoning in Large Language Models. NeurIPS 2022. arXiv:2201.11903",
+    "exemplar": "Figure 1 (text extracted via pdftotext from the arXiv e-print figure PDF; ar5iv renders it as an image)",
+    "cases": "Figure 1 test problem + Table 20, Appendix G. The 'answer directly' condition follows the paper's standard-prompting format (Sec. 3.1 / Figure 1 left): the bare final answer.",
+    "breakit": "Figure 10, Appendix A.1 — PaLM 62B outputs, verbatim; error categories are the paper's own labels",
+    "table20FetchedFrom": "https://ar5iv.labs.arxiv.org/html/2201.11903",
+    "table20VerifiedAgainstLiveFetch": true,
+    "tokenizer": "GPT-2 (GPT2TokenizerFast), counted offline"
+  },
+  "headline": {
+    "before": 17.9,
+    "after": 56.9,
+    "model": "PaLM 540B",
+    "bench": "GSM8K",
+    "src": "Table 2, arXiv 2201.11903 — same weights, only the prompt changed"
+  },
+  "exemplar": {
+    "q": "Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can has 3 tennis balls. How many tennis balls does he have now?",
+    "direct": {
+      "text": "The answer is 11.",
+      "tokens": 5
+    },
+    "cot": {
+      "text": "Roger started with 5 balls. 2 cans of 3 tennis balls each is 6 tennis balls. 5 + 6 = 11. The answer is 11.",
+      "tokens": 29
+    },
+    "src": "Figure 1 — the one worked example shown to the model"
+  },
+  "cases": [
+    {
+      "id": "cafeteria",
+      "q": "The cafeteria had 23 apples. If they used 20 to make lunch and bought 6 more, how many apples do they have?",
+      "src": "Figure 1 (model outputs under each condition)",
+      "direct": {
+        "text": "The answer is 27.",
+        "tokens": 5,
+        "correct": false
+      },
+      "cot": {
+        "text": "The cafeteria had 23 apples originally. They used 20 to make lunch. So they had 23 - 20 = 3. They bought 6 more apples, so they have 3 + 6 = 9. The answer is 9.",
+        "tokens": 43,
+        "correct": true
+      }
+    },
+    {
+      "id": "there-15",
+      "q": "There are 15 trees in the grove. Grove workers will plant trees in the grove today. After they are done, there will be 21 trees. How many trees did the grove workers plant today?",
+      "src": "Table 20, Appendix G (few-shot CoT prompt exemplar)",
+      "direct": {
+        "text": "The answer is 6.",
+        "tokens": 5,
+        "correct": true
+      },
+      "cot": {
+        "text": "There are 15 trees originally. Then there were 21 trees after some more were planted. So there must have been 21 - 15 = 6. The answer is 6.",
+        "tokens": 33,
+        "correct": true
+      }
+    },
+    {
+      "id": "leah-32",
+      "q": "Leah had 32 chocolates and her sister had 42. If they ate 35, how many pieces do they have left in total?",
+      "src": "Table 20, Appendix G (few-shot CoT prompt exemplar)",
+      "direct": {
+        "text": "The answer is 39.",
+        "tokens": 5,
+        "correct": true
+      },
+      "cot": {
+        "text": "Originally, Leah had 32 chocolates. Her sister had 42. So in total they had 32 + 42 = 74. After eating 35, they had 74 - 35 = 39. The answer is 39.",
+        "tokens": 42,
+        "correct": true
+      }
+    },
+    {
+      "id": "there-nine",
+      "q": "There were nine computers in the server room. Five more computers were installed each day, from monday to thursday. How many computers are now in the server room?",
+      "src": "Table 20, Appendix G (few-shot CoT prompt exemplar)",
+      "direct": {
+        "text": "The answer is 29.",
+        "tokens": 5,
+        "correct": true
+      },
+      "cot": {
+        "text": "There were originally 9 computers. For each of 4 days, 5 more computers were added. So 5 * 4 = 20 computers were added. 9 + 20 is 29. The answer is 29.",
+        "tokens": 39,
+        "correct": true
+      }
+    },
+    {
+      "id": "michael-58",
+      "q": "Michael had 58 golf balls. On tuesday, he lost 23 golf balls. On wednesday, he lost 2 more. How many golf balls did he have at the end of wednesday?",
+      "src": "Table 20, Appendix G (few-shot CoT prompt exemplar)",
+      "direct": {
+        "text": "The answer is 33.",
+        "tokens": 5,
+        "correct": true
+      },
+      "cot": {
+        "text": "Michael started with 58 golf balls. After losing 23 on tuesday, he had 58 - 23 = 35. After losing 2 more, he had 35 - 2 = 33 golf balls. The answer is 33.",
+        "tokens": 42,
+        "correct": true
+      }
+    },
+    {
+      "id": "olivia-23",
+      "q": "Olivia has $23. She bought five bagels for $3 each. How much money does she have left?",
+      "src": "Table 20, Appendix G (few-shot CoT prompt exemplar)",
+      "direct": {
+        "text": "The answer is 8.",
+        "tokens": 5,
+        "correct": true
+      },
+      "cot": {
+        "text": "Olivia had 23 dollars. 5 bagels for 3 dollars each will be 5 x 3 = 15 dollars. So she has 23 - 15 dollars left. 23 - 15 is 8. The answer is 8.",
+        "tokens": 43,
+        "correct": true
+      }
+    }
+  ],
+  "breakit": [
+    {
+      "q": "Tracy used a piece of wire 4 feet long to support tomato plants in the garden. The wire was cut into pieces 6 inches long. How many pieces did she obtain?",
+      "model": "PaLM 62B",
+      "text": "She cut the wire into 6 inch pieces. This means she got 4 * 6 = 24 pieces. The answer is 24.",
+      "error": "semantic understanding error (paper's label) — it never converts feet to inches, then multiplies the two numbers it was given. 540B gets 8.",
+      "tokens": 25,
+      "src": "Figure 10, Appendix A.1 (62B errors fixed by scaling to 540B)"
+    },
+    {
+      "q": "Tom's ship can travel at 10 miles per hour. He is sailing from 1 to 4 PM. He then travels back at a rate of 6 mph. How long does it take him to get back?",
+      "model": "PaLM 62B",
+      "text": "He travels from 1 to 4 PM. That means he travels for 3 hours. He travels back at 6 mph. That means he travels for 3 * 6 = 18 miles. The answer is 18.",
+      "error": "semantic understanding error (paper's label) — asked \"how long\", it answers with a distance, and 3 x 6 isn't even the distance. 540B gets 5 hours.",
+      "tokens": 40,
+      "src": "Figure 10, Appendix A.1 (62B errors fixed by scaling to 540B)"
+    },
+    {
+      "q": "There are four schools competing at a basketball tournament. Each school has sent a girls’ basketball team and a boys’ basketball team and each team has 5 players each. Each school has also sent a coach for each team. In total, how many people have all of the schools sent?",
+      "model": "PaLM 62B",
+      "text": "There are 4 schools. Each school has sent a girls’ basketball team and a boys’ basketball team. Each team has 5 players each. That means there are 4 * 2 * 5 = 40 players. Each team has a coach. That means there are 40 + 4 = 44 coaches. The answer is 44.",
+      "error": "one step missing error (paper's label) — every sentence is fluent, but it counts 4 coaches instead of 8 (one per team, two teams per school). 540B gets 48.",
+      "tokens": 65,
+      "src": "Figure 10, Appendix A.1 (62B errors fixed by scaling to 540B)"
+    }
+  ]
+}

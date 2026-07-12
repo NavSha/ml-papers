@@ -871,7 +871,7 @@ input[type="text"], input[type="number"], select {
 .breakit-note { font-size: var(--fs-small); font-style: italic; color: var(--muted); }
 
 /* --- widget internals (scaling-laws + shared widget chrome) ------------ */
-.widget-tabs { display: flex; gap: 8px; margin: var(--s2) 0; }
+.widget-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: var(--s2) 0; }
 .widget-label { display: grid; grid-template-columns: minmax(120px, auto) minmax(0, 1fr) auto; gap: 12px; align-items: center; font-family: var(--font-mono); font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: var(--s2) 0; }
 .widget-label input[type="range"] { width: 100%; accent-color: var(--cat-base); min-height: 24px; }
 .widget-label .num { text-transform: none; letter-spacing: 0; font-size: var(--fs-data); color: var(--text); text-align: right; min-width: 110px; }
@@ -884,6 +884,42 @@ input[type="text"], input[type="number"], select {
 .widget-advanced { margin-top: var(--s2); border-top: 1px solid var(--line); padding-top: var(--s2); }
 .widget-advanced summary { font-family: var(--font-mono); font-size: 12px; color: var(--muted); cursor: pointer; letter-spacing: .08em; text-transform: uppercase; }
 .widget-advanced summary:hover { color: var(--text); }
+
+/* --- cot widget internals ----------------------------------------------- */
+.cot-headline { margin: var(--s2) 0; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.cot-headline .num { font-size: var(--fs-odometer); font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; }
+.cot-headline .cot-before { color: var(--muted); }
+.cot-headline .cot-arrow { color: var(--dim); font-size: calc(var(--fs-odometer) * 0.7); margin: 0 6px; }
+.cot-headline .cot-after { color: var(--cat-light); }
+.cot-headline-sub { margin: 2px 0 0; font-size: var(--fs-small); color: var(--muted); }
+.cot-panes { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); margin-top: var(--s2); align-items: stretch; }
+.cot-pane {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: var(--s2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  transition: opacity var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+}
+.cot-pane.is-hot { border-color: var(--cat-base); }
+.cot-pane.is-dim { opacity: .5; }
+.cot-pane-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s1); }
+.cot-response { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text); flex: 1; }
+.cot-meter { height: 8px; }
+.badge-ok { color: var(--ok); font-family: var(--font-mono); font-size: 12px; white-space: nowrap; }
+.badge-err { color: var(--err); font-family: var(--font-mono); font-size: 12px; white-space: nowrap; }
+.cot-framing { margin: var(--s1) 0 0; font-size: var(--fs-small); color: var(--muted); font-style: italic; }
+.cot-exemplar { margin: var(--s2) 0; font-size: 15px; }
+.cot-exemplar .chip-caption { margin-top: 8px; }
+.cot-breakit-case { margin-top: var(--s2); }
+.cot-breakit-case + .cot-breakit-case { border-top: 1px solid var(--line); padding-top: var(--s2); }
+.provenance-line { margin-top: var(--s3); border-top: 1px solid var(--line); padding-top: var(--s1); font-size: var(--fs-small); color: var(--muted); }
+@media (max-width: 780px) {
+  .cot-panes { grid-template-columns: 1fr; }
+  .cot-headline .num { font-size: clamp(24px, 7vw, 32px); }
+}
 
 /* --- build.html ladder ------------------------------------------------- */
 .ladder-group { margin-top: var(--s5); }

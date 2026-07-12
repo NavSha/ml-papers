@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>Chain-of-Thought · Chain-of-Thought Prompting Elicits Reasoning in Large Language Models — The Fourteen</title>
+  <meta name="description" content="Same model, same weights: show it worked examples with the steps written out and its math-word-problem score triples — 17.9% to 56.9%, from a prompt change…">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Chain-of-Thought · Chain-of-Thought Prompting Elicits Reasoning in Large Language Models — The Fourteen">
+  <meta property="og:description" content="Same model, same weights: show it worked examples with the steps written out and its math-word-problem score triples — 17.9% to 56.9%, from a prompt change…">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/papers/cot.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Chain-of-Thought · Chain-of-Thought Prompting Elicits Reasoning in Large Language Models — The Fourteen">
+  <meta name="twitter:description" content="Same model, same weights: show it worked examples with the steps written out and its math-word-problem score triples — 17.9% to 56.9%, from a prompt change…">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="making-useful" data-slug="cot">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <header class="paper-header reading">
+      <p class="kicker">11 · <span class="cat">Chain-of-Thought</span> · 2022</p>
+      <h1>Chain-of-Thought Prompting <em>Elicits</em> Reasoning in Large Language Models</h1>
+      <div class="paper-chip">
+        <span class="chip-tab">arXiv 2201.11903</span>
+        <p class="chip-title">Chain-of-Thought Prompting Elicits Reasoning in Large Language Models</p>
+        <p class="chip-meta">Wei et al., Google Brain &middot; NeurIPS 2022 &middot;
+          <a href="https://arxiv.org/abs/2201.11903" rel="noopener">arXiv 2201.11903</a></p>
+        <button class="chip-copy" type="button" hidden
+                data-cite="Wei et al. (2022). Chain-of-Thought Prompting Elicits Reasoning in Large Language Models. NeurIPS 2022. https://arxiv.org/abs/2201.11903">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+<p class="lead hook">Same model, same weights: show it worked examples with the steps written out and its math-word-problem score triples — 17.9% to 56.9%, from a prompt change you could type yourself.</p>
+<!-- END:HOOK -->
+    </header>
+
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · the before/after bar, redrawn</p>
+      <h2>Only the <em>prompt</em> changed</h2>
+      <figure class="panel" data-figure="cot">
+        <svg viewBox="0 0 640 240" role="img" aria-label="PaLM 540B on GSM8K: 17.9 percent solve rate with a standard prompt versus 56.9 percent with a chain-of-thought prompt — same model, same weights, only the prompt changed" style="width:100%;height:auto;display:block">
+          <!-- axis -->
+          <line x1="140" y1="30" x2="140" y2="200" stroke="var(--border)" stroke-width="1"/>
+          <line x1="140" y1="200" x2="620" y2="200" stroke="var(--border)" stroke-width="1"/>
+          <!-- standard prompt: 17.9% -->
+          <rect x="140" y="60" width="143" height="44" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="273" y="87" font-family="JetBrains Mono, monospace" font-size="16" fill="var(--text)" text-anchor="end">17.9%</text>
+          <text x="295" y="87" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--muted)">standard prompt (answer only)</text>
+          <!-- chain-of-thought prompt: 56.9% -->
+          <rect x="140" y="130" width="455" height="44" rx="4" fill="var(--cat-deep)"/>
+          <text x="150" y="157" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--cat-light)">chain-of-thought prompt (steps written out)</text>
+          <text x="585" y="157" font-family="JetBrains Mono, monospace" font-size="16" fill="var(--cat-light)" text-anchor="end">56.9%</text>
+          <!-- the jump -->
+          <line x1="290" y1="114" x2="588" y2="127" stroke="var(--cat-base)" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="440" y="106" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--cat-base)" text-anchor="middle">×3.2 — same weights, zero training</text>
+          <text x="140" y="222" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">GSM8K math word problems, solve rate — higher is better · PaLM 540B in both rows</text>
+        </svg>
+        <figcaption class="paper-chip">
+          <p class="chip-caption">Redrawn from the PaLM 540B GSM8K results reported in the paper.
+            Both bars are the same 540-billion-parameter model on the same math problems —
+            the only experimental variable is what the prompt looks like.</p>
+        </figcaption>
+      </figure>
+      <div class="paper-chip reading">
+        <span class="chip-tab">figure 1 · the exemplar</span>
+        <p class="chip-quote">Q: Roger has 5 tennis balls. He buys 2 more cans of tennis
+          balls. Each can has 3 tennis balls. How many tennis balls does he have now?</p>
+        <p class="chip-quote">A: Roger started with 5 balls. 2 cans of 3 tennis balls each is
+          6 tennis balls. 5 + 6 = 11. The answer is 11.</p>
+        <p class="chip-caption">The paper's exemplar, verbatim. In the standard condition the
+          same question is answered with just "The answer is 11." — writing out the middle
+          is the entire intervention.</p>
+      </div>
+      <div class="prose reading">
+        <p>That prompt change is the whole method — no fine-tuning, no new model. Paste a few
+        worked examples like the one above in front of the question, and PaLM's solve rate on
+        grade-school math word problems goes from <span class="num">17.9%</span> to
+        <span class="num">56.9%</span> — a change you could type yourself. It's the difference
+        between demanding an instant answer to a multi-digit multiplication and handing someone
+        scratch paper. The scratch paper doesn't make anyone smarter — it externalizes
+        intermediate state, so errors stop compounding.</p>
+      </div>
+    </section>
+
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>Answer quality is a <em>dial</em></h2>
+      <div class="prose reading">
+        <p>More reasoning tokens buy better answers — at higher latency and a bigger bill.
+        That trade is a runtime dial now: every reasoning-effort setting and extended-thinking
+        toggle you flip today descends from this observation. Product design follows directly —
+        route easy queries to a fast, cheap path, spend tokens only on the hard ones, and meter
+        the difference. With chain-of-thought, quality stops being a model property and becomes
+        a line item you can read off the invoice.</p>
+      </div>
+    </section>
+
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>Scratch paper, not <em>introspection</em></h2>
+      <div class="prose reading">
+        <p><strong>The misconception:</strong> "the printed reasoning is a faithful transcript
+        of how the model computed its answer." It isn't guaranteed to be. The chain correlates
+        with accuracy but can be post-hoc rationalization — treat it as useful scaffolding and
+        a debugging signal, not ground-truth introspection. And this was a <em>discovered</em>
+        prompting behavior: models weren't trained to reason step-by-step until years later.</p>
+        <p>The second limit saves you money: the ability is emergent, appearing only around
+        <span class="num">~100B</span> parameters. Below that, chain-of-thought prompting can
+        make results <em>worse</em>, not better — scratch paper only helps someone who already
+        knows how to multiply; a small model just scribbles fluent nonsense.</p>
+      </div>
+    </section>
+
+    <!-- BEGIN:CODA -->
+<section class="coda" aria-labelledby="coda-title">
+  <h2 class="coda-title" id="coda-title">Build it yourself</h2>
+  <p class="coda-chip">build it: $5 · one evening</p>
+  <ol class="coda-rungs">
+  <li class="rung" data-tag="read">
+    <span class="rung-tag">read</span>
+    <p class="rung-text"><a href="https://arxiv.org/abs/2201.11903">Read the paper — the Roger-and-his-tennis-balls exemplar is the entire technique, verbatim, and the appendix carries full outputs for both prompting conditions.</a></p>
+    <p class="rung-meta">1–2 hrs &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="run">
+    <span class="rung-tag">run</span>
+    <p class="rung-text"><a href="https://huggingface.co/datasets/openai/gsm8k">Reproduce the headline with a cost meter attached: run 50 GSM8K problems in three conditions (direct / &#x27;think step by step&#x27; / few-shot CoT), tracking accuracy AND tokens per condition — ~30 lines of Python, and &#x27;buy quality with tokens&#x27; becomes a number instead of a slogan.</a></p>
+    <p class="rung-meta">one evening &middot; &lt;$5</p>
+  </li>
+  </ol>
+</section>
+<!-- END:CODA -->
+
+    <!-- BEGIN:HANDOFF -->
+<nav class="handoff" aria-label="Paper navigation">
+  <p class="cliffhanger">Prompting could unlock reasoning, but the raw model underneath still wasn&#x27;t trying to help anyone. Turning a predictor into an assistant took three training steps and a team of about forty labelers.</p>
+  <p class="handoff-links">
+    <a class="handoff-prev" data-handoff="prev" href="stable-diffusion.html">&larr; Stable Diffusion (2021)</a>
+    <a class="handoff-next" data-handoff="next" href="rlhf.html">InstructGPT / RLHF (2022) &rarr;</a>
+  </p>
+</nav>
+<!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

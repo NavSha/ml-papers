@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>GPT-3 · Language Models are Few-Shot Learners — The Fourteen</title>
+  <meta name="description" content="At 175 billion parameters, you can teach it a new task by typing three examples into the prompt — no training run, no weights touched, nothing remembered…">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="GPT-3 · Language Models are Few-Shot Learners — The Fourteen">
+  <meta property="og:description" content="At 175 billion parameters, you can teach it a new task by typing three examples into the prompt — no training run, no weights touched, nothing remembered…">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/papers/gpt3.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GPT-3 · Language Models are Few-Shot Learners — The Fourteen">
+  <meta name="twitter:description" content="At 175 billion parameters, you can teach it a new task by typing three examples into the prompt — no training run, no weights touched, nothing remembered…">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="llm-core" data-slug="gpt3">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <header class="paper-header reading">
+      <p class="kicker">06 · <span class="cat">GPT-3</span> · 2020</p>
+      <h1>Language Models are <em>Few-Shot</em> Learners</h1>
+      <div class="paper-chip">
+        <span class="chip-tab">arXiv 2005.14165</span>
+        <p class="chip-title">Language Models are Few-Shot Learners</p>
+        <p class="chip-meta">Brown et al., OpenAI &middot; NeurIPS 2020 &middot;
+          <a href="https://arxiv.org/abs/2005.14165" rel="noopener">arXiv 2005.14165</a></p>
+        <button class="chip-copy" type="button" hidden
+                data-cite="Brown et al. (2020). Language Models are Few-Shot Learners. NeurIPS 2020. https://arxiv.org/abs/2005.14165">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+<p class="lead hook">At 175 billion parameters, you can teach it a new task by typing three examples into the prompt — no training run, no weights touched, nothing remembered when you leave.</p>
+<!-- END:HOOK -->
+    </header>
+
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · figure 1.2, redrawn</p>
+      <h2>The curve you've already <em>lived</em></h2>
+      <figure class="panel" data-figure="gpt3">
+        <svg viewBox="0 0 640 300" role="img" aria-label="Schematic of task accuracy versus number of examples in the prompt: a small model stays flat, a mid-size model rises slightly, and the 175-billion-parameter model climbs steeply" style="width:100%;height:auto;display:block">
+          <!-- axes -->
+          <line x1="90" y1="30" x2="90" y2="240" stroke="var(--border)" stroke-width="1"/>
+          <line x1="90" y1="240" x2="610" y2="240" stroke="var(--border)" stroke-width="1"/>
+          <text x="20" y="34" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--muted)">accuracy</text>
+          <text x="90" y="262" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--muted)" text-anchor="middle">0</text>
+          <text x="610" y="262" font-family="Inter, sans-serif" font-size="13" fill="var(--muted)" text-anchor="end">more examples in the prompt →</text>
+          <!-- small model: flat -->
+          <path d="M 90 222 C 260 221, 440 219, 610 217" fill="none" stroke="var(--muted)" stroke-width="2"/>
+          <circle cx="90" cy="222" r="3.5" fill="var(--muted)"/>
+          <text x="604" y="207" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--muted)" text-anchor="end">small model</text>
+          <!-- mid-size model: slight rise -->
+          <path d="M 90 210 C 260 205, 440 191, 610 178" fill="none" stroke="var(--cat-deep)" stroke-width="2"/>
+          <circle cx="90" cy="210" r="3.5" fill="var(--cat-deep)"/>
+          <text x="604" y="168" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--muted)" text-anchor="end">mid-size model</text>
+          <!-- 175B: climbs steeply -->
+          <path d="M 90 198 C 170 192, 210 118, 320 86 C 420 62, 520 54, 610 50" fill="none" stroke="var(--cat-base)" stroke-width="2.5"/>
+          <circle cx="90" cy="198" r="4" fill="var(--cat-base)"/>
+          <text x="604" y="38" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--cat-base)" text-anchor="end">175B (GPT-3)</text>
+          <!-- annotation on the climb -->
+          <line x1="344" y1="128" x2="282" y2="102" stroke="var(--cat-base)" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="352" y="126" font-family="Inter, sans-serif" font-size="13" fill="var(--cat-light)">the climb is in-context learning —</text>
+          <text x="352" y="144" font-family="Inter, sans-serif" font-size="13" fill="var(--cat-light)">zero weights updated</text>
+          <!-- footnote -->
+          <text x="90" y="290" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">task accuracy vs in-context examples, one curve per model size · schematic — shapes, not exact data</text>
+        </svg>
+        <figcaption class="paper-chip">
+          <p class="chip-caption">Schematic, redrawn from Figure 1.2 of the paper: task accuracy
+            vs number of in-context examples, one curve per model size. Small models stay flat;
+            the 175B curve climbs steeply as examples are added.</p>
+        </figcaption>
+      </figure>
+      <div class="prose reading">
+        <p>You have lived this chart: add two or three examples to a prompt and the output snaps
+        into the format you wanted. Figure 1.2 shows what that experience actually is — an emergent
+        property of scale that nobody programmed. As examples are added, small models stay flat;
+        at <span class="num">175B</span> parameters, roughly <span class="num">10×</span> anything
+        before it, the curve climbs steeply. The paper's name for the climb is
+        <strong>in-context learning</strong>: a pure next-token predictor picking up a new task
+        from examples sitting in the prompt — no training run, zero gradient updates.</p>
+      </div>
+    </section>
+
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>The cheapest quality <em>lever</em> you own</h2>
+      <div class="prose reading">
+        <p>This is where the prompt became a programming interface — the direct ancestor of prompt
+        engineering, few-shot prompting, and treating English as a runtime. Few-shot examples
+        remain the cheapest quality lever you own: try a handful of good examples in the prompt
+        before reaching for fine-tuning. In-context learning is also the mechanism that makes RAG
+        work at all — retrieved text changes the model's behavior at inference time, with no
+        training. And it has a line item: those examples are paid tokens on every single call,
+        which is exactly the cost that prompt caching amortizes.</p>
+      </div>
+    </section>
+
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>Conditioning, not <em>training</em></h2>
+      <div class="prose reading">
+        <p><strong>The misconception:</strong> "the model learns from my prompts — it remembers
+        what I taught it." It doesn't. In-context learning updates zero weights; nothing persists
+        after the request ends. Every call starts from the same frozen model — which is why your
+        examples must be re-sent (or cached) every time.</p>
+        <p>The honest picture is a vastly experienced contractor who has already seen every kind
+        of job: show two or three examples of the format you want and they instantly produce a
+        fourth in the same style — but they retain nothing when they leave, and next visit you
+        show the examples again. And the trick is rented from scale: the flat lines in
+        Figure 1.2 are the same examples doing nothing for smaller models.</p>
+      </div>
+    </section>
+
+    <!-- BEGIN:CODA -->
+<section class="coda" aria-labelledby="coda-title">
+  <h2 class="coda-title" id="coda-title">Build it yourself</h2>
+  <p class="coda-chip">build it: $5 · one evening</p>
+  <ol class="coda-rungs">
+  <li class="rung" data-tag="read">
+    <span class="rung-tag">read</span>
+    <p class="rung-text"><a href="https://arxiv.org/abs/2005.14165">Read the paper — or just Figure 1.2: accuracy vs number of in-context examples, per model size. You have personally lived this curve every time examples improved your prompt.</a></p>
+    <p class="rung-meta">1–2 hrs &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="run">
+    <span class="rung-tag">run</span>
+    <p class="rung-text"><a href="https://huggingface.co/datasets/openai/gsm8k">Plot the in-context-learning curve yourself: pick one task, run it at 0/1/5/10 shots against a strong API model and a small local base model, plot accuracy vs shots — ICL working at scale and barely existing below it, in one chart of your own.</a></p>
+    <p class="rung-meta">one evening &middot; &lt;$5</p>
+  </li>
+  </ol>
+</section>
+<!-- END:CODA -->
+
+    <!-- BEGIN:HANDOFF -->
+<nav class="handoff" aria-label="Paper navigation">
+  <p class="cliffhanger">Dense scale had one brutal invoice: all 175 billion parameters fire on every single token. Google&#x27;s next trick — let most of the model sit each token out.</p>
+  <p class="handoff-links">
+    <a class="handoff-prev" data-handoff="prev" href="scaling-laws.html">&larr; Scaling Laws (2020)</a>
+    <a class="handoff-next" data-handoff="next" href="moe.html">Mixture-of-Experts (2021) &rarr;</a>
+  </p>
+</nav>
+<!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

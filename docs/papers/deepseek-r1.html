@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>DeepSeek-R1 · DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning — The Fourteen</title>
+  <meta name="description" content="Reward exactly one thing — &#x27;the final answer is correct&#x27; — and competition-math scores climb from 15.6% to 71.0% with zero human reasoning examples. The…">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="DeepSeek-R1 · DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning — The Fourteen">
+  <meta property="og:description" content="Reward exactly one thing — &#x27;the final answer is correct&#x27; — and competition-math scores climb from 15.6% to 71.0% with zero human reasoning examples. The…">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/papers/deepseek-r1.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DeepSeek-R1 · DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning — The Fourteen">
+  <meta name="twitter:description" content="Reward exactly one thing — &#x27;the final answer is correct&#x27; — and competition-math scores climb from 15.6% to 71.0% with zero human reasoning examples. The…">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="making-useful" data-slug="deepseek-r1">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <header class="paper-header reading">
+      <p class="kicker">14 · <span class="cat">DeepSeek-R1</span> · 2025</p>
+      <h1>DeepSeek-R1: <em>Incentivizing</em> Reasoning Capability in LLMs via Reinforcement Learning</h1>
+      <div class="paper-chip">
+        <span class="chip-tab">arXiv 2501.12948</span>
+        <p class="chip-title">DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning</p>
+        <p class="chip-meta">DeepSeek-AI &middot; arXiv 2025 &middot;
+          <a href="https://arxiv.org/abs/2501.12948" rel="noopener">arXiv 2501.12948</a></p>
+        <button class="chip-copy" type="button" hidden
+                data-cite="DeepSeek-AI (2025). DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning. arXiv 2025. https://arxiv.org/abs/2501.12948">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+<p class="lead hook">Reward exactly one thing — &#x27;the final answer is correct&#x27; — and competition-math scores climb from 15.6% to 71.0% with zero human reasoning examples. The polished model matched OpenAI&#x27;s o1 and shipped its weights.</p>
+<!-- END:HOOK -->
+    </header>
+
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · the RL loop and the AIME climb, redrawn</p>
+      <h2>Reward the <em>answer</em>, get the reasoning</h2>
+      <figure class="panel" data-figure="deepseek-r1">
+        <svg viewBox="0 0 640 330" role="img" aria-label="DeepSeek-R1's training loop — generate an answer, run a rule-based check for correctness and format, convert to reward, update the model, repeat — and its AIME 2024 result: base model 15.6 percent, R1-Zero 71.0 percent from pure RL, R1 79.8 percent versus o1's 79.2 percent" style="width:100%;height:auto;display:block">
+          <defs>
+            <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="var(--muted)"/>
+            </marker>
+            <marker id="arrc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="var(--cat-base)"/>
+            </marker>
+          </defs>
+
+          <!-- the loop -->
+          <text x="24" y="22" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" letter-spacing="0.1em">THE LOOP</text>
+
+          <rect x="24" y="40" width="122" height="52" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="85" y="71" font-family="Inter, sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">generate answer</text>
+          <line x1="150" y1="66" x2="172" y2="66" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <rect x="178" y="40" width="136" height="52" rx="8" fill="var(--cat-deep)"/>
+          <text x="246" y="62" font-family="Inter, sans-serif" font-size="13" fill="var(--cat-light)" text-anchor="middle">rule-based check</text>
+          <text x="246" y="80" font-family="Inter, sans-serif" font-size="11" fill="var(--cat-light)" text-anchor="middle">correct? formatted?</text>
+          <line x1="318" y1="66" x2="340" y2="66" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <rect x="346" y="40" width="84" height="52" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="388" y="71" font-family="Inter, sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">reward</text>
+          <line x1="434" y1="66" x2="456" y2="66" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+          <rect x="462" y="40" width="130" height="52" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="527" y="71" font-family="Inter, sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">update the model</text>
+
+          <path d="M 527 92 L 527 122 L 85 122 L 85 98" fill="none" stroke="var(--cat-base)" stroke-width="2" marker-end="url(#arrc)"/>
+          <text x="306" y="140" font-family="Inter, sans-serif" font-size="12" fill="var(--cat-base)" text-anchor="middle">repeat — the only training signal is the check</text>
+
+          <!-- divider -->
+          <line x1="24" y1="166" x2="616" y2="166" stroke="var(--border)" stroke-width="1"/>
+
+          <!-- the result -->
+          <text x="24" y="192" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" letter-spacing="0.1em">THE RESULT · AIME 2024 PASS@1</text>
+
+          <text x="507" y="216" font-family="Inter, sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">R1 (adds cold-start SFT)</text>
+          <text x="302" y="224" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">pure RL — no human reasoning examples</text>
+          <text x="507" y="240" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--cat-light)" text-anchor="middle">79.8%</text>
+
+          <line x1="60" y1="252" x2="620" y2="252" stroke="var(--border)" stroke-width="1"/>
+          <line x1="60" y1="248" x2="60" y2="256" stroke="var(--border)" stroke-width="1"/>
+          <line x1="620" y1="248" x2="620" y2="256" stroke="var(--border)" stroke-width="1"/>
+
+          <line x1="147" y1="252" x2="458" y2="252" stroke="var(--cat-base)" stroke-width="2.5"/>
+          <line x1="458" y1="252" x2="507" y2="252" stroke="var(--cat-light)" stroke-width="2.5"/>
+          <line x1="503" y1="260" x2="503" y2="300" stroke="var(--text)" stroke-width="1.5" stroke-dasharray="3 3"/>
+
+          <circle cx="147" cy="252" r="5" fill="var(--surface-2)" stroke="var(--muted)" stroke-width="1.5"/>
+          <circle cx="458" cy="252" r="5" fill="var(--cat-base)"/>
+          <circle cx="507" cy="252" r="5.5" fill="var(--cat-light)"/>
+
+          <text x="60" y="276" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="middle">0%</text>
+          <text x="620" y="276" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="end">100%</text>
+          <text x="147" y="276" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--text)" text-anchor="middle">15.6%</text>
+          <text x="147" y="292" font-family="Inter, sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">base model</text>
+          <text x="458" y="276" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--cat-base)" text-anchor="middle">71.0%</text>
+          <text x="458" y="292" font-family="Inter, sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">R1-Zero</text>
+          <text x="503" y="316" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--text)" text-anchor="middle">o1-1217: 79.2%</text>
+        </svg>
+        <figcaption class="paper-chip">
+          <p class="chip-caption">Redrawn (schematic) from the paper's R1-Zero training loop and
+            its AIME 2024 results — the training curve of Figure 2 and the headline benchmark
+            table. The reward is a checker, not a judge: correct answer, required format,
+            nothing else.</p>
+        </figcaption>
+      </figure>
+      <div class="prose reading">
+        <p>The loop pays for exactly two things: the final answer checks out, and the work stays
+        inside <span class="num">&lt;think&gt;</span> tags. Nobody writes example solutions; no
+        learned model scores the style. Run it long enough on a base model and long chains of
+        thought, self-verification, and "aha-moment" backtracking emerge — they win, so they
+        survive. R1-Zero's AIME pass@1 climbs from <span class="num">15.6%</span> to
+        <span class="num">71.0%</span> with zero supervised reasoning data; the polished R1
+        reaches <span class="num">79.8%</span>, a hair past o1's <span class="num">79.2%</span> —
+        with open weights. It's learning chess from nothing but win/loss feedback instead of
+        annotated grandmaster games: strategy and self-correction emerge because they win, not
+        because anyone demonstrated them.</p>
+      </div>
+    </section>
+
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>If it's checkable, it's <em>trainable</em></h2>
+      <div class="prose reading">
+        <p>Post-training is where differentiation lives now, and its key input is a
+        <strong>verifiable reward</strong>. If your domain has an automatic success check —
+        tests pass, answer matches, constraint satisfied — it is a candidate for RL-style
+        improvement, and models keep getting sharply better at it; where quality is a matter
+        of taste, expect slower gains. Two market facts follow: R1's distilled small models
+        put strong reasoning at commodity prices, and the open release repriced the entire
+        market in a week. Assume any closed capability gets replicated openly within months.</p>
+      </div>
+    </section>
+
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>Not RL <em>alone</em> — and not a learned judge</h2>
+      <div class="prose reading">
+        <p><strong>The misconception:</strong> "R1 proves you only need RL — no human data."
+        R1-Zero, the pure-RL model, had poor readability and mixed languages mid-solution;
+        the R1 that actually shipped adds cold-start SFT data and multi-stage training. Pure
+        RL found the capability; supervised data made it legible.</p>
+        <p>And the reward is not a learned model scoring vibes — it's a rule that checks the
+        final answer, which is precisely why it works: a rule checker is far harder to
+        reward-hack than a judge. That is also the method's boundary. Chess has an automatic
+        referee, and so do math and passing tests; where success is a matter of taste, there
+        is nothing for the loop to check.</p>
+      </div>
+    </section>
+
+    <!-- BEGIN:CODA -->
+<section class="coda" aria-labelledby="coda-title">
+  <h2 class="coda-title" id="coda-title">Build it yourself</h2>
+  <p class="coda-chip">build it: $30 · one week</p>
+  <ol class="coda-rungs">
+  <li class="rung" data-tag="read">
+    <span class="rung-tag">read</span>
+    <p class="rung-text"><a href="https://arxiv.org/abs/2501.12948">Read the paper — watch the AIME training curve climb from 15.6% to 71.0% with no supervised reasoning data, and read the model&#x27;s own &#x27;aha moment&#x27; transcript.</a></p>
+    <p class="rung-meta">1–2 hrs &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="run">
+    <span class="rung-tag">run</span>
+    <p class="rung-text"><a href="https://github.com/Jiayi-Pan/TinyZero">Run TinyZero: GRPO-style RL on a Qwen2.5-3B base model playing the Countdown arithmetic game, and watch the aha moment happen in your own logs — the model spontaneously starts self-verifying and revising. The ~$30 figure is the Berkeley authors&#x27; own claim; it needs two A100/H100-class GPUs, the one build of the fourteen that won&#x27;t fit a free Colab. (Gentler on-ramps: philschmid&#x27;s Mini-R1 walkthrough, Hugging Face open-r1&#x27;s recipes.)</a></p>
+    <p class="rung-meta">a weekend of wall-clock, realistically spread over a week &middot; ~$30</p>
+  </li>
+  </ol>
+</section>
+<!-- END:CODA -->
+
+    <!-- BEGIN:HANDOFF -->
+<nav class="handoff" aria-label="Paper navigation">
+  <p class="cliffhanger">Frontier reasoning, reproduced in the open and distilled small enough to run anywhere, months after it was a trade secret. The moat is shallower than it looks — and every paper on this curve is a weekend build for $30 or less. The next node isn&#x27;t a paper. It&#x27;s you.</p>
+  <p class="handoff-links">
+    <a class="handoff-prev" data-handoff="prev" href="constitutional-ai.html">&larr; Constitutional AI (2022)</a>
+    <a class="handoff-next" data-handoff="next" href="../build.html">2026: you &rarr;</a>
+  </p>
+</nav>
+<!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

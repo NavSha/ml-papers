@@ -1,0 +1,187 @@
+{
+  "baker": "tools/bake_paper_figures.py",
+  "bakedAt": "2026-07-12T11:25:03+00:00",
+  "slug": "gpt3",
+  "source": {
+    "arxivId": "2005.14165",
+    "title": "Language Models are Few-Shot Learners (GPT-3)",
+    "url": "https://ar5iv.labs.arxiv.org/html/2005.14165",
+    "figure": "Figure 1.2 — in-context learning curves on the Symbol Insertion task (remove random symbols from a word), accuracy vs number of in-context examples K"
+  },
+  "provenance": "traced, approximate",
+  "notes": "Curves shown are the with-natural-language-prompt variants from Figure 1.2 (the figure also shows dashed no-prompt variants, omitted here). K=0, K=1 and K=100 points are exact values extracted from Table H.1 (also Table 3.10 for 175B); intermediate K points are traced by eye from the published figure.",
+  "xAxis": {
+    "label": "number of examples in context (K)"
+  },
+  "yAxis": {
+    "label": "Symbol Insertion accuracy",
+    "unit": "%"
+  },
+  "series": [
+    {
+      "id": "gpt3-1.3b",
+      "label": "1.3B params (small)",
+      "provenance": "traced, approximate",
+      "points": [
+        {
+          "x": 0,
+          "y": 0.0,
+          "provenance": "tabulated",
+          "sectionRef": "Table H.1 (zero-shot)"
+        },
+        {
+          "x": 1,
+          "y": 1.18,
+          "provenance": "tabulated",
+          "sectionRef": "Table H.1 (one-shot)"
+        },
+        {
+          "x": 2,
+          "y": 1.5,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 4,
+          "y": 2.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 8,
+          "y": 2.4,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 16,
+          "y": 2.8,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 32,
+          "y": 3.2,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 64,
+          "y": 3.7,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 100,
+          "y": 4.18,
+          "provenance": "tabulated",
+          "sectionRef": "Table H.1 (few-shot, K=100); Table 3.10"
+        }
+      ]
+    },
+    {
+      "id": "gpt3-13b",
+      "label": "13B params (medium)",
+      "provenance": "traced, approximate",
+      "points": [
+        {
+          "x": 0,
+          "y": 0.89,
+          "provenance": "tabulated",
+          "sectionRef": "Table H.1 (zero-shot)"
+        },
+        {
+          "x": 1,
+          "y": 6.62,
+          "provenance": "tabulated",
+          "sectionRef": "Table H.1 (one-shot)"
+        },
+        {
+          "x": 2,
+          "y": 10.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 4,
+          "y": 13.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 8,
+          "y": 16.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 16,
+          "y": 19.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 32,
+          "y": 22.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 64,
+          "y": 25.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 100,
+          "y": 27.3,
+          "provenance": "tabulated",
+          "sectionRef": "Table H.1 (few-shot, K=100); Table 3.10"
+        }
+      ]
+    },
+    {
+      "id": "gpt3-175b",
+      "label": "175B params (GPT-3)",
+      "provenance": "traced, approximate",
+      "points": [
+        {
+          "x": 0,
+          "y": 8.26,
+          "provenance": "tabulated",
+          "sectionRef": "Table H.1 (zero-shot)"
+        },
+        {
+          "x": 1,
+          "y": 45.4,
+          "provenance": "tabulated",
+          "sectionRef": "Table H.1 (one-shot)"
+        },
+        {
+          "x": 2,
+          "y": 52.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 4,
+          "y": 56.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 8,
+          "y": 60.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 16,
+          "y": 62.5,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 32,
+          "y": 64.5,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 64,
+          "y": 66.0,
+          "provenance": "traced, approximate"
+        },
+        {
+          "x": 100,
+          "y": 67.2,
+          "provenance": "tabulated",
+          "sectionRef": "Table H.1 (few-shot, K=100); Table 3.10"
+        }
+      ]
+    }
+  ]
+}

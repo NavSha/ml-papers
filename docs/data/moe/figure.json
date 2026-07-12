@@ -1,0 +1,145 @@
+{
+  "baker": "tools/bake_paper_figures.py",
+  "bakedAt": "2026-07-12T11:25:04+00:00",
+  "slug": "moe",
+  "source": {
+    "arxivId": "2101.03961",
+    "title": "Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity",
+    "url": "https://ar5iv.labs.arxiv.org/html/2101.03961",
+    "figure": "Headline speedup claims + Table 1 head-to-head (Switch vs MoE vs T5 dense baselines)"
+  },
+  "provenance": "tabulated",
+  "notes": "All values are numbers stated in the paper's text or Table 1. Table 1 setup: 128 experts at every other feed-forward layer, all models trained with the same computation (32 TPUv3 cores); quality = negative log perplexity; time-to-quality threshold = hours to reach Neg. Log Perp. = -1.50.",
+  "series": [
+    {
+      "id": "speedup-claims",
+      "label": "Pre-training speedup claims",
+      "provenance": "tabulated",
+      "points": [
+        {
+          "label": "Switch vs T5-Base, same FLOPs per token (headline)",
+          "value": 7,
+          "unit": "×",
+          "provenance": "tabulated",
+          "quote": "obtain up to 7x increases in pre-training speed with the same computational resources",
+          "sectionRef": "Abstract; §1 contributions ('7x+ pre-training speedups while still using the same FLOPS per token')"
+        },
+        {
+          "label": "Switch-Base (64 experts) reaches T5-Base's step-450k quality at step 60k",
+          "value": 7.5,
+          "unit": "× (step time)",
+          "provenance": "tabulated",
+          "sectionRef": "§3.1 / Figure 4 discussion"
+        },
+        {
+          "label": "Wall-clock: Switch-Base 64e reaches T5-Base perplexity in one-seventh the time",
+          "value": 7,
+          "unit": "×",
+          "provenance": "tabulated",
+          "sectionRef": "§3.2 / Figure 5"
+        },
+        {
+          "label": "vs T5-Large, which applies 3.5× more FLOPs per token",
+          "value": 2.5,
+          "unit": "×",
+          "provenance": "tabulated",
+          "sectionRef": "§3.3 / Figure 6"
+        },
+        {
+          "label": "Trillion-parameter Switch vs T5-XXL",
+          "value": 4,
+          "unit": "×",
+          "provenance": "tabulated",
+          "sectionRef": "Abstract"
+        }
+      ]
+    },
+    {
+      "id": "table1-t5-base-comparison",
+      "label": "Table 1 — Switch vs MoE vs dense, FLOP-matched to T5-Base",
+      "provenance": "tabulated",
+      "sectionRef": "Table 1 (§2.2)",
+      "columns": [
+        "model",
+        "capacityFactor",
+        "negLogPerplexityAt100kSteps",
+        "hoursToQualityThreshold",
+        "examplesPerSec"
+      ],
+      "rows": [
+        {
+          "model": "T5-Base",
+          "capacityFactor": null,
+          "negLogPerplexityAt100kSteps": -1.731,
+          "hoursToQualityThreshold": null,
+          "examplesPerSec": 1600,
+          "note": "did not reach the -1.50 threshold in training"
+        },
+        {
+          "model": "T5-Large",
+          "capacityFactor": null,
+          "negLogPerplexityAt100kSteps": -1.55,
+          "hoursToQualityThreshold": 131.1,
+          "examplesPerSec": 470,
+          "note": null
+        },
+        {
+          "model": "MoE-Base",
+          "capacityFactor": 2.0,
+          "negLogPerplexityAt100kSteps": -1.547,
+          "hoursToQualityThreshold": 68.7,
+          "examplesPerSec": 840,
+          "note": null
+        },
+        {
+          "model": "Switch-Base",
+          "capacityFactor": 2.0,
+          "negLogPerplexityAt100kSteps": -1.554,
+          "hoursToQualityThreshold": 72.8,
+          "examplesPerSec": 860,
+          "note": null
+        },
+        {
+          "model": "MoE-Base",
+          "capacityFactor": 1.25,
+          "negLogPerplexityAt100kSteps": -1.559,
+          "hoursToQualityThreshold": 80.7,
+          "examplesPerSec": 790,
+          "note": null
+        },
+        {
+          "model": "Switch-Base",
+          "capacityFactor": 1.25,
+          "negLogPerplexityAt100kSteps": -1.553,
+          "hoursToQualityThreshold": 65.0,
+          "examplesPerSec": 910,
+          "note": null
+        },
+        {
+          "model": "MoE-Base",
+          "capacityFactor": 1.0,
+          "negLogPerplexityAt100kSteps": -1.572,
+          "hoursToQualityThreshold": 80.1,
+          "examplesPerSec": 860,
+          "note": null
+        },
+        {
+          "model": "Switch-Base",
+          "capacityFactor": 1.0,
+          "negLogPerplexityAt100kSteps": -1.561,
+          "hoursToQualityThreshold": 62.8,
+          "examplesPerSec": 1000,
+          "note": null
+        },
+        {
+          "model": "Switch-Base+",
+          "capacityFactor": 1.0,
+          "negLogPerplexityAt100kSteps": -1.534,
+          "hoursToQualityThreshold": 67.6,
+          "examplesPerSec": 780,
+          "note": null
+        }
+      ]
+    }
+  ]
+}

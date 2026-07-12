@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>Constitutional AI · Constitutional AI: Harmlessness from AI Feedback — The Fourteen</title>
+  <meta name="description" content="Anthropic swapped tens of thousands of human harmlessness labels for 16 plain-English principles the model applies to itself — and got a model that was less…">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Constitutional AI · Constitutional AI: Harmlessness from AI Feedback — The Fourteen">
+  <meta property="og:description" content="Anthropic swapped tens of thousands of human harmlessness labels for 16 plain-English principles the model applies to itself — and got a model that was less…">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/papers/constitutional-ai.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Constitutional AI · Constitutional AI: Harmlessness from AI Feedback — The Fourteen">
+  <meta name="twitter:description" content="Anthropic swapped tens of thousands of human harmlessness labels for 16 plain-English principles the model applies to itself — and got a model that was less…">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="making-useful" data-slug="constitutional-ai">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <header class="paper-header reading">
+      <p class="kicker">13 · <span class="cat">Constitutional AI</span> · 2022</p>
+      <h1>Constitutional AI: <em>Harmlessness</em> from AI Feedback</h1>
+      <div class="paper-chip">
+        <span class="chip-tab">arXiv 2212.08073</span>
+        <p class="chip-title">Constitutional AI: Harmlessness from AI Feedback</p>
+        <p class="chip-meta">Bai et al., Anthropic &middot; arXiv 2022 &middot;
+          <a href="https://arxiv.org/abs/2212.08073" rel="noopener">arXiv 2212.08073</a></p>
+        <button class="chip-copy" type="button" hidden
+                data-cite="Bai et al. (2022). Constitutional AI: Harmlessness from AI Feedback. arXiv 2022. https://arxiv.org/abs/2212.08073">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+<p class="lead hook">Anthropic swapped tens of thousands of human harmlessness labels for 16 plain-English principles the model applies to itself — and got a model that was less harmful without refusing more.</p>
+<!-- END:HOOK -->
+    </header>
+
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · the two-phase pipeline, redrawn</p>
+      <h2>The rulebook becomes the <em>dataset</em></h2>
+      <figure class="panel" data-figure="constitutional-ai">
+        <svg viewBox="0 0 640 340" role="img" aria-label="The Constitutional AI two-phase pipeline: one constitution of 16 plain-English principles steers phase 1, where the model critiques and revises its own answers and is fine-tuned on the revisions, and phase 2, where an AI compares response pairs against the same principles to train a preference model that reinforcement learning runs against" style="width:100%;height:auto;display:block">
+          <defs>
+            <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="var(--muted)"/>
+            </marker>
+            <marker id="arrc" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="var(--cat-base)"/>
+            </marker>
+          </defs>
+          <!-- phase 1: critique → revise → SFT -->
+          <text x="24" y="18" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing=".08em" fill="var(--muted)">PHASE 1 · SUPERVISED</text>
+          <rect x="24" y="30" width="122" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="85" y="55" font-family="Inter, sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">model answers</text>
+          <text x="85" y="86" font-family="Inter, sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">(a red-team prompt)</text>
+          <line x1="146" y1="50" x2="170" y2="50" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="176" y="30" width="128" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="240" y="55" font-family="Inter, sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">critiques itself</text>
+          <line x1="304" y1="50" x2="328" y2="50" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="334" y="30" width="92" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="380" y="55" font-family="Inter, sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">revises</text>
+          <line x1="426" y1="50" x2="450" y2="50" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="456" y="30" width="160" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="536" y="55" font-family="Inter, sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">SFT on revisions</text>
+          <!-- the constitution: the one colored thing -->
+          <line x1="240" y1="132" x2="240" y2="78" stroke="var(--cat-base)" stroke-width="1.5" marker-end="url(#arrc)"/>
+          <line x1="246" y1="196" x2="246" y2="250" stroke="var(--cat-base)" stroke-width="1.5" marker-end="url(#arrc)"/>
+          <rect x="170" y="132" width="300" height="64" rx="8" fill="var(--cat-deep)"/>
+          <text x="320" y="157" font-family="Inter, sans-serif" font-size="12" fill="var(--cat-light)" text-anchor="middle">the constitution</text>
+          <text x="320" y="181" font-family="JetBrains Mono, monospace" font-size="15" fill="var(--cat-light)" text-anchor="middle">16 plain-English principles</text>
+          <text x="24" y="158" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">written by humans,</text>
+          <text x="24" y="176" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">applied by the model</text>
+          <text x="482" y="158" font-family="Inter, sans-serif" font-size="12" font-style="italic" fill="var(--muted)">governance as</text>
+          <text x="482" y="176" font-family="Inter, sans-serif" font-size="12" font-style="italic" fill="var(--muted)">a config file</text>
+          <!-- phase 2: AI preferences → preference model → RL -->
+          <text x="24" y="246" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing=".08em" fill="var(--muted)">PHASE 2 · RL FROM AI FEEDBACK</text>
+          <rect x="24" y="258" width="136" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="92" y="283" font-family="Inter, sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">response A vs B</text>
+          <text x="92" y="314" font-family="Inter, sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">(from the phase-1 model)</text>
+          <line x1="160" y1="278" x2="184" y2="278" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="190" y="258" width="112" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="246" y="283" font-family="Inter, sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">AI compares</text>
+          <line x1="302" y1="278" x2="326" y2="278" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="332" y="258" width="142" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="403" y="283" font-family="Inter, sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">preference model</text>
+          <line x1="474" y1="278" x2="498" y2="278" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="504" y="258" width="112" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="560" y="283" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--text)" text-anchor="middle">RL</text>
+          <!-- the anchor number -->
+          <text x="320" y="331" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle"><tspan font-family="JetBrains Mono, monospace" fill="var(--text)">16</tspan> sentences replace the tens of thousands of human harmlessness labels RLHF needed</text>
+        </svg>
+        <figcaption class="paper-chip">
+          <p class="chip-caption">Redrawn from Figure 1 of the paper. Critique → revision → fine-tuning,
+            then AI preferences → preference model → RL, with one written document steering both phases.
+            The principles read like this one (paraphrased — the verbatim list is in the appendix):</p>
+          <blockquote class="chip-quote"><p>Choose the response that is less harmful&hellip;</p></blockquote>
+        </figcaption>
+      </figure>
+      <div class="prose reading">
+        <p>The previous paper on this timeline taught a model manners with tens of thousands of
+        human preference labels. This one keeps that pipeline's shape and swaps the harmlessness
+        labelers out for <span class="num">16</span> written principles. Phase 1: the model answers
+        red-team prompts, critiques its own answers against the principles, revises, and is
+        fine-tuned on the revisions. Phase 2: an AI — not a person — compares pairs of responses
+        against the same principles; those judgments train a preference model, and RL runs against
+        it. There is no math anywhere in the loop — the values are ordinary sentences. It's a
+        written editorial policy applied by a junior editor (the model itself) to every draft:
+        humans still author the policy, and unlike a pile of opaque thumbs-up/down labels, you can
+        read it and argue with a specific clause.</p>
+      </div>
+    </section>
+
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>Models now supervise <em>models</em></h2>
+      <div class="prose reading">
+        <p>Supervising a model with another model plus explicit written rules is now the standard
+        pattern — LLM-as-judge, self-critique loops, and policy-in-the-prompt all descend from this
+        paper. If you're building agent guardrails, write them as testable natural-language
+        principles instead of accumulating one-off human labels: a constitution scales, you can
+        audit it, and you can diff it like code. It also decodes vendor differences — a model's
+        refusal style is a policy-document choice, not an inevitability of the technology. This
+        paper is why Claude behaves and refuses the way it does: its values are inspectable text.</p>
+      </div>
+    </section>
+
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>Humans still hold the <em>pen</em></h2>
+      <div class="prose reading">
+        <p><strong>The misconception:</strong> "Constitutional AI means no humans — the AI picks its
+        own values." Humans wrote the constitution, and humans still provide every helpfulness
+        label; what got automated is the application of the rules at scale, not the choice of them.
+        And the safety was not purchased with refusals: per the paper's Elo results (Figure 2),
+        RL-CAI models were <em>less</em> harmful at a given level of helpfulness.</p>
+        <p>The limit is the analogy's own: a written policy scales enforcement, not judgment. A
+        vague or wrong clause gets applied just as consistently as a good one — the loop makes your
+        values legible and cheap to apply, and leaves getting them right entirely on you.</p>
+      </div>
+    </section>
+
+    <!-- BEGIN:CODA -->
+<section class="coda" aria-labelledby="coda-title">
+  <h2 class="coda-title" id="coda-title">Build it yourself</h2>
+  <p class="coda-chip">build it: $1 · one evening</p>
+  <ol class="coda-rungs">
+  <li class="rung" data-tag="read">
+    <span class="rung-tag">read</span>
+    <p class="rung-text"><a href="https://arxiv.org/abs/2212.08073">Read the paper — the 16 principles in the appendix are literally readable sentences (&#x27;choose the response that is less harmful...&#x27;); pick one and argue with it.</a></p>
+    <p class="rung-meta">1–2 hrs &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="run">
+    <span class="rung-tag">run</span>
+    <p class="rung-text"><a href="https://huggingface.co/blog/constitutional_ai">Write your own 5-principle constitution and run the CAI loop by hand via API: the model answers a red-team prompt, critiques its own answer against your principles, revises — compare before and after.</a></p>
+    <p class="rung-meta">one evening &middot; ~$1</p>
+  </li>
+  <li class="rung" data-tag="train">
+    <span class="rung-tag">train</span>
+    <p class="rung-text"><a href="https://github.com/huggingface/alignment-handbook/tree/main/recipes/constitutional-ai">Run the full open recipe: generate an AI-feedback preference dataset from a constitution and DPO-train Mistral-7B on it — Hugging Face&#x27;s result resisted jailbreaks better without losing helpfulness.</a></p>
+    <p class="rung-meta">a weekend &middot; $20–40</p>
+  </li>
+  </ol>
+</section>
+<!-- END:CODA -->
+
+    <!-- BEGIN:HANDOFF -->
+<nav class="handoff" aria-label="Paper navigation">
+  <p class="cliffhanger">AI could now supervise AI&#x27;s behavior. The remaining question — could a model teach itself to reason? — sat unanswered while the frontier went closed. The answer, when it came, came with the weights attached.</p>
+  <p class="handoff-links">
+    <a class="handoff-prev" data-handoff="prev" href="rlhf.html">&larr; InstructGPT / RLHF (2022)</a>
+    <a class="handoff-next" data-handoff="next" href="deepseek-r1.html">DeepSeek-R1 (2025) &rarr;</a>
+  </p>
+</nav>
+<!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

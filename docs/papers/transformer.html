@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>Transformer · Attention Is All You Need — The Fourteen</title>
+  <meta name="description" content="Eight GPUs, three and a half days, one equation — and the machine-translation record fell to an architecture that deleted the thing everyone thought…">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Transformer · Attention Is All You Need — The Fourteen">
+  <meta property="og:description" content="Eight GPUs, three and a half days, one equation — and the machine-translation record fell to an architecture that deleted the thing everyone thought…">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/papers/transformer.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Transformer · Attention Is All You Need — The Fourteen">
+  <meta name="twitter:description" content="Eight GPUs, three and a half days, one equation — and the machine-translation record fell to an architecture that deleted the thing everyone thought…">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="foundations" data-slug="transformer">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <header class="paper-header reading">
+      <p class="kicker">03 · <span class="cat">Transformer</span> · 2017</p>
+      <h1>Attention Is <em>All</em> You Need</h1>
+      <div class="paper-chip">
+        <span class="chip-tab">arXiv 1706.03762</span>
+        <p class="chip-title">Attention Is All You Need</p>
+        <p class="chip-meta">Vaswani et al., Google Brain &middot; NeurIPS 2017 &middot;
+          <a href="https://arxiv.org/abs/1706.03762" rel="noopener">arXiv 1706.03762</a></p>
+        <button class="chip-copy" type="button" hidden
+                data-cite="Vaswani et al. (2017). Attention Is All You Need. NeurIPS 2017. https://arxiv.org/abs/1706.03762">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+<p class="lead hook">Eight GPUs, three and a half days, one equation — and the machine-translation record fell to an architecture that deleted the thing everyone thought language required: reading in order.</p>
+<!-- END:HOOK -->
+    </header>
+
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · equation 1, redrawn</p>
+      <h2>One equation, read as a <em>lookup</em></h2>
+      <figure class="panel" data-figure="transformer">
+        <svg viewBox="0 0 640 344" role="img" aria-label="The attention equation: Attention of Q, K, V equals softmax of Q K-transpose over root d-k, times V — annotated as a fuzzy database query, with the paper's headline numbers: 28.4 BLEU on WMT-14 English-to-German after 3.5 days on 8 GPUs" style="width:100%;height:auto;display:block">
+          <!-- the equation -->
+          <text x="320" y="64" font-family="JetBrains Mono, monospace" font-size="23" fill="var(--text)" text-anchor="middle"><tspan>Attention(</tspan><tspan fill="var(--cat-base)">Q</tspan><tspan>, </tspan><tspan fill="var(--cat-base)">K</tspan><tspan>, </tspan><tspan fill="var(--cat-base)">V</tspan><tspan>) = softmax(</tspan><tspan fill="var(--cat-base)">QK</tspan><tspan fill="var(--cat-base)" font-size="14" dy="-8">T</tspan><tspan dy="8">/√d</tspan><tspan font-size="14" dy="5">k</tspan><tspan dy="-5">)·</tspan><tspan fill="var(--cat-base)">V</tspan></text>
+          <!-- the fuzzy-database reading -->
+          <rect x="48" y="104" width="26" height="26" rx="4" fill="var(--cat-deep)"/>
+          <text x="61" y="122" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--cat-light)" text-anchor="middle">Q</text>
+          <text x="152" y="122" font-family="Inter, sans-serif" font-size="14" fill="var(--text)">what this token is looking for</text>
+          <rect x="48" y="142" width="26" height="26" rx="4" fill="var(--cat-deep)"/>
+          <text x="61" y="160" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--cat-light)" text-anchor="middle">K</text>
+          <text x="152" y="160" font-family="Inter, sans-serif" font-size="14" fill="var(--text)">what each token advertises</text>
+          <rect x="48" y="180" width="26" height="26" rx="4" fill="var(--cat-deep)"/>
+          <text x="61" y="198" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--cat-light)" text-anchor="middle">V</text>
+          <text x="152" y="198" font-family="Inter, sans-serif" font-size="14" fill="var(--text)">what each token carries</text>
+          <text x="48" y="236" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--cat-base)">softmax</text>
+          <text x="152" y="236" font-family="Inter, sans-serif" font-size="14" fill="var(--text)">match scores become weights that sum to 1</text>
+          <!-- the receipts -->
+          <line x1="48" y1="266" x2="592" y2="266" stroke="var(--border)" stroke-width="1"/>
+          <text x="48" y="302" font-family="JetBrains Mono, monospace" font-size="21" fill="var(--cat-base)">28.4 BLEU</text>
+          <text x="48" y="324" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">En→De record — beat the ensembles</text>
+          <text x="290" y="302" font-family="JetBrains Mono, monospace" font-size="21" fill="var(--cat-base)">8 GPUs</text>
+          <text x="290" y="324" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">one machine</text>
+          <text x="440" y="302" font-family="JetBrains Mono, monospace" font-size="21" fill="var(--cat-base)">3.5 days</text>
+          <text x="440" y="324" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">of training</text>
+        </svg>
+        <figcaption class="paper-chip">
+          <p class="chip-caption">Redrawn from Equation 1 of the paper. The entire mechanism is
+            one soft lookup — every token queries every other token and takes a weighted blend
+            of what they carry; the rest of the architecture is plumbing around it.</p>
+        </figcaption>
+      </figure>
+      <div class="prose reading">
+        <p>Read it as a fuzzy database query. Each token issues a query (<span class="num">Q</span> —
+        what it's looking for), every token in the window publishes a key (<span class="num">K</span> —
+        what it advertises), and softmax turns the query–key match scores into weights; the output
+        is a weighted blend of the values (<span class="num">V</span> — what each token carries).
+        The radical part is what's missing: no recurrence, so every token runs this lookup at once,
+        in parallel, across the whole sequence. That parallelism is what made the numbers land:
+        <span class="num">28.4</span> BLEU on WMT-14 English→German — past every prior model,
+        ensembles included — after <span class="num">3.5</span> days on <span class="num">8</span>
+        GPUs. Better <em>and</em> cheaper is why everyone switched.</p>
+      </div>
+    </section>
+
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>This equation is your API <em>bill</em></h2>
+      <div class="prose reading">
+        <p>QK<sup>T</sup> compares every token against every other, so
+        <strong>attention cost grows roughly with the square of the context</strong> — that's why
+        long prompts are expensive, why KV and prompt caching exist as line items, and why
+        retrieval (RAG) usually beats stuffing everything into the window. A "context window" is
+        literally the set of tokens participating in this lookup, and each new token attends over
+        all the previous ones — which demystifies both mid-context forgetting and why latency
+        climbs as a conversation grows. When you budget an AI feature today, you are budgeting
+        this one equation.</p>
+      </div>
+    </section>
+
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>The invention was the <em>deletion</em></h2>
+      <div class="prose reading">
+        <p><strong>The misconception:</strong> "this paper invented attention." Attention dates to
+        2014 — Bahdanau's translation models already used it, bolted onto RNNs that still read one
+        word at a time. The radical move here was subtraction: delete the recurrence and keep
+        <em>only</em> attention, which is what unlocked training over whole sequences in parallel.</p>
+        <p>And it's a machine-translation paper. The authors were chasing a BLEU score on WMT-14;
+        nothing in the text predicts chatbots. The architecture's generality was discovered later —
+        by the papers that follow on this timeline, one scale-up at a time.</p>
+      </div>
+    </section>
+
+    <!-- BEGIN:CODA -->
+<section class="coda" aria-labelledby="coda-title">
+  <h2 class="coda-title" id="coda-title">Build it yourself</h2>
+  <p class="coda-chip">build it: $0–10 · a weekend</p>
+  <ol class="coda-rungs">
+  <li class="rung" data-tag="read">
+    <span class="rung-tag">read</span>
+    <p class="rung-text"><a href="https://arxiv.org/abs/1706.03762">Read the paper — the attention equation reads as a fuzzy database query, and everything else is engineering around it.</a></p>
+    <p class="rung-meta">2 hrs &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="run">
+    <span class="rung-tag">run</span>
+    <p class="rung-text"><a href="https://github.com/karpathy/nanoGPT">Build a GPT from scratch with nanoGPT&#x27;s shakespeare_char config — you write the attention block yourself, and the paper&#x27;s core diagram becomes ~30 lines of code. Karpathy&#x27;s &#x27;Let&#x27;s build GPT&#x27; video is the guided path.</a></p>
+    <p class="rung-meta">a weekend (a focused day with the video) &middot; $0–10</p>
+  </li>
+  <li class="rung" data-tag="train">
+    <span class="rung-tag">train</span>
+    <p class="rung-text"><a href="https://github.com/NavSha/tiny-llm-pipeline">Go bigger: the author&#x27;s tiny-llm-pipeline pretrains a ~12M-param GPT on TinyStories on a MacBook — and the author&#x27;s taylor-transformer site walks the same architecture interactively.</a></p>
+    <p class="rung-meta">a weekend &middot; $0</p>
+  </li>
+  </ol>
+</section>
+<!-- END:CODA -->
+
+    <!-- BEGIN:HANDOFF -->
+<nav class="handoff" aria-label="Paper navigation">
+  <p class="cliffhanger">The recipe now existed. Nobody had asked what happens if you just... make it bigger.</p>
+  <p class="handoff-links">
+    <a class="handoff-prev" data-handoff="prev" href="resnet.html">&larr; ResNet (2015)</a>
+    <a class="handoff-next" data-handoff="next" href="gpt2.html">GPT-2 (2019) &rarr;</a>
+  </p>
+</nav>
+<!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

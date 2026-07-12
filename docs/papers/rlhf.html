@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>InstructGPT / RLHF · Training language models to follow instructions with human feedback — The Fourteen</title>
+  <meta name="description" content="Human raters preferred a 1.3-billion-parameter model over the 175-billion-parameter GPT-3 — a hundred times smaller, and better, because three training…">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="InstructGPT / RLHF · Training language models to follow instructions with human feedback — The Fourteen">
+  <meta property="og:description" content="Human raters preferred a 1.3-billion-parameter model over the 175-billion-parameter GPT-3 — a hundred times smaller, and better, because three training…">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/papers/rlhf.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="InstructGPT / RLHF · Training language models to follow instructions with human feedback — The Fourteen">
+  <meta name="twitter:description" content="Human raters preferred a 1.3-billion-parameter model over the 175-billion-parameter GPT-3 — a hundred times smaller, and better, because three training…">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="making-useful" data-slug="rlhf">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <header class="paper-header reading">
+      <p class="kicker">12 · <span class="cat">InstructGPT / RLHF</span> · 2022</p>
+      <h1>Training language models to <em>follow</em> instructions with human feedback</h1>
+      <div class="paper-chip">
+        <span class="chip-tab">arXiv 2203.02155</span>
+        <p class="chip-title">Training language models to follow instructions with human feedback</p>
+        <p class="chip-meta">Ouyang et al., OpenAI &middot; NeurIPS 2022 &middot;
+          <a href="https://arxiv.org/abs/2203.02155" rel="noopener">arXiv 2203.02155</a></p>
+        <button class="chip-copy" type="button" hidden
+                data-cite="Ouyang et al. (2022). Training language models to follow instructions with human feedback. NeurIPS 2022. https://arxiv.org/abs/2203.02155">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+<p class="lead hook">Human raters preferred a 1.3-billion-parameter model over the 175-billion-parameter GPT-3 — a hundred times smaller, and better, because three training steps taught it to actually try to help.</p>
+<!-- END:HOOK -->
+    </header>
+
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · the three-step pipeline, redrawn</p>
+      <h2>Three steps teach it to <em>try</em></h2>
+      <figure class="panel" data-figure="rlhf">
+        <svg viewBox="0 0 640 302" role="img" aria-label="The InstructGPT pipeline redrawn: three boxes — step 1, supervised fine-tuning on human demonstrations; step 2, a reward model trained from human rankings; step 3, PPO optimizing the language model against the reward model. Below: human labelers preferred the 1.3-billion-parameter InstructGPT over the 175-billion-parameter GPT-3." style="width:100%;height:auto;display:block">
+          <defs>
+            <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="var(--muted)"/>
+            </marker>
+            <marker id="arr-cat" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="var(--cat-base)"/>
+            </marker>
+          </defs>
+          <!-- step 1: SFT -->
+          <rect x="8" y="44" width="184" height="116" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="100" y="73" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2" fill="var(--cat-base)" text-anchor="middle">STEP 1</text>
+          <text x="100" y="99" font-family="JetBrains Mono, monospace" font-size="15" fill="var(--text)" text-anchor="middle">SFT</text>
+          <text x="100" y="124" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">humans write good answers;</text>
+          <text x="100" y="141" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">the model imitates them</text>
+          <line x1="194" y1="102" x2="222" y2="102" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <!-- step 2: reward model -->
+          <rect x="228" y="44" width="184" height="116" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="320" y="73" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2" fill="var(--cat-base)" text-anchor="middle">STEP 2</text>
+          <text x="320" y="99" font-family="JetBrains Mono, monospace" font-size="15" fill="var(--text)" text-anchor="middle">REWARD MODEL</text>
+          <text x="320" y="124" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">humans rank model outputs;</text>
+          <text x="320" y="141" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">a model learns the taste</text>
+          <line x1="414" y1="102" x2="442" y2="102" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <!-- step 3: PPO -->
+          <rect x="448" y="44" width="184" height="116" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="540" y="73" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2" fill="var(--cat-base)" text-anchor="middle">STEP 3</text>
+          <text x="540" y="99" font-family="JetBrains Mono, monospace" font-size="15" fill="var(--text)" text-anchor="middle">PPO</text>
+          <text x="540" y="124" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">the LM learns to maximize</text>
+          <text x="540" y="141" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">the reward model's score</text>
+          <!-- the reward signal loop -->
+          <path d="M 320 162 C 320 202, 540 202, 540 166" fill="none" stroke="var(--cat-base)" stroke-width="1.5" marker-end="url(#arr-cat)"/>
+          <text x="430" y="212" font-family="Inter, sans-serif" font-size="12" fill="var(--cat-base)" text-anchor="middle">the reward model becomes the training signal</text>
+          <!-- the headline result -->
+          <line x1="8" y1="230" x2="632" y2="230" stroke="var(--border)" stroke-width="1"/>
+          <text x="8" y="268" font-family="JetBrains Mono, monospace" font-size="28" fill="var(--cat-base)">1.3B</text>
+          <text x="88" y="268" font-family="Inter, sans-serif" font-size="14" fill="var(--muted)">labelers preferred it over</text>
+          <text x="284" y="268" font-family="JetBrains Mono, monospace" font-size="28" fill="var(--text)">175B</text>
+          <text x="364" y="268" font-family="Inter, sans-serif" font-size="14" fill="var(--muted)">GPT-3</text>
+          <text x="8" y="292" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">human evaluations, head-to-head — 100× fewer parameters; the difference is the three boxes above</text>
+        </svg>
+        <figcaption class="paper-chip">
+          <p class="chip-caption">Redrawn from Figure 2 of the paper — the most-redrawn diagram
+            in the industry. Demonstrate, rank, optimize: the third box is trained against the
+            second, not against people.</p>
+        </figcaption>
+      </figure>
+      <div class="prose reading">
+        <p>A raw language model completes text — nothing in pretraining makes it try to help you.
+        The pipeline bolts that on in three steps: humans write good answers and the model imitates
+        them; humans rank the model's own outputs and a second model learns that preference; then
+        PPO tunes the language model to maximize the learned score. This is the step that turned
+        the GPT-3 curiosity into the assistants everyone now uses. And the abstract's first punch:
+        human labelers preferred the <span class="num">1.3B</span> InstructGPT over the
+        <span class="num">175B</span> GPT-3 — <span class="num">100×</span> fewer parameters,
+        and people liked it more. Media training for a brilliant but rambling expert: no new facts,
+        just answering the question actually asked, in the expected format, and declining
+        appropriately instead of freewheeling.</p>
+      </div>
+    </section>
+
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>You are feeling the <em>reward</em> model</h2>
+      <div class="prose reading">
+        <p>Model quality as users experience it is substantially post-training, not scale — which
+        reorders your options: preference-tuning on your task can beat paying for a bigger model.
+        It also explains why models from different vendors feel different despite similar
+        pretraining — the "personality" is the reward model showing through. And it tells you what
+        to test: sycophancy, over-hedging, and refusal style are RLHF artifacts, not facts about
+        the underlying model — <strong>build evals for them explicitly</strong>.</p>
+      </div>
+    </section>
+
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>Steering, not <em>capability</em></h2>
+      <div class="prose reading">
+        <p><strong>The misconception:</strong> "RLHF makes models smarter." It adds essentially
+        no knowledge. What it reshapes is behavior — instruction-following, format, tone, when to
+        refuse — and the paper is candid that even this has a price: an "alignment tax," measured
+        regressions on some public benchmarks that the authors then work to mitigate. RLHF is
+        steering, not capability.</p>
+        <p>The analogy runs all the way down: the media-trained expert learns no new facts, and
+        sometimes comes out measurably blander. When a preference-tuned model loses ground on a
+        task the base model handled, that isn't mysterious — it's the trade-off the paper named
+        and measured.</p>
+      </div>
+    </section>
+
+    <!-- BEGIN:CODA -->
+<section class="coda" aria-labelledby="coda-title">
+  <h2 class="coda-title" id="coda-title">Build it yourself</h2>
+  <p class="coda-chip">build it: $0 · one evening</p>
+  <ol class="coda-rungs">
+  <li class="rung" data-tag="read">
+    <span class="rung-tag">read</span>
+    <p class="rung-text"><a href="https://arxiv.org/abs/2203.02155">Read the paper — the three-box pipeline (SFT → reward model → PPO) is the most-redrawn diagram in the industry, and the 1.3B-beats-175B result is the abstract&#x27;s first punch.</a></p>
+    <p class="rung-meta">1–2 hrs &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="run">
+    <span class="rung-tag">run</span>
+    <p class="rung-text"><a href="https://github.com/huggingface/trl">Turn a raw base model into an assistant with your own hands: SFT then DPO on Qwen2.5-0.5B with TRL and UltraFeedback preference pairs, on a free Colab T4 — then chat with the before/after checkpoints and feel the alignment layer.</a></p>
+    <p class="rung-meta">one evening &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="train">
+    <span class="rung-tag">train</span>
+    <p class="rung-text"><a href="https://github.com/NavSha/tiny-llm-pipeline">Add PPO with TRL&#x27;s PPOTrainer for the historically faithful version — or walk the author&#x27;s tiny-llm-pipeline, which runs this same SFT→DPO alignment stage on a from-scratch tiny GPT.</a></p>
+    <p class="rung-meta">a weekend &middot; $0</p>
+  </li>
+  </ol>
+</section>
+<!-- END:CODA -->
+
+    <!-- BEGIN:HANDOFF -->
+<nav class="handoff" aria-label="Paper navigation">
+  <p class="cliffhanger">It worked — powered by tens of thousands of human judgments nobody could read, audit, or argue with. Anthropic&#x27;s counter-proposal: what if the values were just written down?</p>
+  <p class="handoff-links">
+    <a class="handoff-prev" data-handoff="prev" href="cot.html">&larr; Chain-of-Thought (2022)</a>
+    <a class="handoff-next" data-handoff="next" href="constitutional-ai.html">Constitutional AI (2022) &rarr;</a>
+  </p>
+</nav>
+<!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

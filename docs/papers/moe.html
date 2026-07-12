@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>Mixture-of-Experts · Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity — The Fourteen</title>
+  <meta name="description" content="Google scaled a model toward a trillion parameters while compute per token stayed flat — a learned router sends each token to exactly one expert, and…">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Mixture-of-Experts · Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity — The Fourteen">
+  <meta property="og:description" content="Google scaled a model toward a trillion parameters while compute per token stayed flat — a learned router sends each token to exactly one expert, and…">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/papers/moe.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mixture-of-Experts · Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity — The Fourteen">
+  <meta name="twitter:description" content="Google scaled a model toward a trillion parameters while compute per token stayed flat — a learned router sends each token to exactly one expert, and…">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="llm-core" data-slug="moe">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <header class="paper-header reading">
+      <p class="kicker">07 · <span class="cat">Mixture-of-Experts</span> · 2021</p>
+      <h1>Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient <em>Sparsity</em></h1>
+      <div class="paper-chip">
+        <span class="chip-tab">arXiv 2101.03961</span>
+        <p class="chip-title">Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity</p>
+        <p class="chip-meta">Fedus et al., Google Brain &middot; JMLR 2022 &middot;
+          <a href="https://arxiv.org/abs/2101.03961" rel="noopener">arXiv 2101.03961</a></p>
+        <button class="chip-copy" type="button" hidden
+                data-cite="Fedus et al. (2022). Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity. JMLR 2022. https://arxiv.org/abs/2101.03961">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+<p class="lead hook">Google scaled a model toward a trillion parameters while compute per token stayed flat — a learned router sends each token to exactly one expert, and pretraining ran up to 7× faster on the same budget.</p>
+<!-- END:HOOK -->
+    </header>
+
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · the routing diagram, redrawn</p>
+      <h2>One token, one <em>expert</em></h2>
+      <figure class="panel" data-figure="moe">
+        <svg viewBox="0 0 640 300" role="img" aria-label="The Switch routing diagram: a token passes through a small learned router to one of four expert blocks — one path lit, three idle — for up to 7 times faster pre-training than T5-Base at the same compute budget" style="width:100%;height:auto;display:block">
+          <defs>
+            <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="var(--muted)"/>
+            </marker>
+          </defs>
+          <!-- the token -->
+          <rect x="18" y="118" width="92" height="44" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="64" y="145" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--text)" text-anchor="middle">token</text>
+          <line x1="110" y1="140" x2="144" y2="140" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <!-- the router -->
+          <rect x="150" y="110" width="112" height="60" rx="8" fill="var(--surface-2)" stroke="var(--cat-base)" stroke-width="1.5"/>
+          <text x="206" y="136" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--text)" text-anchor="middle">router</text>
+          <text x="206" y="156" font-family="Inter, sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">small, learned</text>
+          <!-- idle paths -->
+          <path d="M 262 140 C 300 140, 312 46, 352 46" fill="none" stroke="var(--border)" stroke-width="1.5"/>
+          <path d="M 262 140 C 300 140, 312 174, 352 174" fill="none" stroke="var(--border)" stroke-width="1.5"/>
+          <path d="M 262 140 C 300 140, 312 238, 352 238" fill="none" stroke="var(--border)" stroke-width="1.5"/>
+          <!-- the one lit path -->
+          <path d="M 262 140 C 300 140, 312 110, 352 110" fill="none" stroke="var(--cat-base)" stroke-width="2.5"/>
+          <!-- experts -->
+          <rect x="352" y="26" width="132" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="418" y="51" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--muted)" text-anchor="middle">expert 1 · FFN</text>
+          <rect x="352" y="90" width="132" height="40" rx="8" fill="var(--cat-deep)"/>
+          <text x="418" y="115" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--cat-light)" text-anchor="middle">expert 2 · FFN</text>
+          <rect x="352" y="154" width="132" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="418" y="179" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--muted)" text-anchor="middle">expert 3 · FFN</text>
+          <rect x="352" y="218" width="132" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="418" y="243" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--muted)" text-anchor="middle">expert 4 · FFN</text>
+          <text x="418" y="280" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle"><tspan fill="var(--cat-base)">1 expert runs</tspan> · 3 sit idle</text>
+          <!-- the payoff -->
+          <line x1="508" y1="40" x2="508" y2="244" stroke="var(--border)" stroke-width="1"/>
+          <text x="574" y="122" font-family="JetBrains Mono, monospace" font-size="44" font-weight="700" fill="var(--cat-base)" text-anchor="middle">7×</text>
+          <text x="574" y="152" font-family="Inter, sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">faster pre-training</text>
+          <text x="574" y="170" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">than T5-Base at the</text>
+          <text x="574" y="186" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">same compute budget</text>
+          <!-- footnote -->
+          <text x="18" y="296" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">one forward pass — parameters grow with the expert count; FLOPs per token stay flat</text>
+        </svg>
+        <figcaption class="paper-chip">
+          <p class="chip-caption">Redrawn from Figure 2 of the paper. The router is the load
+            balancer every engineer has already drawn for microservices — each token is dispatched
+            to exactly one expert FFN, so parameters scale with the number of experts while compute
+            per token stays flat.</p>
+        </figcaption>
+      </figure>
+      <div class="prose reading">
+        <p>You have drawn this diagram before — it is a load balancer. The Switch layer replaces
+        each dense feed-forward block with many parallel expert FFNs and a small learned router
+        that dispatches each token to exactly one of them; the rest sit idle. Total parameters can
+        scale toward <span class="num">1T</span> while FLOPs per token stay constant — and
+        pre-training ran up to <span class="num">7×</span> faster than T5-Base at the same
+        computational budget. A hospital triage desk works the same way: each patient sees one
+        appropriate specialist instead of every doctor on staff, so the institution's total
+        knowledge can grow <span class="num">100×</span> without any single visit taking longer.</p>
+      </div>
+    </section>
+
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>Ask about <em>active</em> parameters</h2>
+      <div class="prose reading">
+        <p>"Parameters" and "inference cost" are no longer the same axis. An MoE model with
+        hundreds of billions of total parameters can cost like a small dense model per token —
+        the economic trick behind most frontier models (Mixtral, DeepSeek-V3, and reportedly
+        GPT-4). So when you compare models on price, speed, and capability, ask about
+        <strong>active parameters</strong>, not headline size. This decoupling is a large part of
+        why API prices keep falling while capability rises — and why open MoE releases undercut
+        closed dense pricing.</p>
+      </div>
+    </section>
+
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>Experts, not <em>specialists</em></h2>
+      <div class="prose reading">
+        <p><strong>The misconception:</strong> "experts are human-legible domain specialists —
+        one does code, one does law." Routing is per-token and learned under load-balancing
+        pressure, so the specialization that emerges is mostly token-level patterns — punctuation,
+        syntax, language — not subjects. And MoE is not an ensemble of independent models: the
+        experts are interleaved inside every layer of one network.</p>
+        <p>The real cost is a new operations problem: the router has to keep load balanced so one
+        expert isn't slammed while the others sit idle — the triage desk only works while no
+        single doctor's queue backs up.</p>
+      </div>
+    </section>
+
+    <!-- BEGIN:CODA -->
+<section class="coda" aria-labelledby="coda-title">
+  <h2 class="coda-title" id="coda-title">Build it yourself</h2>
+  <p class="coda-chip">build it: $0–10 · a weekend</p>
+  <ol class="coda-rungs">
+  <li class="rung" data-tag="read">
+    <span class="rung-tag">read</span>
+    <p class="rung-text"><a href="https://arxiv.org/abs/2101.03961">Read the paper — the routing diagram in Figure 2 is a load balancer you have already drawn for microservices, and the abstract&#x27;s 7× is the payoff in one number.</a></p>
+    <p class="rung-meta">1–2 hrs &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="run">
+    <span class="rung-tag">run</span>
+    <p class="rung-text"><a href="https://github.com/AviSoori1x/makeMoE">Build a ~9M-param sparse MoE language model from scratch with makeMoE (the step-by-step Hugging Face blog walkthrough pairs with it): swap a dense FFN for 4–8 expert MLPs with noisy top-k gating, then log which tokens route where and watch specialization emerge.</a></p>
+    <p class="rung-meta">a weekend &middot; $0–10</p>
+  </li>
+  </ol>
+</section>
+<!-- END:CODA -->
+
+    <!-- BEGIN:HANDOFF -->
+<nav class="handoff" aria-label="Paper navigation">
+  <p class="cliffhanger">While the text race compounded, a parallel bet at OpenAI came due: 400 million image–caption pairs, and a model that learned to see without a single hand-drawn label.</p>
+  <p class="handoff-links">
+    <a class="handoff-prev" data-handoff="prev" href="gpt3.html">&larr; GPT-3 (2020)</a>
+    <a class="handoff-next" data-handoff="next" href="clip.html">CLIP (2021) &rarr;</a>
+  </p>
+</nav>
+<!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

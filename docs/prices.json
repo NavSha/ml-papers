@@ -8,10 +8,11 @@
     "source": "see research/scalingMath.json price anchors"
   },
   "api": {
-    "model": "",
-    "inputPerMTok": 0,
-    "outputPerMTok": 0,
-    "sourceUrl": "",
-    "note": "fetched at CP3"
+    "model": "Claude Opus 4.8",
+    "inputPerMTok": 5.00,
+    "outputPerMTok": 25.00,
+    "sourceUrl": "https://docs.anthropic.com/en/docs/about-claude/pricing",
+    "fetched": "2026-07-12",
+    "note": "fetched at CP3 from the provider's public pricing page"
   }
 }

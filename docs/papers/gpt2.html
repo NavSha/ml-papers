@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>GPT-2 · Language Models are Unsupervised Multitask Learners — The Fourteen</title>
+  <meta name="description" content="Trained on one dumb objective — predict the next word across 40GB of internet — it started translating, summarizing, and answering questions anyway. Nobody…">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="GPT-2 · Language Models are Unsupervised Multitask Learners — The Fourteen">
+  <meta property="og:description" content="Trained on one dumb objective — predict the next word across 40GB of internet — it started translating, summarizing, and answering questions anyway. Nobody…">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/papers/gpt2.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GPT-2 · Language Models are Unsupervised Multitask Learners — The Fourteen">
+  <meta name="twitter:description" content="Trained on one dumb objective — predict the next word across 40GB of internet — it started translating, summarizing, and answering questions anyway. Nobody…">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="llm-core" data-slug="gpt2">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <header class="paper-header reading">
+      <p class="kicker">04 · <span class="cat">GPT-2</span> · 2019</p>
+      <h1>Language Models are <em>Unsupervised</em> Multitask Learners</h1>
+      <div class="paper-chip">
+        <span class="chip-tab">openai.com</span>
+        <p class="chip-title">Language Models are Unsupervised Multitask Learners</p>
+        <p class="chip-meta">Radford et al., OpenAI &middot; OpenAI 2019 &middot;
+          <a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" rel="noopener">openai.com</a></p>
+        <button class="chip-copy" type="button" hidden
+                data-cite="Radford et al. (2019). Language Models are Unsupervised Multitask Learners. OpenAI 2019. https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+<p class="lead hook">Trained on one dumb objective — predict the next word across 40GB of internet — it started translating, summarizing, and answering questions anyway. Nobody trained it to do any of that.</p>
+<!-- END:HOOK -->
+    </header>
+
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · figure 1, redrawn as a schematic</p>
+      <h2>Four tasks it was never <em>taught</em></h2>
+      <figure class="panel" data-figure="gpt2">
+        <svg viewBox="0 0 640 276" role="img" aria-label="Schematic of GPT-2's Figure 1: four panels — reading comprehension, translation, summarization, and QA — where zero-shot performance climbs with model size from 117M to 1542M parameters toward dashed supervised-baseline lines" style="width:100%;height:auto;display:block">
+          <!-- legend -->
+          <line x1="24" y1="22" x2="46" y2="22" stroke="var(--cat-base)" stroke-width="2"/>
+          <text x="52" y="26" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--text)">zero-shot GPT-2, four sizes 117M&#8594;1542M</text>
+          <line x1="24" y1="42" x2="46" y2="42" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <text x="52" y="46" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)">dedicated supervised systems, for scale</text>
+          <rect x="524" y="12" width="92" height="22" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="570" y="27" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)" text-anchor="middle">SCHEMATIC</text>
+
+          <!-- panel 1: reading comprehension -->
+          <text x="86" y="72" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--text)" text-anchor="middle">reading comp.</text>
+          <line x1="24" y1="82" x2="24" y2="206" stroke="var(--border)" stroke-width="1"/>
+          <line x1="24" y1="206" x2="148" y2="206" stroke="var(--border)" stroke-width="1"/>
+          <line x1="30" y1="100" x2="142" y2="100" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <path d="M 38 190 L 70 162 L 102 132 L 136 110" fill="none" stroke="var(--cat-base)" stroke-width="2"/>
+          <circle cx="38" cy="190" r="3" fill="var(--cat-base)"/>
+          <circle cx="70" cy="162" r="3" fill="var(--cat-base)"/>
+          <circle cx="102" cy="132" r="3" fill="var(--cat-base)"/>
+          <circle cx="136" cy="110" r="3.5" fill="var(--cat-light)"/>
+          <text x="38" y="222" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)" text-anchor="middle">117M</text>
+          <text x="136" y="222" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)" text-anchor="middle">1542M</text>
+
+          <!-- panel 2: translation -->
+          <text x="242" y="72" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--text)" text-anchor="middle">translation</text>
+          <line x1="180" y1="82" x2="180" y2="206" stroke="var(--border)" stroke-width="1"/>
+          <line x1="180" y1="206" x2="304" y2="206" stroke="var(--border)" stroke-width="1"/>
+          <line x1="186" y1="94" x2="298" y2="94" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <path d="M 194 194 L 226 180 L 258 160 L 292 138" fill="none" stroke="var(--cat-base)" stroke-width="2"/>
+          <circle cx="194" cy="194" r="3" fill="var(--cat-base)"/>
+          <circle cx="226" cy="180" r="3" fill="var(--cat-base)"/>
+          <circle cx="258" cy="160" r="3" fill="var(--cat-base)"/>
+          <circle cx="292" cy="138" r="3.5" fill="var(--cat-light)"/>
+          <text x="194" y="222" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)" text-anchor="middle">117M</text>
+          <text x="292" y="222" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)" text-anchor="middle">1542M</text>
+
+          <!-- panel 3: summarization -->
+          <text x="398" y="72" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--text)" text-anchor="middle">summarization</text>
+          <line x1="336" y1="82" x2="336" y2="206" stroke="var(--border)" stroke-width="1"/>
+          <line x1="336" y1="206" x2="460" y2="206" stroke="var(--border)" stroke-width="1"/>
+          <line x1="342" y1="104" x2="454" y2="104" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <path d="M 350 188 L 382 180 L 414 170 L 448 160" fill="none" stroke="var(--cat-base)" stroke-width="2"/>
+          <circle cx="350" cy="188" r="3" fill="var(--cat-base)"/>
+          <circle cx="382" cy="180" r="3" fill="var(--cat-base)"/>
+          <circle cx="414" cy="170" r="3" fill="var(--cat-base)"/>
+          <circle cx="448" cy="160" r="3.5" fill="var(--cat-light)"/>
+          <text x="350" y="222" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)" text-anchor="middle">117M</text>
+          <text x="448" y="222" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)" text-anchor="middle">1542M</text>
+
+          <!-- panel 4: QA -->
+          <text x="554" y="72" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--text)" text-anchor="middle">QA</text>
+          <line x1="492" y1="82" x2="492" y2="206" stroke="var(--border)" stroke-width="1"/>
+          <line x1="492" y1="206" x2="616" y2="206" stroke="var(--border)" stroke-width="1"/>
+          <line x1="498" y1="90" x2="610" y2="90" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <path d="M 506 198 L 538 188 L 570 172 L 604 152" fill="none" stroke="var(--cat-base)" stroke-width="2"/>
+          <circle cx="506" cy="198" r="3" fill="var(--cat-base)"/>
+          <circle cx="538" cy="188" r="3" fill="var(--cat-base)"/>
+          <circle cx="570" cy="172" r="3" fill="var(--cat-base)"/>
+          <circle cx="604" cy="152" r="3.5" fill="var(--cat-light)"/>
+          <text x="506" y="222" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)" text-anchor="middle">117M</text>
+          <text x="604" y="222" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)" text-anchor="middle">1542M</text>
+
+          <!-- reading note -->
+          <text x="24" y="248" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">zero-shot performance climbs with model size in all four panels —</text>
+          <text x="24" y="266" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">no task-specific training anywhere; curve shapes are schematic, exact values in the paper</text>
+        </svg>
+        <figcaption class="paper-chip">
+          <p class="chip-caption">Redrawn as a schematic from Figure 1 of the paper — shapes
+            preserved, exact curve data omitted. Four tasks the model was never trained on,
+            all improving as the only thing that changes is size.</p>
+        </figcaption>
+      </figure>
+      <div class="prose reading">
+        <p>One objective — predict the next token across <span class="num">40GB</span> of web
+        text — and four tasks nobody trained appear anyway, each climbing as the model grows
+        from <span class="num">117M</span> to <span class="num">1.5B</span> parameters. The same
+        model set state of the art on <span class="num">7 of 8</span> language-modeling datasets
+        zero-shot, while still underfitting its training set. It's like discovering that someone
+        hired only to finish other people's sentences had — in order to get genuinely good at
+        that across the whole internet — quietly learned to translate, summarize, and answer
+        trivia, because you cannot reliably finish humanity's sentences without those skills.</p>
+      </div>
+    </section>
+
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>From training to <em>eliciting</em></h2>
+      <div class="prose reading">
+        <p>This is where the modern builder's default question comes from: not "how do I train
+        a model for task X" but "how do I <strong>elicit</strong> task X from a general model
+        that already learned it." Capabilities you didn't build are already in the model —
+        prompts, examples, and fine-tuning are extraction techniques, not creation. The release
+        story matters too: the staged rollout and the "too dangerous to release" episode around
+        the <span class="num">1.5B</span> weights started the release-norms playbook every lab
+        still follows.</p>
+      </div>
+    </section>
+
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>Trained to continue, not to <em>chat</em></h2>
+      <div class="prose reading">
+        <p><strong>The misconception:</strong> "GPT-2 was trained to chat or follow
+        instructions." It was trained to do exactly one thing: continue text. Tasks show up
+        because demonstrations of tasks occur naturally in web text — "translated into French:
+        …" appears often enough that predicting what comes next <em>is</em> translation.
+        Instruction-following didn't exist until RLHF, three years later.</p>
+        <p>And the dashed lines in the figure are load-bearing: on these four tasks, even the
+        <span class="num">1.5B</span> model still sat below the dedicated supervised systems of
+        the day. Figure 1 is a thesis about slopes, not a victory over baselines — the visual
+        bet that the lines keep climbing, which GPT-3 proved at scale a year later.</p>
+      </div>
+    </section>
+
+    <!-- BEGIN:CODA -->
+<section class="coda" aria-labelledby="coda-title">
+  <h2 class="coda-title" id="coda-title">Build it yourself</h2>
+  <p class="coda-chip">build it: $0 · one evening</p>
+  <ol class="coda-rungs">
+  <li class="rung" data-tag="read">
+    <span class="rung-tag">read</span>
+    <p class="rung-text"><a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf">Read the paper — Figure 1&#x27;s four rising lines (reading, translation, summarization, QA vs model size, with zero task training) are the thesis GPT-3 later proved at scale.</a></p>
+    <p class="rung-meta">1–2 hrs &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="run">
+    <span class="rung-tag">run</span>
+    <p class="rung-text"><a href="https://github.com/karpathy/llm.c/discussions/481">Reproduce the real GPT-2 124M — not a toy — with llm.c: ~90 minutes on an 8×A100 node at ~$14/hr, following Karpathy&#x27;s own writeup.</a></p>
+    <p class="rung-meta">90 min compute + half a day setup &middot; $20</p>
+  </li>
+  <li class="rung" data-tag="tweak">
+    <span class="rung-tag">tweak</span>
+    <p class="rung-text"><a href="https://github.com/karpathy/nanoGPT">Budget version: fine-tune OpenAI&#x27;s released GPT-2 weights on your own writing with nanoGPT — free, and the model starts sounding like you.</a></p>
+    <p class="rung-meta">one evening &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="train">
+    <span class="rung-tag">train</span>
+    <p class="rung-text"><a href="https://github.com/NavSha/tiny-llm-pipeline">Or walk this paper&#x27;s whole arc at toy scale — the author&#x27;s tiny-llm-pipeline goes data curation → BPE tokenizer → pretrain → SFT/DPO → serving.</a></p>
+    <p class="rung-meta">a weekend, spread over evenings &middot; $0</p>
+  </li>
+  </ol>
+</section>
+<!-- END:CODA -->
+
+    <!-- BEGIN:HANDOFF -->
+<nav class="handoff" aria-label="Paper navigation">
+  <p class="cliffhanger">Bigger kept working — but &#x27;bigger helps&#x27; is a hunch, not a budget. Someone at OpenAI decided to measure exactly how much better, and found a straight line.</p>
+  <p class="handoff-links">
+    <a class="handoff-prev" data-handoff="prev" href="transformer.html">&larr; Transformer (2017)</a>
+    <a class="handoff-next" data-handoff="next" href="scaling-laws.html">Scaling Laws (2020) &rarr;</a>
+  </p>
+</nav>
+<!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

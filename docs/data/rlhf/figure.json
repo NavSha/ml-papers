@@ -1,0 +1,56 @@
+{
+  "baker": "tools/bake_paper_figures.py",
+  "bakedAt": "2026-07-12T11:25:31+00:00",
+  "slug": "rlhf",
+  "source": {
+    "arxivId": "2203.02155",
+    "title": "Training language models to follow instructions with human feedback (InstructGPT)",
+    "url": "https://ar5iv.labs.arxiv.org/html/2203.02155",
+    "figure": "Figure 1 headline preference results (human evals on the API prompt distribution)"
+  },
+  "provenance": "tabulated",
+  "notes": "All values are stated verbatim in the paper's text; section refs per point. Figure 1 itself plots win rate against the 175B SFT baseline — the paper gives the 1.3B-vs-175B result only qualitatively ('preferred'), so no numeric win rate is fabricated for that pairing. Error bars in the paper are 95% confidence intervals.",
+  "series": [
+    {
+      "id": "headline-win-rates",
+      "label": "Human labeler preference win rates (API prompt distribution)",
+      "provenance": "tabulated",
+      "yAxis": {
+        "label": "preferred over comparison model",
+        "unit": "% of comparisons"
+      },
+      "points": [
+        {
+          "label": "175B InstructGPT vs 175B GPT-3",
+          "y": 85,
+          "ci95": 3,
+          "provenance": "tabulated",
+          "quote": "Outputs from our 175B InstructGPT are preferred to 175B GPT-3 outputs 85 ± 3% of the time",
+          "sectionRef": "§1 (findings); §4.1 Results on the API distribution"
+        },
+        {
+          "label": "175B InstructGPT vs few-shot 175B GPT-3",
+          "y": 71,
+          "ci95": 4,
+          "provenance": "tabulated",
+          "quote": "preferred 71 ± 4% of the time to few-shot 175B GPT-3",
+          "sectionRef": "§1 (findings); §4.1 Results on the API distribution"
+        }
+      ]
+    },
+    {
+      "id": "small-beats-big",
+      "label": "1.3B InstructGPT vs 175B GPT-3 (100x fewer params)",
+      "provenance": "tabulated",
+      "points": [
+        {
+          "label": "1.3B InstructGPT (PPO-ptx) outputs preferred over 175B GPT-3 outputs",
+          "value": "preferred (stated qualitatively; exact win rate shown only graphically in Figure 1)",
+          "provenance": "tabulated",
+          "quote": "outputs from the 1.3B parameter InstructGPT model are preferred to outputs from the 175B GPT-3, despite having 100x fewer parameters",
+          "sectionRef": "Abstract; §1 (findings); Figure 1 caption"
+        }
+      ]
+    }
+  ]
+}

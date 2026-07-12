@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>Scaling Laws · Scaling Laws for Neural Language Models — The Fourteen</title>
+  <meta name="description" content="Plot loss against compute on log axes and the points fall on a dead-straight line for eight orders of magnitude — capability suddenly had a price list you…">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Scaling Laws · Scaling Laws for Neural Language Models — The Fourteen">
+  <meta property="og:description" content="Plot loss against compute on log axes and the points fall on a dead-straight line for eight orders of magnitude — capability suddenly had a price list you…">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/papers/scaling-laws.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Scaling Laws · Scaling Laws for Neural Language Models — The Fourteen">
+  <meta name="twitter:description" content="Plot loss against compute on log axes and the points fall on a dead-straight line for eight orders of magnitude — capability suddenly had a price list you…">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="llm-core" data-slug="scaling-laws">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <header class="paper-header reading">
+      <p class="kicker">05 · <span class="cat">Scaling Laws</span> · 2020</p>
+      <h1>Scaling <em>Laws</em> for Neural Language Models</h1>
+      <div class="paper-chip">
+        <span class="chip-tab">arXiv 2001.08361</span>
+        <p class="chip-title">Scaling Laws for Neural Language Models</p>
+        <p class="chip-meta">Kaplan et al., OpenAI &middot; arXiv 2020 &middot;
+          <a href="https://arxiv.org/abs/2001.08361" rel="noopener">arXiv 2001.08361</a></p>
+        <button class="chip-copy" type="button" hidden
+                data-cite="Kaplan et al. (2020). Scaling Laws for Neural Language Models. arXiv 2020. https://arxiv.org/abs/2001.08361">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+<p class="lead hook">Plot loss against compute on log axes and the points fall on a dead-straight line for eight orders of magnitude — capability suddenly had a price list you could read with a ruler.</p>
+<!-- END:HOOK -->
+    </header>
+
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · figure 1, redrawn — and live</p>
+      <h2>Capability got a <em>price</em> list</h2>
+      <div class="scrolly" data-scrolly>
+        <div class="steps">
+          <div class="step" data-step="0">
+            <p class="kicker">step 01 / 04</p>
+            <h3>Straight lines for eight orders of magnitude</h3>
+            <p>Figure 1 plots test loss against model size, data, and compute on log–log axes,
+            and the points fall on ruler-straight power laws —
+            <span class="num">L(N) = (N<sub>c</sub>/N)<sup>0.076</sup></span> for model size —
+            holding across <span class="num">8</span> orders of magnitude. Nobody needs to parse
+            the exponent: the straight lines are the message. Run small, cheap experiments, put a
+            ruler through the points, and read off what a <span class="num">1,000×</span> bigger
+            run will deliver — before writing the check.</p>
+          </div>
+          <div class="step" data-step="1">
+            <p class="kicker">step 02 / 04</p>
+            <h3>Spend the budget</h3>
+            <p>The widget's default mode is the industry's actual planning tool. Pick a compute
+            budget <span class="num">C</span> and the frontier answers back: the optimal model
+            size <span class="num">N<sub>opt</sub> = √(C/120)</span>, the tokens to feed it
+            (<span class="num">20</span> per parameter), the loss you land at, and the GPU-rental
+            bill at 2026 prices. The vintage line tells you which year of capability you just
+            bought — and the verdict line tells you whether a frontier lab already passed you.</p>
+          </div>
+          <div class="step" data-step="2">
+            <p class="kicker">step 03 / 04</p>
+            <h3>Allocate it yourself</h3>
+            <p>Mode B splits the decision the paper left half-answered: with
+            <span class="num">C ≈ 6·N·D</span>, how much goes to parameters and how much to
+            tokens? Kaplan's own advice — grow the model, barely grow the data — turned out
+            wrong. Chinchilla (2022) redid the fits: scale both together, about
+            <span class="num">20</span> tokens per parameter. The widget runs the 2022-corrected
+            constants — the caveats drawer explains why.</p>
+          </div>
+          <div class="step" data-step="3">
+            <p class="kicker">step 04 / 04</p>
+            <h3>Now make GPT-3's mistake yourself</h3>
+            <p>Press the preset: <span class="num">175B</span> parameters on
+            <span class="num">300B</span> tokens — <span class="num">1.7</span> tokens per
+            parameter, exactly how GPT-3 was trained. Your loss reads
+            <span class="num">2.002</span> nats. The frontier at the same spend reads
+            <span class="num">1.937</span> — Chinchilla's <span class="num">70B</span> model fed
+            <span class="num">1.4T</span> tokens. A model <span class="num">2.5×</span> smaller
+            wins on equal compute. Same money, worse model — and now you've made OpenAI's 2020
+            allocation error with your own hands.</p>
+          </div>
+        </div>
+        <div class="sticky">
+          <div class="widget-panel" data-widget="scaling-laws">
+            <div class="widget-head">
+              <p class="kicker"><span class="cat">the scaling laws</span> · run them yourself</p>
+              <span class="status-chip status-chip--live">live</span>
+            </div>
+            <figure data-sticky-visual>
+              <svg viewBox="0 0 640 320" role="img" aria-label="Loss versus training compute from 1e17 to 1e27 FLOPs: the compute-optimal frontier descends toward a dashed asymptote at 1.69 nats, with GPT-2, GPT-3, Chinchilla, GPT-4 and Llama 3.1 405B placed as dots; GPT-3 sits visibly above the frontier" style="width:100%;height:auto;display:block">
+                <!-- extrapolation shading beyond 1e24 FLOPs -->
+                <rect x="452" y="24" width="168" height="240" fill="var(--surface-2)" opacity="0.5"/>
+                <!-- grid -->
+                <line x1="60" y1="24" x2="60" y2="264" stroke="var(--line)"/>
+                <line x1="172" y1="24" x2="172" y2="264" stroke="var(--line)"/>
+                <line x1="284" y1="24" x2="284" y2="264" stroke="var(--line)"/>
+                <line x1="396" y1="24" x2="396" y2="264" stroke="var(--line)"/>
+                <line x1="508" y1="24" x2="508" y2="264" stroke="var(--line)"/>
+                <line x1="620" y1="24" x2="620" y2="264" stroke="var(--line)"/>
+                <line x1="60" y1="224" x2="620" y2="224" stroke="var(--line)"/>
+                <line x1="60" y1="174" x2="620" y2="174" stroke="var(--line)"/>
+                <line x1="60" y1="124" x2="620" y2="124" stroke="var(--line)"/>
+                <line x1="60" y1="74" x2="620" y2="74" stroke="var(--line)"/>
+                <line x1="60" y1="24" x2="620" y2="24" stroke="var(--line)"/>
+                <!-- axis labels -->
+                <text x="56" y="228" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="end">2.0</text>
+                <text x="56" y="178" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="end">2.5</text>
+                <text x="56" y="128" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="end">3.0</text>
+                <text x="56" y="78" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="end">3.5</text>
+                <text x="56" y="28" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="end">4.0</text>
+                <text x="60" y="280" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="middle">1e17</text>
+                <text x="284" y="280" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="middle">1e21</text>
+                <text x="508" y="280" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="middle">1e25</text>
+                <text x="620" y="280" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="middle">1e27</text>
+                <!-- irreducible-entropy asymptote -->
+                <line x1="60" y1="255" x2="620" y2="255" stroke="var(--warn)" stroke-dasharray="5 4"/>
+                <text x="66" y="249" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--warn)">E = 1.69 — irreducible entropy of text</text>
+                <!-- compute-optimal frontier (Hoffmann 2022 constants, 20 tokens/param) -->
+                <polyline points="60,24 88,34.7 116,70.3 144,100.1 172,125.1 200,146 228,163.5 256,178.2 284,190.5 312,200.8 340,209.4 368,216.7 396,222.8 424,227.9 452,232.2 480,235.8 508,238.9 536,241.4 564,243.6 592,245.4 620,246.9" fill="none" stroke="var(--cat-base)" stroke-width="2.5"/>
+                <!-- anchors -->
+                <circle cx="294" cy="194.6" r="4.5" fill="var(--text)" stroke="var(--ground)" stroke-width="2"/>
+                <text x="286" y="188" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--muted)" text-anchor="end">GPT-2</text>
+                <circle cx="424" cy="223.8" r="4.5" fill="var(--text)" stroke="var(--ground)" stroke-width="2"/>
+                <text x="418" y="214" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--muted)" text-anchor="end">GPT-3</text>
+                <circle cx="439" cy="230.3" r="4.5" fill="var(--text)" stroke="var(--ground)" stroke-width="2"/>
+                <text x="447" y="228" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--muted)">Chinchilla</text>
+                <circle cx="526" cy="241" r="4.5" fill="var(--text)" stroke="var(--ground)" stroke-width="2"/>
+                <text x="518" y="232" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--muted)" text-anchor="end">GPT-4 (est.)</text>
+                <circle cx="540.5" cy="242.1" r="4.5" fill="var(--text)" stroke="var(--ground)" stroke-width="2"/>
+                <text x="548" y="252" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--muted)">Llama 3.1 405B</text>
+                <!-- footnotes -->
+                <text x="60" y="300" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">loss (nats/token) vs training compute (FLOPs, log scale) · GPT-3 sits above the line: 175B params on only 300B tokens</text>
+                <text x="60" y="316" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">shaded region extrapolates past the fitted models · GPT-2 placed at its effective token count (~167B, multiple epochs)</text>
+              </svg>
+              <figcaption class="paper-chip">
+                <p class="chip-caption">After Figure 1 of the paper: loss falls as a power law —
+                  L(N) = (N<sub>c</sub>/N)<sup>0.076</sup> — dead straight on the paper's log–log
+                  axes for eight orders of magnitude. Here the y-axis is linear, so the same law
+                  bends toward its floor; frontier and dots are computed from the 2022-corrected
+                  constants (Hoffmann et al.).</p>
+              </figcaption>
+            </figure>
+            <p class="placeholder widget-fallback">
+              the interactive version needs JavaScript — the figure above shows its final state.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <details class="caveats" id="caveats">
+        <summary>the fine print — ten caveats</summary>
+        <div class="caveats-body">
+          <ol>
+            <li>Kaplan and Chinchilla contradict each other on the frontier: Kaplan said
+              N ∝ C<sup>0.73</sup> — grow the model, barely grow the data, which is why GPT-3 was
+              175B params on 300B tokens. Chinchilla corrected it to N ∝ C<sup>0.5</sup> with
+              ~20 tokens/param. The causes have since been identified (Pearce &amp; Song 2024,
+              arXiv:2406.12907): Kaplan counted non-embedding parameters only, used a
+              learning-rate schedule not tuned to the token budget, and fit at much smaller
+              scales. The widget follows Chinchilla.</li>
+            <li>The two papers' loss values are not on the same scale: different datasets
+              (WebText2 vs MassiveText) and different tokenizers, so nats/token differ. Never
+              plot both fits on one y-axis without saying the Kaplan curve is illustrative shape
+              only.</li>
+            <li>Chinchilla's own published Approach-3 constants are internally inconsistent:
+              plugged into the analytic frontier they imply ~70–90 tokens/param, not the paper's
+              headline 20. Epoch AI's replication (Besiroglu et al. 2024, arXiv:2404.10102) found
+              the fit non-reproducible and re-fit constants that restore ~20:1. The widget uses
+              the parametric form for loss but the 20:1 rule for the frontier.</li>
+            <li>These laws describe pretraining loss only. Post-training (RLHF, reasoning RL à la
+              DeepSeek-R1) and inference-time compute (chain-of-thought) move capability without
+              moving pretraining FLOPs — most of what changed between 2023 and 2025 lives there
+              and is invisible on this chart.</li>
+            <li>Loss → capability is nonlinear: a 0.05-nat drop can unlock qualitatively new
+              behavior, or nothing. The capability labels on the anchors are honest vibes, not
+              measurements; specific downstream skills can appear abruptly ("emergence") even
+              though loss falls smoothly.</li>
+            <li>C ≈ 6·N·D is an approximation: it ignores attention FLOPs (which matter at long
+              context), and for MoE models you must use active parameters — GPT-4 is ~280B
+              active, not 1.8T total; using total overestimates compute 6×.</li>
+            <li>The dollar axis is compute-rental-only at mid-2026 neocloud prices (~$2.50/H100-hr,
+              40% MFU): it excludes salaries, failed runs, ablation experiments, data acquisition,
+              and networking — real all-in budgets are typically 2–5× the rental number. And
+              prices fell 64–75% from Q4 2024 to 2026, so historical models cost far more on the
+              hardware of their day (GPT-3: ~$4.6M then vs ~$550k of compute now).</li>
+            <li>Chinchilla-optimal means optimal for a single training run, ignoring inference:
+              if you will serve the model to millions of users, it is rational to overtrain a
+              smaller model past 20:1 (Llama 3.1 405B used ~38 tokens/param; Llama 3 8B used
+              ~1,900). The frontier is a floor on loss per training FLOP, not a business
+              recommendation.</li>
+            <li>The fits are extrapolations beyond ~1e24 FLOPs: Chinchilla's largest fitted models
+              were ~16B params, so every curve point at GPT-4 scale and beyond extends the power
+              law two-plus orders of magnitude past the data. It has held remarkably well so far,
+              but the chart shades the extrapolated region.</li>
+            <li>The irreducible term E = 1.69 nats/token is the entropy of the text distribution
+              itself — loss never reaches zero no matter the spend. The curve flattens toward the
+              asymptote, which is the visual argument for why pure pretraining scaling has
+              diminishing returns and the industry pivoted to post-training and inference-time
+              compute.</li>
+          </ol>
+        </div>
+      </details>
+    </section>
+
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>"Wait for the next model" becomes <em>arithmetic</em></h2>
+      <div class="prose reading">
+        <p>Before this paper, a bigger training run was a bet. After it, capability is a
+        purchasable, forecastable commodity — which is why billion-dollar training runs are
+        capital allocation, not gambles, and why the labs schedule products, GPU purchases, and
+        fundraising rounds against these curves. For a builder the rule is defensive: never
+        build the thing one more order of magnitude erases. If your product's entire value is
+        compensating for a current model weakness, the frontier has a rough price and date for
+        deleting it. The framework survived its own correction — Chinchilla (2022) moved the
+        coefficients, not the conclusion — and it still sets the industry's calendar.</p>
+      </div>
+    </section>
+
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>A regularity, not <em>physics</em></h2>
+      <div class="prose reading">
+        <p><strong>The misconception</strong> comes in two opposite flavors: "scaling has hit a
+        wall" and "scaling laws guarantee AGI." Both over-read the equation. The laws predict
+        <em>loss</em> on next-token prediction, not specific abilities — and the mapping from a
+        smoothly falling loss curve to capabilities is not in the equation. Individual skills can
+        jump discontinuously while loss glides down, in both exciting and unnerving ways.</p>
+        <p>The honest analogy is Moore's Law for capability: an empirical regularity, not a law
+        of physics — yet reliable enough that an entire industry has scheduled itself around it
+        for years. And the paper's own authors misread their chart: the widget's "GPT-3's
+        mistake" preset exists because Kaplan's allocation rule stood for two years before
+        Chinchilla showed the same compute buys a better model — smaller, fed more data. Even a
+        law this straight bends people.</p>
+      </div>
+    </section>
+
+    <!-- BEGIN:CODA -->
+<section class="coda" aria-labelledby="coda-title">
+  <h2 class="coda-title" id="coda-title">Build it yourself</h2>
+  <p class="coda-chip">build it: $0–30 · a weekend</p>
+  <ol class="coda-rungs">
+  <li class="rung" data-tag="read">
+    <span class="rung-tag">read</span>
+    <p class="rung-text"><a href="https://arxiv.org/abs/2001.08361">Read the paper — Figure 1&#x27;s three straight lines are the message; nobody needs to parse the exponents. Then note the 2022 Chinchilla correction: scale data with parameters.</a></p>
+    <p class="rung-meta">2 hrs &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="run">
+    <span class="rung-tag">run</span>
+    <p class="rung-text"><a href="https://github.com/shehper/scaling_laws">Discover the law yourself: train three or four nanoGPT sizes (0.1M / 1M / 6M params) on the same data, plot final loss vs params on log-log axes, and watch the straight line appear — Kaplan&#x27;s trends are visible at just 6.3M params, per an open replication with public training curves.</a></p>
+    <p class="rung-meta">a weekend (mostly unattended training) &middot; $0–30</p>
+  </li>
+  </ol>
+</section>
+<!-- END:CODA -->
+
+    <!-- BEGIN:HANDOFF -->
+<nav class="handoff" aria-label="Paper navigation">
+  <p class="cliffhanger">OpenAI ran the ruler to its conclusion: 175 billion parameters, ten times anything before it. What came out the other side wasn&#x27;t just a better text predictor.</p>
+  <p class="handoff-links">
+    <a class="handoff-prev" data-handoff="prev" href="gpt2.html">&larr; GPT-2 (2019)</a>
+    <a class="handoff-next" data-handoff="next" href="gpt3.html">GPT-3 (2020) &rarr;</a>
+  </p>
+</nav>
+<!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
