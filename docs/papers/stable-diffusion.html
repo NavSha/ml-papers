@@ -117,6 +117,41 @@
       </div>
     </section>
 
+    <section class="section" id="see-it">
+      <p class="kicker"><span class="cat">the forward road</span> · touch it</p>
+      <div class="scrolly" data-scrolly>
+        <div class="steps">
+          <div class="step" data-step="0">
+            <p class="kicker">step 01 / 04</p>
+            <h3>Start from a photograph</h3>
+            <p>Forward diffusion only ever does one thing: add a little Gaussian noise, on a fixed schedule. Drag the slider and watch it happen to a real photo — the NASA Blue Marble. This direction is free: pure math, no model, no training.</p>
+          </div>
+          <div class="step" data-step="1">
+            <p class="kicker">step 02 / 04</p>
+            <h3>Structure dissolves</h3>
+            <p>Halfway along the schedule the planet is still faintly there, drowning. And notice the scale toggle: the whole loop runs in a latent <span class="num">48×</span> smaller than the pixels — 16,384 numbers instead of 786,432 — which is the entire reason this fits on a consumer GPU.</p>
+          </div>
+          <div class="step" data-step="2">
+            <p class="kicker">step 03 / 04</p>
+            <h3>Pure static</h3>
+            <p>At the end the information is not hidden, it is destroyed — indistinguishable from random noise. Generation is learning to walk this exact road backwards, one small denoising step at a time, steered by your prompt.</p>
+          </div>
+          <div class="step" data-step="3">
+            <p class="kicker">step 04 / 04</p>
+            <h3>Now break the myth</h3>
+            <p>Shuffle the noise: same photo, a completely different random draw, every time. There is no image lurking in the static waiting to be uncovered. That is why diffusion does not collage training images — it starts from noise and paints, it does not paste.</p>
+          </div>
+        </div>
+        <div class="sticky">
+          <div class="widget-panel" data-widget="stable-diffusion">
+            <p class="placeholder widget-fallback">
+              the interactive version needs JavaScript — the figure above shows the idea.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="what-it-changed">
       <p class="kicker"><span class="cat">what it changed</span></p>
       <h2>Change the <em>space</em>, then change the strategy</h2>

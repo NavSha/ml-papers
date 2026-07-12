@@ -99,6 +99,41 @@
       </div>
     </section>
 
+    <section class="section" id="see-it">
+      <p class="kicker"><span class="cat">the reasoning dial</span> · touch it</p>
+      <div class="scrolly" data-scrolly>
+        <div class="steps">
+          <div class="step" data-step="0">
+            <p class="kicker">step 01 / 04</p>
+            <h3>Ask for the answer, straight</h3>
+            <p>The direct prompt is fast and cheap — a handful of tokens in, a handful out. On a one-step question it is exactly right. On a multi-step word problem it is confidently, fluently wrong, because the model never externalised the intermediate work where the error hides.</p>
+          </div>
+          <div class="step" data-step="1">
+            <p class="kicker">step 02 / 04</p>
+            <h3>Show the work first</h3>
+            <p>Prepend a few worked examples and the model imitates the format — it writes out its steps before the answer. Same weights, same model, nothing retrained: PaLM 540B on GSM8K climbs from <span class="num">17.9%</span> to <span class="num">56.9%</span>. The scratch paper is the whole trick.</p>
+          </div>
+          <div class="step" data-step="2">
+            <p class="kicker">step 03 / 04</p>
+            <h3>Reasoning is metered</h3>
+            <p>Every one of those thinking tokens is billed and adds latency — quality bought with tokens, live on the meter. This is literally the dial behind reasoning-effort and extended-thinking toggles: spend more on hard queries, route easy ones to the cheap path.</p>
+          </div>
+          <div class="step" data-step="3">
+            <p class="kicker">step 04 / 04</p>
+            <h3>Now break it</h3>
+            <p>Try the same trick on a small model. It produces a chain that reads just as fluent — and lands on the wrong number anyway. Below roughly <span class="num">100B</span> parameters chain-of-thought can hurt: scratch paper only helps someone who already knows how to multiply.</p>
+          </div>
+        </div>
+        <div class="sticky">
+          <div class="widget-panel" data-widget="cot">
+            <p class="placeholder widget-fallback">
+              the interactive version needs JavaScript — the figure above shows the idea.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="what-it-changed">
       <p class="kicker"><span class="cat">what it changed</span></p>
       <h2>Answer quality is a <em>dial</em></h2>

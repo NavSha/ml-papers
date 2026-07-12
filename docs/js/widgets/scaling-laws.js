@@ -49,6 +49,14 @@ export function fmt(n, unit = '') {
 }
 const trim = (x) => (x >= 100 ? Math.round(x) : x >= 10 ? x.toFixed(1) : x.toFixed(2)).toString().replace(/\.0+$/, '');
 const fmtUsd = (n) => n >= 1e9 ? '$' + trim(n / 1e9) + 'B' : n >= 1e6 ? '$' + trim(n / 1e6) + 'M' : n >= 1e3 ? '$' + trim(n / 1e3) + 'k' : '$' + trim(n);
+/* compute in FLOPs spans 1e17–1e27 — engineering suffixes stop at T, so use
+   the field's own notation (matches the chart's 1eNN axis labels). */
+const fmtC = (c) => {
+  let e = Math.floor(Math.log10(c));
+  let m = c / 10 ** e;
+  if (m >= 9.95) { m = 1; e += 1; }
+  return (m >= 1.05 ? m.toFixed(1) + '×' : '') + '1e' + e;
+};
 
 function assertSanity() {
   const close = (a, b, tol) => Math.abs(a - b) <= tol;
@@ -278,6 +286,10 @@ export async function init(panel) {
   panel.querySelectorAll('input[type="range"]').forEach((r) => r.addEventListener('input', render));
   $('[data-preset-gpt3]').addEventListener('click', () => {
     if (mode !== 'b') els.tabs[1].click();
+    /* exact paper coordinates — 'any' stops the 0.05 grid from snapping the
+       preset off the published 2.002-vs-1.937 comparison (SPEC §6a AC);
+       keyboard arrows still move ~1% of range. */
+    els.n.step = els.d.step = 'any';
     els.n.value = Math.log10(175e9);
     els.d.value = Math.log10(300e9);
     render();
