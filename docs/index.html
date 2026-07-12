@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>The Fourteen — thirteen years of AI, drawn as one descending loss curve</title>
+  <!-- tools/inject_meta.py appends description/OG/Twitter tags right after
+       the title; the description comes from data-description on <main>
+       (both hero deck lines — SPEC §4: the OG description carries both). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css?v=1">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the timeline</a>
+
+  <!-- HERO (SPEC §4) — both deck lines: the hook line AND the participation
+       promise, visible on the index itself. -->
+  <header class="hero wrap">
+    <p class="kicker">fourteen papers · <span class="cat">2012–2025</span></p>
+    <h1 class="hero-title">The <em>Fourteen</em></h1>
+    <div class="lead">
+      <p class="hero-deck">Thirteen years of AI, drawn as a single
+        <strong>descending loss curve</strong> — the 14 papers that matter,
+        from AlexNet to DeepSeek-R1.</p>
+      <p class="hero-promise">Every one of these is reproducible this weekend
+        for <strong>under $30</strong> — each page shows you how.</p>
+    </div>
+  </header>
+
+  <main id="main" class="wrap"
+        data-description="Thirteen years of AI as one descending loss curve — the 14 papers that matter. Every one is reproducible this weekend for under $30 — each page shows you how.">
+
+    <!-- FAST-PATH TOGGLE (SPEC §4) — timeline.js un-hides and wires the
+         button: aria-pressed, localStorage mlp.fastpath, body.fastpath-on,
+         .is-fastpath marks on transformer / scaling-laws / rlhf, and the
+         handoff re-routing on those pages via components.js. JS-off, the
+         noscript line carries the same suggestion as plain text. -->
+    <section class="fastpath-bar" aria-label="Fast path">
+      <span class="fastpath-label">Only have 20 minutes?</span>
+      <button class="chip" type="button" data-fastpath aria-pressed="false" hidden>
+        fast path: Transformer → Scaling Laws → RLHF
+      </button>
+      <noscript>
+        <span class="fastpath-label">The 20-minute spine: Transformer (2017)
+          → Scaling Laws (2020) → RLHF (2022) — then come back for the rest.</span>
+      </noscript>
+    </section>
+
+    <!-- THE SPINE (SPEC §4; DESIGN §7) — one continuous descending loss
+         curve, 2012 high → 2025 low, past deepseek-r1 to the 15th node. -->
+    <section class="spine" id="timeline" aria-label="Fourteen papers, 2012 to 2025">
+      <div class="spine-rail" aria-hidden="true">
+        <!-- spine.js (CP1a) draws the loss-curve SVG here — geometry
+             measured from node card DOM positions (ResizeObserver +
+             document.fonts.ready), never hardcoded; scroll drives
+             stroke-dashoffset; reduced-motion renders it fully drawn.
+             Decorative: stays empty JS-off. -->
+      </div>
+
+      <!-- BEGIN:NODES -->
+<header class="act-band" data-act="1">
+  <p class="act-kicker">Act I &middot; 2012–2015</p>
+  <h2 class="act-title">The bet on scale</h2>
+  <p class="act-copy">A generic network fed with GPUs and data crushes a decade of hand-engineered vision, and then depth itself gets fixed with two characters of algebra. The bet that opens the curve: general methods that scale beat clever methods that don&#x27;t.</p>
+</header>
+<article class="node-card" data-slug="alexnet" data-cat="foundations" data-date="2012-12">
+  <a class="node-link" href="papers/alexnet.html">
+    <p class="node-year">2012</p>
+    <h3 class="node-nickname">AlexNet</h3>
+    <p class="node-hook">Two gaming GPUs beat a decade of hand-built vision — by ten points, in a contest where progress was measured in one.</p>
+    <p class="node-consequence">General methods that scale with compute and data beat expert hand-engineering — the bet every paper after this one repeats.</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">4 min</span>
+      <span class="chip chip-build">build it: $0 · one evening</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="alexnet" hidden aria-hidden="true">&#10003;</span>
+</article>
+<article class="node-card" data-slug="resnet" data-cat="foundations" data-date="2015-12">
+  <a class="node-link" href="papers/resnet.html">
+    <p class="node-year">2015</p>
+    <h3 class="node-nickname">ResNet</h3>
+    <p class="node-hook">A 56-layer network was losing to its own 20-layer version — until two characters of algebra, &#x27;+ x&#x27;, made 152 layers trainable and swept ImageNet.</p>
+    <p class="node-consequence">That &#x27;+ x&#x27; skip connection now sits inside every Transformer block — the residual stream your interpretability tools talk about is literally this path.</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">5 min</span>
+      <span class="chip chip-build">build it: $0–5 · a weekend</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="resnet" hidden aria-hidden="true">&#10003;</span>
+</article>
+<p class="gap-caption" data-gap-after="1">2016: attention already exists — invented in 2014 as a patch bolted onto recurrent networks. Nobody has yet tried keeping the patch and throwing away the machine.</p>
+<header class="act-band" data-act="2">
+  <p class="act-kicker">Act II &middot; 2017</p>
+  <h2 class="act-title">The architecture</h2>
+  <p class="act-copy">One equation replaces reading-in-order with looking-everywhere-at-once, and training goes parallel across the whole sequence. Parallel is what makes everything after this point on the curve physically affordable.</p>
+</header>
+<article class="node-card" data-slug="transformer" data-cat="foundations" data-date="2017-06">
+  <a class="node-link" href="papers/transformer.html">
+    <p class="node-year">2017</p>
+    <h3 class="node-nickname">Transformer</h3>
+    <p class="node-hook">Eight GPUs, three and a half days, one equation — and the machine-translation record fell to an architecture that deleted the thing everyone thought language required: reading in order.</p>
+    <p class="node-consequence">Attention compares every token against every other, so cost grows with the square of context — this one equation is your API bill, your latency, and the reason prompt caching exists.</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">8 min</span>
+      <span class="chip chip-build">build it: $0–10 · a weekend</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="transformer" hidden aria-hidden="true">&#10003;</span>
+</article>
+<header class="act-band" data-act="3">
+  <p class="act-kicker">Act III &middot; 2019–2021</p>
+  <h2 class="act-title">The scaling era</h2>
+  <p class="act-copy">Next-token prediction turns out to contain every task, loss falls as a straight line you can budget against, and parameter count decouples from cost per token. Capability becomes something you purchase.</p>
+</header>
+<article class="node-card" data-slug="gpt2" data-cat="llm-core" data-date="2019-02">
+  <a class="node-link" href="papers/gpt2.html">
+    <p class="node-year">2019</p>
+    <h3 class="node-nickname">GPT-2</h3>
+    <p class="node-hook">Trained on one dumb objective — predict the next word across 40GB of internet — it started translating, summarizing, and answering questions anyway. Nobody trained it to do any of that.</p>
+    <p class="node-consequence">The default question flips from &#x27;how do I train a model for task X&#x27; to &#x27;how do I elicit task X from a model that already learned it.&#x27;</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">6 min</span>
+      <span class="chip chip-build">build it: $0 · one evening</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="gpt2" hidden aria-hidden="true">&#10003;</span>
+</article>
+<article class="node-card" data-slug="scaling-laws" data-cat="llm-core" data-date="2020-01">
+  <a class="node-link" href="papers/scaling-laws.html">
+    <p class="node-year">2020</p>
+    <h3 class="node-nickname">Scaling Laws</h3>
+    <p class="node-hook">Plot loss against compute on log axes and the points fall on a dead-straight line for eight orders of magnitude — capability suddenly had a price list you could read with a ruler.</p>
+    <p class="node-consequence">&#x27;Wait for the next model&#x27; becomes a strategy with a price and a date attached — never build the thing one more order of magnitude erases.</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">10 min</span>
+      <span class="chip chip-build">build it: $0–30 · a weekend</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="scaling-laws" hidden aria-hidden="true">&#10003;</span>
+</article>
+<article class="node-card" data-slug="gpt3" data-cat="llm-core" data-date="2020-05">
+  <a class="node-link" href="papers/gpt3.html">
+    <p class="node-year">2020</p>
+    <h3 class="node-nickname">GPT-3</h3>
+    <p class="node-hook">At 175 billion parameters, you can teach it a new task by typing three examples into the prompt — no training run, no weights touched, nothing remembered when you leave.</p>
+    <p class="node-consequence">Few-shot examples are still the cheapest quality lever you own, and in-context learning is the mechanism that makes RAG work at all.</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">6 min</span>
+      <span class="chip chip-build">build it: $5 · one evening</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="gpt3" hidden aria-hidden="true">&#10003;</span>
+</article>
+<article class="node-card" data-slug="moe" data-cat="llm-core" data-date="2021-01">
+  <a class="node-link" href="papers/moe.html">
+    <p class="node-year">2021</p>
+    <h3 class="node-nickname">Mixture-of-Experts</h3>
+    <p class="node-hook">Google scaled a model toward a trillion parameters while compute per token stayed flat — a learned router sends each token to exactly one expert, and pretraining ran up to 7× faster on the same budget.</p>
+    <p class="node-consequence">Parameter count and inference cost are separate axes now — compare models by active parameters, not headline size, and you&#x27;ll understand why API prices keep falling as capability rises.</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">6 min</span>
+      <span class="chip chip-build">build it: $0–10 · a weekend</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="moe" hidden aria-hidden="true">&#10003;</span>
+</article>
+<header class="act-band" data-act="4">
+  <p class="act-kicker">Act IV &middot; 2021–2022</p>
+  <h2 class="act-title">Four threads at once</h2>
+  <p class="act-copy">Scale stops being the whole story. Four threads pull at once — seeing (CLIP), generating (Stable Diffusion), customizing (LoRA), and aligning (Chain-of-Thought, RLHF, Constitutional AI) — eighteen months that turn raw models into products.</p>
+</header>
+<article class="node-card" data-slug="clip" data-cat="beyond-text" data-date="2021-03">
+  <a class="node-link" href="papers/clip.html">
+    <p class="node-year">2021</p>
+    <h3 class="node-nickname">CLIP</h3>
+    <p class="node-hook">Type &#x27;a photo of a dog&#x27; and classification becomes retrieval: trained on 400 million web captions, it matched a supervised model on ImageNet while using zero of its 1.28 million hand-labeled examples.</p>
+    <p class="node-consequence">&#x27;Embed both sides into one space, then nearest-neighbor&#x27; is the workhorse under every vector DB, semantic search, and RAG retriever you ship.</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">4 min</span>
+      <span class="chip chip-build">build it: $0 · one evening</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="clip" hidden aria-hidden="true">&#10003;</span>
+</article>
+<article class="node-card" data-slug="lora" data-cat="for-builders" data-date="2021-06">
+  <a class="node-link" href="papers/lora.html">
+    <p class="node-year">2021</p>
+    <h3 class="node-nickname">LoRA</h3>
+    <p class="node-hook">Fine-tuning GPT-3 meant saving a 350GB checkpoint per task. LoRA matches it with a 35MB file — 10,000× fewer trainable parameters, 3× less GPU memory, zero added latency.</p>
+    <p class="node-consequence">Fine-tuning becomes a product feature instead of a capital expense — one frozen base model, a swappable 35MB adapter per customer.</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">5 min</span>
+      <span class="chip chip-build">build it: $0 · one evening</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="lora" hidden aria-hidden="true">&#10003;</span>
+</article>
+<article class="node-card" data-slug="stable-diffusion" data-cat="beyond-text" data-date="2021-12">
+  <a class="node-link" href="papers/stable-diffusion.html">
+    <p class="node-year">2021</p>
+    <h3 class="node-nickname">Stable Diffusion</h3>
+    <p class="node-hook">A 512×512 image is 786,432 numbers; this model paints in a compressed space of 16,384 — and that ~48× discount on every one of ~50 denoising steps is what put image generation on gaming GPUs.</p>
+    <p class="node-consequence">The biggest cost wins come from changing the space you compute in — and shipping open weights against a better-funded closed rival turned its users into its R&amp;D department.</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">8 min</span>
+      <span class="chip chip-build">build it: $0 · one evening</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="stable-diffusion" hidden aria-hidden="true">&#10003;</span>
+</article>
+<article class="node-card" data-slug="cot" data-cat="making-useful" data-date="2022-01">
+  <a class="node-link" href="papers/cot.html">
+    <p class="node-year">2022</p>
+    <h3 class="node-nickname">Chain-of-Thought</h3>
+    <p class="node-hook">Same model, same weights: show it worked examples with the steps written out and its math-word-problem score triples — 17.9% to 56.9%, from a prompt change you could type yourself.</p>
+    <p class="node-consequence">Answer quality becomes a runtime dial — more reasoning tokens, better answers, bigger bill; that&#x27;s the extended-thinking toggle you flip today.</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">7 min</span>
+      <span class="chip chip-build">build it: $5 · one evening</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="cot" hidden aria-hidden="true">&#10003;</span>
+</article>
+<article class="node-card" data-slug="rlhf" data-cat="making-useful" data-date="2022-03">
+  <a class="node-link" href="papers/rlhf.html">
+    <p class="node-year">2022</p>
+    <h3 class="node-nickname">InstructGPT / RLHF</h3>
+    <p class="node-hook">Human raters preferred a 1.3-billion-parameter model over the 175-billion-parameter GPT-3 — a hundred times smaller, and better, because three training steps taught it to actually try to help.</p>
+    <p class="node-consequence">The quality users feel is post-training, not scale — preference-tuning on your task can beat upgrading to a bigger model, and vendors&#x27; different &#x27;personalities&#x27; are the reward model showing through.</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">7 min</span>
+      <span class="chip chip-build">build it: $0 · one evening</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="rlhf" hidden aria-hidden="true">&#10003;</span>
+</article>
+<article class="node-card" data-slug="constitutional-ai" data-cat="making-useful" data-date="2022-12">
+  <a class="node-link" href="papers/constitutional-ai.html">
+    <p class="node-year">2022</p>
+    <h3 class="node-nickname">Constitutional AI</h3>
+    <p class="node-hook">Anthropic swapped tens of thousands of human harmlessness labels for 16 plain-English principles the model applies to itself — and got a model that was less harmful without refusing more.</p>
+    <p class="node-consequence">Supervising a model with a model plus written rules is now the standard pattern — LLM-as-judge, self-critique loops, and policy-in-the-prompt all descend from this paper.</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">7 min</span>
+      <span class="chip chip-build">build it: $1 · one evening</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="constitutional-ai" hidden aria-hidden="true">&#10003;</span>
+</article>
+<p class="gap-caption" data-gap-after="4">2023–24: the frontier went closed. GPT-4 arrived as a technical report that named no parameter count, and the best ideas became trade secrets — and then, abruptly, they didn&#x27;t.</p>
+<header class="act-band" data-act="5">
+  <p class="act-kicker">Act V &middot; 2025</p>
+  <h2 class="act-title">The reasoning era</h2>
+  <p class="act-copy">Pure reinforcement learning against an automatic answer-checker teaches a model to reason, and the weights ship openly, matching the best closed lab. The curve keeps descending — the open question is who draws the next segment.</p>
+</header>
+<article class="node-card" data-slug="deepseek-r1" data-cat="making-useful" data-date="2025-01">
+  <a class="node-link" href="papers/deepseek-r1.html">
+    <p class="node-year">2025</p>
+    <h3 class="node-nickname">DeepSeek-R1</h3>
+    <p class="node-hook">Reward exactly one thing — &#x27;the final answer is correct&#x27; — and competition-math scores climb from 15.6% to 71.0% with zero human reasoning examples. The polished model matched OpenAI&#x27;s o1 and shipped its weights.</p>
+    <p class="node-consequence">Post-training is where differentiation lives now — if your domain has an automatic success check, it&#x27;s a candidate for RL, and any closed capability gets replicated openly within months.</p>
+    <p class="node-chips">
+      <span class="chip chip-minutes">8 min</span>
+      <span class="chip chip-build">build it: $30 · one week</span>
+    </p>
+  </a>
+  <span class="node-check" data-check="deepseek-r1" hidden aria-hidden="true">&#10003;</span>
+</article>
+<!-- END:NODES -->
+      <!-- The marked block above is owned by tools/build_timeline.py: act
+           bands, 14 node cards, and gap captions baked chronologically from
+           docs/papers.json. Never hand-edit inside the markers. -->
+
+      <!-- THE 15TH NODE (SPEC §4) — not a paper, so it lives outside the
+           baked block and outside the category system. With JS: spine.js
+           strips .is-revealed at boot so the node sits unlabeled at rest,
+           then re-adds it when the node crosses 70% of the viewport — the
+           caption "2026: you" fades in (DESIGN §7). It ships revealed in
+           static HTML so the link stays readable JS-off (SPEC §9). -->
+      <a class="handoff is-revealed" id="you" href="build.html" data-you-node>
+        <p class="kicker">2026 · <span class="cat">the fifteenth node</span></p>
+        <p class="you-caption">2026: you</p>
+        <p class="small">The curve doesn’t stop at the last paper — the next
+          point is unlabeled. See what you can build this weekend, and where
+          to start.</p>
+      </a>
+    </section>
+
+  </main>
+
+  <!-- FOOTER (SPEC §4): sibling banner, build.html, GitHub, colophon. -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="build.html">2026: you — the participation ladder</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

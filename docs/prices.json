@@ -1,0 +1,17 @@
+{
+  "asOf": "2026-07",
+  "gpu": {
+    "usdPerHour": 2.50,
+    "range": [1.50, 7.00],
+    "peakFlops": 989e12,
+    "mfu": 0.40,
+    "source": "see research/scalingMath.json price anchors"
+  },
+  "api": {
+    "model": "",
+    "inputPerMTok": 0,
+    "outputPerMTok": 0,
+    "sourceUrl": "",
+    "note": "fetched at CP3"
+  }
+}

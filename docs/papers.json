@@ -1,0 +1,615 @@
+{
+  "acts": [
+    {
+      "act": 1,
+      "title": "The bet on scale",
+      "years": "2012–2015",
+      "bandCopy": "A generic network fed with GPUs and data crushes a decade of hand-engineered vision, and then depth itself gets fixed with two characters of algebra. The bet that opens the curve: general methods that scale beat clever methods that don't.",
+      "gapCaptionAfter": "2016: attention already exists — invented in 2014 as a patch bolted onto recurrent networks. Nobody has yet tried keeping the patch and throwing away the machine."
+    },
+    {
+      "act": 2,
+      "title": "The architecture",
+      "years": "2017",
+      "bandCopy": "One equation replaces reading-in-order with looking-everywhere-at-once, and training goes parallel across the whole sequence. Parallel is what makes everything after this point on the curve physically affordable.",
+      "gapCaptionAfter": null
+    },
+    {
+      "act": 3,
+      "title": "The scaling era",
+      "years": "2019–2021",
+      "bandCopy": "Next-token prediction turns out to contain every task, loss falls as a straight line you can budget against, and parameter count decouples from cost per token. Capability becomes something you purchase.",
+      "gapCaptionAfter": null
+    },
+    {
+      "act": 4,
+      "title": "Four threads at once",
+      "years": "2021–2022",
+      "bandCopy": "Scale stops being the whole story. Four threads pull at once — seeing (CLIP), generating (Stable Diffusion), customizing (LoRA), and aligning (Chain-of-Thought, RLHF, Constitutional AI) — eighteen months that turn raw models into products.",
+      "gapCaptionAfter": "2023–24: the frontier went closed. GPT-4 arrived as a technical report that named no parameter count, and the best ideas became trade secrets — and then, abruptly, they didn't."
+    },
+    {
+      "act": 5,
+      "title": "The reasoning era",
+      "years": "2025",
+      "bandCopy": "Pure reinforcement learning against an automatic answer-checker teaches a model to reason, and the weights ship openly, matching the best closed lab. The curve keeps descending — the open question is who draws the next segment.",
+      "gapCaptionAfter": null
+    }
+  ],
+  "papers": [
+    {
+      "slug": "alexnet",
+      "title": "ImageNet Classification with Deep Convolutional Neural Networks",
+      "nickname": "AlexNet",
+      "authorsShort": "Krizhevsky, Sutskever & Hinton, University of Toronto",
+      "date": "2012-12",
+      "arxiv": null,
+      "paperUrl": "https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks",
+      "venue": "NeurIPS 2012",
+      "act": 1,
+      "category": "foundations",
+      "tier": "plate",
+      "status": "plate",
+      "minutes": 4,
+      "hook": "Two gaming GPUs beat a decade of hand-built vision — by ten points, in a contest where progress was measured in one.",
+      "consequence": "General methods that scale with compute and data beat expert hand-engineering — the bet every paper after this one repeats.",
+      "cliffhanger": "Everyone's answer was more layers. Then the deeper networks started losing to the shallow ones — not overfitting, failing to train at all.",
+      "buildChip": "build it: $0 · one evening",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — or just the abstract and the results table; the 10.9-point gap is the whole argument.",
+            "href": "https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks",
+            "time": "1 hr",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Train an AlexNet-style CNN on CIFAR-10 in a free Colab — conv → pool → FC gets ~60% in minutes; add depth and augmentation and watch accuracy climb. The 'general methods + compute' lesson, felt firsthand.",
+            "href": "https://docs.pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html",
+            "time": "2–4 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "tweak",
+            "text": "Then do it the modern way: transfer-learn MobileNetV2 instead of training from scratch — the author's dogs-vs-cats repo is the AlexNet playbook, updated.",
+            "href": "https://github.com/NavSha/dogs-vs-cats",
+            "time": "one evening",
+            "cost": "$0"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "resnet",
+      "title": "Deep Residual Learning for Image Recognition",
+      "nickname": "ResNet",
+      "authorsShort": "He et al., Microsoft Research",
+      "date": "2015-12",
+      "arxiv": "1512.03385",
+      "paperUrl": "https://arxiv.org/abs/1512.03385",
+      "venue": "CVPR 2016",
+      "act": 1,
+      "category": "foundations",
+      "tier": "plate",
+      "status": "plate",
+      "minutes": 5,
+      "hook": "A 56-layer network was losing to its own 20-layer version — until two characters of algebra, '+ x', made 152 layers trainable and swept ImageNet.",
+      "consequence": "That '+ x' skip connection now sits inside every Transformer block — the residual stream your interpretability tools talk about is literally this path.",
+      "cliffhanger": "Vision could now go as deep as it liked. Language was still trapped reading one word at a time — until a translation team asked what would survive if they deleted the recurrence entirely.",
+      "buildChip": "build it: $0–5 · a weekend",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — Figure 1's paradox (deeper plain nets have worse training error) and the one-line fix, y = F(x) + x, are the whole story.",
+            "href": "https://arxiv.org/abs/1512.03385",
+            "time": "1–2 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Reproduce Figure 1 yourself: train plain-20 vs plain-56 vs ResNet-20/56 on CIFAR-10 and watch the deeper plain net lose until you add skip connections — the degradation problem and its fix on one chart you made.",
+            "href": "https://github.com/akamaster/pytorch_resnet_cifar10",
+            "time": "1–2 days (mostly training wall-clock)",
+            "cost": "$0–5"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "transformer",
+      "title": "Attention Is All You Need",
+      "nickname": "Transformer",
+      "authorsShort": "Vaswani et al., Google Brain",
+      "date": "2017-06",
+      "arxiv": "1706.03762",
+      "paperUrl": "https://arxiv.org/abs/1706.03762",
+      "venue": "NeurIPS 2017",
+      "act": 2,
+      "category": "foundations",
+      "tier": "widget",
+      "status": "plate",
+      "minutes": 8,
+      "hook": "Eight GPUs, three and a half days, one equation — and the machine-translation record fell to an architecture that deleted the thing everyone thought language required: reading in order.",
+      "consequence": "Attention compares every token against every other, so cost grows with the square of context — this one equation is your API bill, your latency, and the reason prompt caching exists.",
+      "cliffhanger": "The recipe now existed. Nobody had asked what happens if you just... make it bigger.",
+      "buildChip": "build it: $0–10 · a weekend",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — the attention equation reads as a fuzzy database query, and everything else is engineering around it.",
+            "href": "https://arxiv.org/abs/1706.03762",
+            "time": "2 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Build a GPT from scratch with nanoGPT's shakespeare_char config — you write the attention block yourself, and the paper's core diagram becomes ~30 lines of code. Karpathy's 'Let's build GPT' video is the guided path.",
+            "href": "https://github.com/karpathy/nanoGPT",
+            "time": "a weekend (a focused day with the video)",
+            "cost": "$0–10"
+          },
+          {
+            "tag": "train",
+            "text": "Go bigger: the author's tiny-llm-pipeline pretrains a ~12M-param GPT on TinyStories on a MacBook — and the author's taylor-transformer site walks the same architecture interactively.",
+            "href": "https://github.com/NavSha/tiny-llm-pipeline",
+            "time": "a weekend",
+            "cost": "$0"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "gpt2",
+      "title": "Language Models are Unsupervised Multitask Learners",
+      "nickname": "GPT-2",
+      "authorsShort": "Radford et al., OpenAI",
+      "date": "2019-02",
+      "arxiv": null,
+      "paperUrl": "https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf",
+      "venue": "OpenAI 2019",
+      "act": 3,
+      "category": "llm-core",
+      "tier": "scrolly",
+      "status": "plate",
+      "minutes": 6,
+      "hook": "Trained on one dumb objective — predict the next word across 40GB of internet — it started translating, summarizing, and answering questions anyway. Nobody trained it to do any of that.",
+      "consequence": "The default question flips from 'how do I train a model for task X' to 'how do I elicit task X from a model that already learned it.'",
+      "cliffhanger": "Bigger kept working — but 'bigger helps' is a hunch, not a budget. Someone at OpenAI decided to measure exactly how much better, and found a straight line.",
+      "buildChip": "build it: $0 · one evening",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — Figure 1's four rising lines (reading, translation, summarization, QA vs model size, with zero task training) are the thesis GPT-3 later proved at scale.",
+            "href": "https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf",
+            "time": "1–2 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Reproduce the real GPT-2 124M — not a toy — with llm.c: ~90 minutes on an 8×A100 node at ~$14/hr, following Karpathy's own writeup.",
+            "href": "https://github.com/karpathy/llm.c/discussions/481",
+            "time": "90 min compute + half a day setup",
+            "cost": "$20"
+          },
+          {
+            "tag": "tweak",
+            "text": "Budget version: fine-tune OpenAI's released GPT-2 weights on your own writing with nanoGPT — free, and the model starts sounding like you.",
+            "href": "https://github.com/karpathy/nanoGPT",
+            "time": "one evening",
+            "cost": "$0"
+          },
+          {
+            "tag": "train",
+            "text": "Or walk this paper's whole arc at toy scale — the author's tiny-llm-pipeline goes data curation → BPE tokenizer → pretrain → SFT/DPO → serving.",
+            "href": "https://github.com/NavSha/tiny-llm-pipeline",
+            "time": "a weekend, spread over evenings",
+            "cost": "$0"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "scaling-laws",
+      "title": "Scaling Laws for Neural Language Models",
+      "nickname": "Scaling Laws",
+      "authorsShort": "Kaplan et al., OpenAI",
+      "date": "2020-01",
+      "arxiv": "2001.08361",
+      "paperUrl": "https://arxiv.org/abs/2001.08361",
+      "venue": "arXiv 2020",
+      "act": 3,
+      "category": "llm-core",
+      "tier": "widget",
+      "status": "plate",
+      "minutes": 10,
+      "hook": "Plot loss against compute on log axes and the points fall on a dead-straight line for eight orders of magnitude — capability suddenly had a price list you could read with a ruler.",
+      "consequence": "'Wait for the next model' becomes a strategy with a price and a date attached — never build the thing one more order of magnitude erases.",
+      "cliffhanger": "OpenAI ran the ruler to its conclusion: 175 billion parameters, ten times anything before it. What came out the other side wasn't just a better text predictor.",
+      "buildChip": "build it: $0–30 · a weekend",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — Figure 1's three straight lines are the message; nobody needs to parse the exponents. Then note the 2022 Chinchilla correction: scale data with parameters.",
+            "href": "https://arxiv.org/abs/2001.08361",
+            "time": "2 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Discover the law yourself: train three or four nanoGPT sizes (0.1M / 1M / 6M params) on the same data, plot final loss vs params on log-log axes, and watch the straight line appear — Kaplan's trends are visible at just 6.3M params, per an open replication with public training curves.",
+            "href": "https://github.com/shehper/scaling_laws",
+            "time": "a weekend (mostly unattended training)",
+            "cost": "$0–30"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "gpt3",
+      "title": "Language Models are Few-Shot Learners",
+      "nickname": "GPT-3",
+      "authorsShort": "Brown et al., OpenAI",
+      "date": "2020-05",
+      "arxiv": "2005.14165",
+      "paperUrl": "https://arxiv.org/abs/2005.14165",
+      "venue": "NeurIPS 2020",
+      "act": 3,
+      "category": "llm-core",
+      "tier": "scrolly",
+      "status": "plate",
+      "minutes": 6,
+      "hook": "At 175 billion parameters, you can teach it a new task by typing three examples into the prompt — no training run, no weights touched, nothing remembered when you leave.",
+      "consequence": "Few-shot examples are still the cheapest quality lever you own, and in-context learning is the mechanism that makes RAG work at all.",
+      "cliffhanger": "Dense scale had one brutal invoice: all 175 billion parameters fire on every single token. Google's next trick — let most of the model sit each token out.",
+      "buildChip": "build it: $5 · one evening",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — or just Figure 1.2: accuracy vs number of in-context examples, per model size. You have personally lived this curve every time examples improved your prompt.",
+            "href": "https://arxiv.org/abs/2005.14165",
+            "time": "1–2 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Plot the in-context-learning curve yourself: pick one task, run it at 0/1/5/10 shots against a strong API model and a small local base model, plot accuracy vs shots — ICL working at scale and barely existing below it, in one chart of your own.",
+            "href": "https://huggingface.co/datasets/openai/gsm8k",
+            "time": "one evening",
+            "cost": "<$5"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "moe",
+      "title": "Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity",
+      "nickname": "Mixture-of-Experts",
+      "authorsShort": "Fedus et al., Google Brain",
+      "date": "2021-01",
+      "arxiv": "2101.03961",
+      "paperUrl": "https://arxiv.org/abs/2101.03961",
+      "venue": "JMLR 2022",
+      "act": 3,
+      "category": "llm-core",
+      "tier": "scrolly",
+      "status": "plate",
+      "minutes": 6,
+      "hook": "Google scaled a model toward a trillion parameters while compute per token stayed flat — a learned router sends each token to exactly one expert, and pretraining ran up to 7× faster on the same budget.",
+      "consequence": "Parameter count and inference cost are separate axes now — compare models by active parameters, not headline size, and you'll understand why API prices keep falling as capability rises.",
+      "cliffhanger": "While the text race compounded, a parallel bet at OpenAI came due: 400 million image–caption pairs, and a model that learned to see without a single hand-drawn label.",
+      "buildChip": "build it: $0–10 · a weekend",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — the routing diagram in Figure 2 is a load balancer you have already drawn for microservices, and the abstract's 7× is the payoff in one number.",
+            "href": "https://arxiv.org/abs/2101.03961",
+            "time": "1–2 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Build a ~9M-param sparse MoE language model from scratch with makeMoE (the step-by-step Hugging Face blog walkthrough pairs with it): swap a dense FFN for 4–8 expert MLPs with noisy top-k gating, then log which tokens route where and watch specialization emerge.",
+            "href": "https://github.com/AviSoori1x/makeMoE",
+            "time": "a weekend",
+            "cost": "$0–10"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "clip",
+      "title": "Learning Transferable Visual Models From Natural Language Supervision",
+      "nickname": "CLIP",
+      "authorsShort": "Radford et al., OpenAI",
+      "date": "2021-03",
+      "arxiv": "2103.00020",
+      "paperUrl": "https://arxiv.org/abs/2103.00020",
+      "venue": "ICML 2021",
+      "act": 4,
+      "category": "beyond-text",
+      "tier": "plate",
+      "status": "plate",
+      "minutes": 4,
+      "hook": "Type 'a photo of a dog' and classification becomes retrieval: trained on 400 million web captions, it matched a supervised model on ImageNet while using zero of its 1.28 million hand-labeled examples.",
+      "consequence": "'Embed both sides into one space, then nearest-neighbor' is the workhorse under every vector DB, semantic search, and RAG retriever you ship.",
+      "cliffhanger": "Models this general made everyone want their own. But customizing GPT-3 meant a 350GB checkpoint per task — until someone noticed the changes fine-tuning makes are mostly redundant.",
+      "buildChip": "build it: $0 · one evening",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — Figure 1's N×N matching grid (push the diagonal up, everything else down) is the whole idea in one glance.",
+            "href": "https://arxiv.org/abs/2103.00020",
+            "time": "1–2 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Build a zero-shot classifier over your own photo library in ~10 lines with open_clip — search your photos by typing text. This is the vector-search intuition, live.",
+            "href": "https://github.com/mlfoundations/open_clip",
+            "time": "one evening",
+            "cost": "$0"
+          },
+          {
+            "tag": "train",
+            "text": "Train a mini-CLIP from scratch: ResNet + DistilBERT encoders, contrastive loss, Flickr8k's 8,000 image–caption pairs — and watch retrieval start working.",
+            "href": "https://wandb.ai/manan-goel/coco-clip/reports/Implementing-CLIP-With-PyTorch-Lightning--VmlldzoyMzg4Njk1",
+            "time": "a weekend",
+            "cost": "$0–10"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "lora",
+      "title": "LoRA: Low-Rank Adaptation of Large Language Models",
+      "nickname": "LoRA",
+      "authorsShort": "Hu et al., Microsoft",
+      "date": "2021-06",
+      "arxiv": "2106.09685",
+      "paperUrl": "https://arxiv.org/abs/2106.09685",
+      "venue": "ICLR 2022",
+      "act": 4,
+      "category": "for-builders",
+      "tier": "plate",
+      "status": "plate",
+      "minutes": 5,
+      "hook": "Fine-tuning GPT-3 meant saving a 350GB checkpoint per task. LoRA matches it with a 35MB file — 10,000× fewer trainable parameters, 3× less GPU memory, zero added latency.",
+      "consequence": "Fine-tuning becomes a product feature instead of a capital expense — one frozen base model, a swappable 35MB adapter per customer.",
+      "cliffhanger": "Text had its cheap customization trick. Image generation was still hurling GPU time at 786,432 pixels per picture — until a Munich lab asked why the painting couldn't happen somewhere 48× smaller.",
+      "buildChip": "build it: $0 · one evening",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — Figure 1 (big frozen W, skinny trainable bypass B·A) plus napkin arithmetic is the whole method: a d×k update costs d·k numbers; the rank-r version costs d·r + r·k.",
+            "href": "https://arxiv.org/abs/2106.09685",
+            "time": "1–2 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Fine-tune a 1–3B model on your own MacBook with mlx_lm.lora and 200–500 examples — re-use the Taylor Swift lyrics from the author's taylor-lstm for the perfect callback: same data, LSTM in 2023, LoRA'd LLM now. Print trainable vs total params and see <1%.",
+            "href": "https://github.com/ml-explore/mlx-lm",
+            "time": "one evening",
+            "cost": "$0"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "stable-diffusion",
+      "title": "High-Resolution Image Synthesis with Latent Diffusion Models",
+      "nickname": "Stable Diffusion",
+      "authorsShort": "Rombach et al., LMU Munich & Runway",
+      "date": "2021-12",
+      "arxiv": "2112.10752",
+      "paperUrl": "https://arxiv.org/abs/2112.10752",
+      "venue": "CVPR 2022",
+      "act": 4,
+      "category": "beyond-text",
+      "tier": "widget",
+      "status": "plate",
+      "minutes": 8,
+      "hook": "A 512×512 image is 786,432 numbers; this model paints in a compressed space of 16,384 — and that ~48× discount on every one of ~50 denoising steps is what put image generation on gaming GPUs.",
+      "consequence": "The biggest cost wins come from changing the space you compute in — and shipping open weights against a better-funded closed rival turned its users into its R&D department.",
+      "cliffhanger": "Machines could now see, write, and paint. They still face-planted on grade-school word problems — and the fix required training nothing at all.",
+      "buildChip": "build it: $0 · one evening",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — Figure 3's three zones (pixel space | latent space | conditioning) answer the real question: how does my prompt become an image? The cross-attention arrows are the Transformer page's equation, reused.",
+            "href": "https://arxiv.org/abs/2112.10752",
+            "time": "1–2 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Train a DDPM from scratch on MNIST with the Hugging Face diffusion course — a ~2M-param U-Net, ~10 minutes on a small GPU — then sample it and watch pure noise denoise into digits you generated.",
+            "href": "https://huggingface.co/learn/diffusion-course/en/unit1/3",
+            "time": "one evening",
+            "cost": "$0"
+          },
+          {
+            "tag": "tweak",
+            "text": "LoRA-fine-tune actual Stable Diffusion on ~20 of your own photos with diffusers' DreamBooth-LoRA scripts.",
+            "href": "https://github.com/huggingface/diffusers",
+            "time": "a weekend",
+            "cost": "$0"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "cot",
+      "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+      "nickname": "Chain-of-Thought",
+      "authorsShort": "Wei et al., Google Brain",
+      "date": "2022-01",
+      "arxiv": "2201.11903",
+      "paperUrl": "https://arxiv.org/abs/2201.11903",
+      "venue": "NeurIPS 2022",
+      "act": 4,
+      "category": "making-useful",
+      "tier": "widget",
+      "status": "plate",
+      "minutes": 7,
+      "hook": "Same model, same weights: show it worked examples with the steps written out and its math-word-problem score triples — 17.9% to 56.9%, from a prompt change you could type yourself.",
+      "consequence": "Answer quality becomes a runtime dial — more reasoning tokens, better answers, bigger bill; that's the extended-thinking toggle you flip today.",
+      "cliffhanger": "Prompting could unlock reasoning, but the raw model underneath still wasn't trying to help anyone. Turning a predictor into an assistant took three training steps and a team of about forty labelers.",
+      "buildChip": "build it: $5 · one evening",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — the Roger-and-his-tennis-balls exemplar is the entire technique, verbatim, and the appendix carries full outputs for both prompting conditions.",
+            "href": "https://arxiv.org/abs/2201.11903",
+            "time": "1–2 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Reproduce the headline with a cost meter attached: run 50 GSM8K problems in three conditions (direct / 'think step by step' / few-shot CoT), tracking accuracy AND tokens per condition — ~30 lines of Python, and 'buy quality with tokens' becomes a number instead of a slogan.",
+            "href": "https://huggingface.co/datasets/openai/gsm8k",
+            "time": "one evening",
+            "cost": "<$5"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "rlhf",
+      "title": "Training language models to follow instructions with human feedback",
+      "nickname": "InstructGPT / RLHF",
+      "authorsShort": "Ouyang et al., OpenAI",
+      "date": "2022-03",
+      "arxiv": "2203.02155",
+      "paperUrl": "https://arxiv.org/abs/2203.02155",
+      "venue": "NeurIPS 2022",
+      "act": 4,
+      "category": "making-useful",
+      "tier": "scrolly",
+      "status": "plate",
+      "minutes": 7,
+      "hook": "Human raters preferred a 1.3-billion-parameter model over the 175-billion-parameter GPT-3 — a hundred times smaller, and better, because three training steps taught it to actually try to help.",
+      "consequence": "The quality users feel is post-training, not scale — preference-tuning on your task can beat upgrading to a bigger model, and vendors' different 'personalities' are the reward model showing through.",
+      "cliffhanger": "It worked — powered by tens of thousands of human judgments nobody could read, audit, or argue with. Anthropic's counter-proposal: what if the values were just written down?",
+      "buildChip": "build it: $0 · one evening",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — the three-box pipeline (SFT → reward model → PPO) is the most-redrawn diagram in the industry, and the 1.3B-beats-175B result is the abstract's first punch.",
+            "href": "https://arxiv.org/abs/2203.02155",
+            "time": "1–2 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Turn a raw base model into an assistant with your own hands: SFT then DPO on Qwen2.5-0.5B with TRL and UltraFeedback preference pairs, on a free Colab T4 — then chat with the before/after checkpoints and feel the alignment layer.",
+            "href": "https://github.com/huggingface/trl",
+            "time": "one evening",
+            "cost": "$0"
+          },
+          {
+            "tag": "train",
+            "text": "Add PPO with TRL's PPOTrainer for the historically faithful version — or walk the author's tiny-llm-pipeline, which runs this same SFT→DPO alignment stage on a from-scratch tiny GPT.",
+            "href": "https://github.com/NavSha/tiny-llm-pipeline",
+            "time": "a weekend",
+            "cost": "$0"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "constitutional-ai",
+      "title": "Constitutional AI: Harmlessness from AI Feedback",
+      "nickname": "Constitutional AI",
+      "authorsShort": "Bai et al., Anthropic",
+      "date": "2022-12",
+      "arxiv": "2212.08073",
+      "paperUrl": "https://arxiv.org/abs/2212.08073",
+      "venue": "arXiv 2022",
+      "act": 4,
+      "category": "making-useful",
+      "tier": "scrolly",
+      "status": "plate",
+      "minutes": 7,
+      "hook": "Anthropic swapped tens of thousands of human harmlessness labels for 16 plain-English principles the model applies to itself — and got a model that was less harmful without refusing more.",
+      "consequence": "Supervising a model with a model plus written rules is now the standard pattern — LLM-as-judge, self-critique loops, and policy-in-the-prompt all descend from this paper.",
+      "cliffhanger": "AI could now supervise AI's behavior. The remaining question — could a model teach itself to reason? — sat unanswered while the frontier went closed. The answer, when it came, came with the weights attached.",
+      "buildChip": "build it: $1 · one evening",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — the 16 principles in the appendix are literally readable sentences ('choose the response that is less harmful...'); pick one and argue with it.",
+            "href": "https://arxiv.org/abs/2212.08073",
+            "time": "1–2 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Write your own 5-principle constitution and run the CAI loop by hand via API: the model answers a red-team prompt, critiques its own answer against your principles, revises — compare before and after.",
+            "href": "https://huggingface.co/blog/constitutional_ai",
+            "time": "one evening",
+            "cost": "~$1"
+          },
+          {
+            "tag": "train",
+            "text": "Run the full open recipe: generate an AI-feedback preference dataset from a constitution and DPO-train Mistral-7B on it — Hugging Face's result resisted jailbreaks better without losing helpfulness.",
+            "href": "https://github.com/huggingface/alignment-handbook/tree/main/recipes/constitutional-ai",
+            "time": "a weekend",
+            "cost": "$20–40"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "deepseek-r1",
+      "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+      "nickname": "DeepSeek-R1",
+      "authorsShort": "DeepSeek-AI",
+      "date": "2025-01",
+      "arxiv": "2501.12948",
+      "paperUrl": "https://arxiv.org/abs/2501.12948",
+      "venue": "arXiv 2025",
+      "act": 5,
+      "category": "making-useful",
+      "tier": "scrolly",
+      "status": "plate",
+      "minutes": 8,
+      "hook": "Reward exactly one thing — 'the final answer is correct' — and competition-math scores climb from 15.6% to 71.0% with zero human reasoning examples. The polished model matched OpenAI's o1 and shipped its weights.",
+      "consequence": "Post-training is where differentiation lives now — if your domain has an automatic success check, it's a candidate for RL, and any closed capability gets replicated openly within months.",
+      "cliffhanger": "Frontier reasoning, reproduced in the open and distilled small enough to run anywhere, months after it was a trade secret. The moat is shallower than it looks — and every paper on this curve is a weekend build for $30 or less. The next node isn't a paper. It's you.",
+      "buildChip": "build it: $30 · one week",
+      "coda": {
+        "rungs": [
+          {
+            "tag": "read",
+            "text": "Read the paper — watch the AIME training curve climb from 15.6% to 71.0% with no supervised reasoning data, and read the model's own 'aha moment' transcript.",
+            "href": "https://arxiv.org/abs/2501.12948",
+            "time": "1–2 hrs",
+            "cost": "$0"
+          },
+          {
+            "tag": "run",
+            "text": "Run TinyZero: GRPO-style RL on a Qwen2.5-3B base model playing the Countdown arithmetic game, and watch the aha moment happen in your own logs — the model spontaneously starts self-verifying and revising. The ~$30 figure is the Berkeley authors' own claim; it needs two A100/H100-class GPUs, the one build of the fourteen that won't fit a free Colab. (Gentler on-ramps: philschmid's Mini-R1 walkthrough, Hugging Face open-r1's recipes.)",
+            "href": "https://github.com/Jiayi-Pan/TinyZero",
+            "time": "a weekend of wall-clock, realistically spread over a week",
+            "cost": "~$30"
+          }
+        ]
+      }
+    }
+  ]
+}

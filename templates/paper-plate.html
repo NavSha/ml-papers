@@ -1,0 +1,153 @@
+<!doctype html>
+<!--
+  TEMPLATE — paper page, tier: PLATE (static redrawn artifact; SPEC §5).
+  NEVER deployed. Copy to docs/papers/{slug}.html and replace every {token}
+  from docs/papers.json + research/paperFacts.json:
+
+    {slug}             e.g. resnet
+    {category}         foundations | llm-core | making-useful | beyond-text | for-builders
+    {nn}               two-digit chronological position, 01–14
+    {year}             from date, e.g. 2015
+    {nickname}         e.g. ResNet
+    {title}            full paper title (papers.json "title")
+    {title-accented}   display title with exactly ONE <em>accent</em> word (DESIGN §3)
+    {authorsShort}     e.g. He et al., Microsoft Research
+    {venue}            e.g. CVPR 2016
+    {paperUrl}         canonical link (papers.json "paperUrl")
+    {source-label}     follows the source: "arXiv 1512.03385" / "NeurIPS 2012" / "openai.com"
+    {artifact label}   short mono label for the ONE artifact, e.g. "figure 1, redrawn"
+
+  Editorial rules (SPEC §1, §5 — binding): the ONE artifact in THE AHA with a
+  plain reading, aha within one screen-scroll at 1440px; one honest-limits
+  beat; correct ONE misconception explicitly; builder takeaway in present
+  tense; no hype words; numbers in mono (.num) with engineering suffixes.
+  Facts come from research/paperFacts.json — do not invent claims (SPEC §2).
+
+  After copying:
+    python3 tools/build_paper_blocks.py   # bakes the HOOK / CODA / HANDOFF marked blocks
+    python3 tools/inject_meta.py          # appends description/OG/Twitter meta
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>{nickname} · {title} — The Fourteen</title>
+  <!-- tools/inject_meta.py appends description/OG/Twitter tags right after
+       the title; the page description is read from the baked HOOK .lead. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="{category}" data-slug="{slug}">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- MINIMAP (SPEC §5; eng rule 10) — components.js injects the dot-rail
+       shell and calls spine.renderMinimap(el, "{slug}"). The anchor below is
+       the hard-coded static fallback and must stay. -->
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <!-- PAPER-CHIP CITATION HEADER (SPEC §5; DESIGN §4 — the paper speaks) -->
+    <header class="paper-header reading">
+      <p class="kicker">{nn} · <span class="cat">{nickname}</span> · {year}</p>
+      <h1>{title-accented}</h1>
+      <div class="paper-chip">
+        <span class="chip-tab">{source-label}</span>
+        <p class="chip-title">{title}</p>
+        <p class="chip-meta">{authorsShort} &middot; {venue} &middot;
+          <a href="{paperUrl}" rel="noopener">{source-label}</a></p>
+        <!-- copy-citation placeholder: hidden until components.js wires it
+             (JS-off fallback = the source-labeled link above). Citation
+             format is fixed by SPEC §2. -->
+        <button class="chip-copy" type="button" hidden
+                data-cite="{authorsShort} ({year}). {title}. {venue}. {paperUrl}">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+      <!-- END:HOOK -->
+      <!-- (HOOK marked block above is baked by tools/build_paper_blocks.py
+           from papers.json — never hand-edit inside the markers.) -->
+    </header>
+
+    <!-- THE AHA (SPEC §5) — must land within one screen-scroll of arriving.
+         The ONE artifact: equation / figure / number, redrawn from data.
+         Data-driven figures are baked by tools/bake_paper_figures.py to
+         docs/data/{slug}/figure.json and rendered HERE as static inline SVG
+         (no JS dependency); provenance is surfaced in colophon.html. -->
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · {artifact label}</p>
+      <h2>{aha heading with one <em>accent</em> word}</h2>
+      <figure class="panel" data-figure="{slug}">
+        <!-- {THE ONE ARTIFACT: static redrawn inline SVG / equation markup.
+             Numbers in .num spans with engineering suffixes.} -->
+        <figcaption class="paper-chip">
+          <p class="chip-caption">{redrawn-figure caption — the paper speaks:
+            e.g. “Redrawn from Figure N of {title}.” plus a one-line reading}</p>
+        </figcaption>
+      </figure>
+      <div class="prose reading">
+        <p>{the plain reading: what the artifact says, in one short paragraph
+           — honest analogy allowed, cute one not}</p>
+      </div>
+    </section>
+
+    <!-- WHAT IT CHANGED (SPEC §5) — builder takeaway, present tense:
+         what this changes about how you build, prioritize, or place bets. -->
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>{what-it-changed heading}</h2>
+      <div class="prose reading">
+        <p>{builder takeaway, present tense}</p>
+      </div>
+    </section>
+
+    <!-- HONEST LIMITS (SPEC §5) — one misconception corrected EXPLICITLY,
+         plus where the idea breaks. From paperFacts.json misconceptions. -->
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>{honest-limits heading}</h2>
+      <div class="prose reading">
+        <p><strong>The misconception:</strong> {common misconception, stated
+           plainly — then corrected with the paper's own numbers}.</p>
+        <p>{where the idea breaks / stops applying}</p>
+      </div>
+    </section>
+
+    <!-- BUILD CODA — baked from papers.json coda.rungs. Cites own repos
+         where flagged in research/buildPaths.json. -->
+    <!-- BEGIN:CODA -->
+    <!-- END:CODA -->
+
+    <!-- CLIFFHANGER HANDOFF — baked; static hrefs are the fallback;
+         components.js swaps them when the fast path is on (SPEC §4). -->
+    <!-- BEGIN:HANDOFF -->
+    <!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
