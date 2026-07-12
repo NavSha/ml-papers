@@ -138,6 +138,41 @@
       </div>
     </section>
 
+    <section class="section" id="see-it">
+      <p class="kicker"><span class="cat">one objective, many tasks</span> · watch it move</p>
+      <div class="scrolly" data-scrolly>
+        <div class="steps">
+          <div class="step" data-step="0">
+            <p class="kicker">step 01 / 04</p>
+            <h3>One dumb objective</h3>
+            <p>Predict the next token on 40GB of web text. That's the entire training signal — no labels for translation, summarisation, or question answering. The bet: those tasks are latent in human writing, so modelling the writing well means learning the tasks inside it.</p>
+          </div>
+          <div class="step" data-step="1">
+            <p class="kicker">step 02 / 04</p>
+            <h3>Four tasks, climbing with size</h3>
+            <p>Reading comprehension, translation, summarisation, question answering — each panel shows zero-shot performance rising as the model grows from 117M to 1.5B parameters. No task-specific training anywhere on these curves. The line just goes up as the model gets bigger.</p>
+          </div>
+          <div class="step" data-step="2">
+            <p class="kicker">step 03 / 04</p>
+            <h3>The dashed lines are the specialists</h3>
+            <p>Each dashed line is a dedicated supervised system built for that one task. GPT-2 doesn't beat them — but the gap narrows as it scales, from a general model that was never told these tasks existed.</p>
+          </div>
+          <div class="step" data-step="3">
+            <p class="kicker">step 04 / 04</p>
+            <h3>The bet this started</h3>
+            <p>The capabilities you didn't build are already in the model. That reframed the whole job: not 'how do I train a model for task X' but 'how do I elicit task X from a general one.' Every prompt you write is that question, and GPT-3 proved the bet at scale two papers from here.</p>
+          </div>
+        </div>
+        <div class="sticky">
+          <div class="widget-panel" data-widget="gpt2">
+            <p class="placeholder widget-fallback">
+              the animated version needs JavaScript — the figure above shows the idea.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="what-it-changed">
       <p class="kicker"><span class="cat">what it changed</span></p>
       <h2>From training to <em>eliciting</em></h2>

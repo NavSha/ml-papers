@@ -98,6 +98,41 @@
       </div>
     </section>
 
+    <section class="section" id="see-it">
+      <p class="kicker"><span class="cat">in-context learning</span> · watch it move</p>
+      <div class="scrolly" data-scrolly>
+        <div class="steps">
+          <div class="step" data-step="0">
+            <p class="kicker">step 01 / 04</p>
+            <h3>Put the examples in the prompt</h3>
+            <p>No training, no fine-tuning, no weight update. You show the model two or three worked examples right there in the prompt and ask for a fourth. The paper calls it in-context learning; you call it few-shot prompting, and you do it every day.</p>
+          </div>
+          <div class="step" data-step="1">
+            <p class="kicker">step 02 / 04</p>
+            <h3>Small models barely notice</h3>
+            <p>Feed a 1.3-billion-parameter model more and more examples and the accuracy line stays almost flat. The examples are there; the model just can't use them. Below a certain scale, in-context learning barely exists.</p>
+          </div>
+          <div class="step" data-step="2">
+            <p class="kicker">step 03 / 04</p>
+            <h3>At 175B the line climbs</h3>
+            <p>The same experiment on the 175-billion-parameter model: accuracy rises steeply as you add examples. Nobody programmed this behaviour — it emerged with scale. Prompting became a real interface the moment the model got big enough to read its own prompt as instructions.</p>
+          </div>
+          <div class="step" data-step="3">
+            <p class="kicker">step 04 / 04</p>
+            <h3>What you do with it</h3>
+            <p>Reach for few-shot examples before you reach for fine-tuning — it's the cheapest quality lever you have. Retrieval-augmented generation works for the same reason: retrieved text steers the model at inference with zero training. The catch is that every example is a paid token on every call, which is exactly what prompt caching amortises.</p>
+          </div>
+        </div>
+        <div class="sticky">
+          <div class="widget-panel" data-widget="gpt3">
+            <p class="placeholder widget-fallback">
+              the animated version needs JavaScript — the figure above shows the idea.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="what-it-changed">
       <p class="kicker"><span class="cat">what it changed</span></p>
       <h2>The cheapest quality <em>lever</em> you own</h2>
