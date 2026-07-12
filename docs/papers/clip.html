@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>CLIP · Learning Transferable Visual Models From Natural Language Supervision — The Fourteen</title>
+  <meta name="description" content="Type &#x27;a photo of a dog&#x27; and classification becomes retrieval: trained on 400 million web captions, it matched a supervised model on ImageNet while using…">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="CLIP · Learning Transferable Visual Models From Natural Language Supervision — The Fourteen">
+  <meta property="og:description" content="Type &#x27;a photo of a dog&#x27; and classification becomes retrieval: trained on 400 million web captions, it matched a supervised model on ImageNet while using…">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/papers/clip.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CLIP · Learning Transferable Visual Models From Natural Language Supervision — The Fourteen">
+  <meta name="twitter:description" content="Type &#x27;a photo of a dog&#x27; and classification becomes retrieval: trained on 400 million web captions, it matched a supervised model on ImageNet while using…">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="beyond-text" data-slug="clip">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <header class="paper-header reading">
+      <p class="kicker">08 · <span class="cat">CLIP</span> · 2021</p>
+      <h1>Learning Transferable Visual Models From <em>Natural&nbsp;Language</em> Supervision</h1>
+      <div class="paper-chip">
+        <span class="chip-tab">arXiv 2103.00020</span>
+        <p class="chip-title">Learning Transferable Visual Models From Natural Language Supervision</p>
+        <p class="chip-meta">Radford et al., OpenAI &middot; ICML 2021 &middot;
+          <a href="https://arxiv.org/abs/2103.00020" rel="noopener">arXiv 2103.00020</a></p>
+        <button class="chip-copy" type="button" hidden
+                data-cite="Radford et al. (2021). Learning Transferable Visual Models From Natural Language Supervision. ICML 2021. https://arxiv.org/abs/2103.00020">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+<p class="lead hook">Type &#x27;a photo of a dog&#x27; and classification becomes retrieval: trained on 400 million web captions, it matched a supervised model on ImageNet while using zero of its 1.28 million hand-labeled examples.</p>
+<!-- END:HOOK -->
+    </header>
+
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · figure 1, redrawn</p>
+      <h2>A matching game, at <em>400M</em> pairs</h2>
+      <figure class="panel" data-figure="clip">
+        <svg viewBox="0 0 640 300" role="img" aria-label="CLIP contrastive training: an N by N grid of image-caption similarities where training pushes the diagonal up and everything else down" style="width:100%;height:auto;display:block">
+          <!-- caption labels (columns) -->
+          <text x="205" y="28" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">"a sunny beach"</text>
+          <text x="315" y="28" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">"a tabby cat"</text>
+          <text x="425" y="28" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">"a city at night"</text>
+          <text x="535" y="28" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">"fresh pasta"</text>
+          <!-- image labels (rows) -->
+          <text x="140" y="85" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="end">beach photo</text>
+          <text x="140" y="145" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="end">cat photo</text>
+          <text x="140" y="205" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="end">city photo</text>
+          <text x="140" y="265" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="end">pasta photo</text>
+          <!-- grid: diagonal lit, off-diagonal dim -->
+          <g>
+            <rect x="155" y="60" width="100" height="40" rx="4" fill="var(--cat-deep)"/>
+            <rect x="265" y="60" width="100" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+            <rect x="375" y="60" width="100" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+            <rect x="485" y="60" width="100" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+            <rect x="155" y="120" width="100" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+            <rect x="265" y="120" width="100" height="40" rx="4" fill="var(--cat-deep)"/>
+            <rect x="375" y="120" width="100" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+            <rect x="485" y="120" width="100" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+            <rect x="155" y="180" width="100" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+            <rect x="265" y="180" width="100" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+            <rect x="375" y="180" width="100" height="40" rx="4" fill="var(--cat-deep)"/>
+            <rect x="485" y="180" width="100" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+            <rect x="155" y="240" width="100" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+            <rect x="265" y="240" width="100" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+            <rect x="375" y="240" width="100" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+            <rect x="485" y="240" width="100" height="40" rx="4" fill="var(--cat-deep)"/>
+          </g>
+          <!-- diagonal arrows -->
+          <text x="205" y="85" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--cat-light)" text-anchor="middle">↑</text>
+          <text x="315" y="145" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--cat-light)" text-anchor="middle">↑</text>
+          <text x="425" y="205" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--cat-light)" text-anchor="middle">↑</text>
+          <text x="535" y="265" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--cat-light)" text-anchor="middle">↑</text>
+        </svg>
+        <figcaption class="paper-chip">
+          <p class="chip-caption">Redrawn from Figure 1 of the paper. A batch of images and a batch
+            of captions, scored against each other: training pushes the true pairs (the diagonal) up
+            and every wrong pairing down. That's the whole recipe — repeated over
+            400M web image–caption pairs.</p>
+        </figcaption>
+      </figure>
+      <div class="prose reading">
+        <p>Train an image encoder and a text encoder so that matching pairs land close together in
+        <em>one shared embedding space</em>, and classification stops being classification — it becomes
+        retrieval: "which caption best fits this image?" Zero-shot CLIP matched the original supervised
+        ResNet-50 on ImageNet using <span class="num">none</span> of its <span class="num">1.28M</span>
+        labeled examples. One card catalog where photos and sentences are filed by meaning — once
+        everything is shelved by meaning, search is just walking to the right shelf.</p>
+      </div>
+    </section>
+
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>You ship this pattern <em>already</em></h2>
+      <div class="prose reading">
+        <p>"Embed both sides into one space, then nearest-neighbor" is the workhorse behind semantic
+        search, RAG retrieval, recommendations, dedup, and image search — every time you reach for a
+        vector database you are living downstream of this recipe. Strategic corollary: rigid label
+        taxonomies are becoming optional. Natural language is the label space, so "add a new category"
+        is a string change, not a retraining project.</p>
+      </div>
+    </section>
+
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>CLIP doesn't <em>generate</em> anything</h2>
+      <div class="prose reading">
+        <p><strong>The misconception:</strong> "CLIP makes images." It only embeds and scores.
+        DALL·E and Stable Diffusion use CLIP-style text encoders to <em>steer</em> generation;
+        CLIP itself can only tell you how well an image and a text match. Its zero-shot
+        "classification" is just retrieval against candidate captions like "a photo of a dog."</p>
+        <p>And shared-space matching inherits the biases and blind spots of 400M web captions —
+        what the web never says about an image, CLIP cannot see in it.</p>
+      </div>
+    </section>
+
+    <!-- BEGIN:CODA -->
+<section class="coda" aria-labelledby="coda-title">
+  <h2 class="coda-title" id="coda-title">Build it yourself</h2>
+  <p class="coda-chip">build it: $0 · one evening</p>
+  <ol class="coda-rungs">
+  <li class="rung" data-tag="read">
+    <span class="rung-tag">read</span>
+    <p class="rung-text"><a href="https://arxiv.org/abs/2103.00020">Read the paper — Figure 1&#x27;s N×N matching grid (push the diagonal up, everything else down) is the whole idea in one glance.</a></p>
+    <p class="rung-meta">1–2 hrs &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="run">
+    <span class="rung-tag">run</span>
+    <p class="rung-text"><a href="https://github.com/mlfoundations/open_clip">Build a zero-shot classifier over your own photo library in ~10 lines with open_clip — search your photos by typing text. This is the vector-search intuition, live.</a></p>
+    <p class="rung-meta">one evening &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="train">
+    <span class="rung-tag">train</span>
+    <p class="rung-text"><a href="https://wandb.ai/manan-goel/coco-clip/reports/Implementing-CLIP-With-PyTorch-Lightning--VmlldzoyMzg4Njk1">Train a mini-CLIP from scratch: ResNet + DistilBERT encoders, contrastive loss, Flickr8k&#x27;s 8,000 image–caption pairs — and watch retrieval start working.</a></p>
+    <p class="rung-meta">a weekend &middot; $0–10</p>
+  </li>
+  </ol>
+</section>
+<!-- END:CODA -->
+
+    <!-- BEGIN:HANDOFF -->
+<nav class="handoff" aria-label="Paper navigation">
+  <p class="cliffhanger">Models this general made everyone want their own. But customizing GPT-3 meant a 350GB checkpoint per task — until someone noticed the changes fine-tuning makes are mostly redundant.</p>
+  <p class="handoff-links">
+    <a class="handoff-prev" data-handoff="prev" href="moe.html">&larr; Mixture-of-Experts (2021)</a>
+    <a class="handoff-next" data-handoff="next" href="lora.html">LoRA (2021) &rarr;</a>
+  </p>
+</nav>
+<!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

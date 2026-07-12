@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>LoRA · Low-Rank Adaptation of Large Language Models — The Fourteen</title>
+  <meta name="description" content="Fine-tuning GPT-3 meant saving a 350GB checkpoint per task. LoRA matches it with a 35MB file — 10,000× fewer trainable parameters, 3× less GPU memory, zero…">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="LoRA · Low-Rank Adaptation of Large Language Models — The Fourteen">
+  <meta property="og:description" content="Fine-tuning GPT-3 meant saving a 350GB checkpoint per task. LoRA matches it with a 35MB file — 10,000× fewer trainable parameters, 3× less GPU memory, zero…">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/papers/lora.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LoRA · Low-Rank Adaptation of Large Language Models — The Fourteen">
+  <meta name="twitter:description" content="Fine-tuning GPT-3 meant saving a 350GB checkpoint per task. LoRA matches it with a 35MB file — 10,000× fewer trainable parameters, 3× less GPU memory, zero…">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="for-builders" data-slug="lora">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <header class="paper-header reading">
+      <p class="kicker">09 · <span class="cat">LoRA</span> · 2021</p>
+      <h1>LoRA: <em>Low-Rank</em> Adaptation of Large Language Models</h1>
+      <div class="paper-chip">
+        <span class="chip-tab">arXiv 2106.09685</span>
+        <p class="chip-title">LoRA: Low-Rank Adaptation of Large Language Models</p>
+        <p class="chip-meta">Hu et al., Microsoft &middot; ICLR 2022 &middot;
+          <a href="https://arxiv.org/abs/2106.09685" rel="noopener">arXiv 2106.09685</a></p>
+        <button class="chip-copy" type="button" hidden
+                data-cite="Hu et al. (2022). LoRA: Low-Rank Adaptation of Large Language Models. ICLR 2022. https://arxiv.org/abs/2106.09685">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+<p class="lead hook">Fine-tuning GPT-3 meant saving a 350GB checkpoint per task. LoRA matches it with a 35MB file — 10,000× fewer trainable parameters, 3× less GPU memory, zero added latency.</p>
+<!-- END:HOOK -->
+    </header>
+
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · figure 1, redrawn</p>
+      <h2>Napkin math you can <em>verify</em></h2>
+      <figure class="panel" data-figure="lora">
+        <svg viewBox="0 0 640 300" role="img" aria-label="LoRA decomposition: the big frozen weight matrix W stays untouched while a skinny trainable bypass of matrices B times A learns the update" style="width:100%;height:auto;display:block">
+          <!-- frozen W -->
+          <rect x="40" y="50" width="180" height="180" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="130" y="135" font-family="JetBrains Mono, monospace" font-size="24" fill="var(--muted)" text-anchor="middle">W</text>
+          <text x="130" y="160" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)" text-anchor="middle">frozen · d × k</text>
+          <text x="130" y="252" font-family="JetBrains Mono, monospace" font-size="12" fill="var(--muted)" text-anchor="middle">4096 × 4096 = 16.8M numbers</text>
+          <!-- plus -->
+          <text x="255" y="145" font-family="JetBrains Mono, monospace" font-size="26" fill="var(--cat-base)" text-anchor="middle">+</text>
+          <!-- B (tall skinny) -->
+          <rect x="290" y="50" width="26" height="180" rx="4" fill="var(--cat-deep)"/>
+          <text x="303" y="42" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--cat-base)" text-anchor="middle">B</text>
+          <text x="303" y="250" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="middle">d × r</text>
+          <!-- times -->
+          <text x="336" y="145" font-family="JetBrains Mono, monospace" font-size="16" fill="var(--muted)" text-anchor="middle">×</text>
+          <!-- A (short wide) -->
+          <rect x="356" y="127" width="180" height="26" rx="4" fill="var(--cat-deep)"/>
+          <text x="548" y="145" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--cat-base)">A</text>
+          <text x="446" y="170" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="middle">r × k · trainable</text>
+          <!-- equation + arithmetic -->
+          <text x="290" y="215" font-family="JetBrains Mono, monospace" font-size="20" fill="var(--text)">h = Wx <tspan fill="var(--cat-base)">+ BAx</tspan></text>
+          <text x="290" y="245" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--muted)">r=8: (4096×8 + 8×4096) = 65.5k numbers</text>
+          <text x="290" y="266" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--cat-base)">= 0.4% of the full update</text>
+        </svg>
+        <figcaption class="paper-chip">
+          <p class="chip-caption">Redrawn from Figure 1 of the paper. The giant matrix is frozen;
+            the update is learned as two skinny matrices whose product has the same shape.
+            Middle-school area arithmetic — no calculus required.</p>
+        </figcaption>
+      </figure>
+      <div class="prose reading">
+        <p>Fine-tuning's weight changes turn out to have low intrinsic rank — so don't update the
+        giant matrix at all. Freeze it, learn the update as <span class="num">B·A</span> with rank
+        <span class="num">r</span> as small as 1–8, and merge at inference for zero added latency.
+        On GPT-3 175B: <span class="num">10,000×</span> fewer trainable parameters,
+        <span class="num">3×</span> less GPU memory, a per-task checkpoint shrinking from
+        <span class="num">~350GB</span> to <span class="num">~35MB</span> — with on-par or better
+        quality than full fine-tuning across the tasks studied. Instead of re-saving a 350GB
+        spreadsheet to share your edits, you ship a compact formula file.</p>
+      </div>
+    </section>
+
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>Fine-tuning became a <em>product feature</em></h2>
+      <div class="prose reading">
+        <p>Any "train on your data" feature you use today is almost certainly LoRA-family (or its
+        quantized cousin QLoRA). The architecture unlock is worth designing around: one frozen base
+        model + N per-customer <span class="num">35MB</span> adapters, hot-swapped per request —
+        multi-tenant customization without N model copies. Rule of thumb:
+        <strong>LoRA for style, format, and task behavior; RAG for knowledge.</strong></p>
+      </div>
+    </section>
+
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>It doesn't teach the model <em>facts</em></h2>
+      <div class="prose reading">
+        <p><strong>The misconception:</strong> "fine-tuning injects new knowledge." LoRA's capacity
+        is tiny by construction — that's the point. It excels at style, tone, format, and task
+        behavior; for fresh or changing facts, retrieval is usually the right tool.</p>
+        <p>And "cheap" does not mean "worse": the paper reports on-par or better quality than full
+        fine-tuning on RoBERTa, DeBERTa, GPT-2, and GPT-3 — but only across the tasks studied.
+        Push an adapter far outside the base model's competence and the low-rank bottleneck is
+        exactly that: a bottleneck.</p>
+      </div>
+    </section>
+
+    <!-- BEGIN:CODA -->
+<section class="coda" aria-labelledby="coda-title">
+  <h2 class="coda-title" id="coda-title">Build it yourself</h2>
+  <p class="coda-chip">build it: $0 · one evening</p>
+  <ol class="coda-rungs">
+  <li class="rung" data-tag="read">
+    <span class="rung-tag">read</span>
+    <p class="rung-text"><a href="https://arxiv.org/abs/2106.09685">Read the paper — Figure 1 (big frozen W, skinny trainable bypass B·A) plus napkin arithmetic is the whole method: a d×k update costs d·k numbers; the rank-r version costs d·r + r·k.</a></p>
+    <p class="rung-meta">1–2 hrs &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="run">
+    <span class="rung-tag">run</span>
+    <p class="rung-text"><a href="https://github.com/ml-explore/mlx-lm">Fine-tune a 1–3B model on your own MacBook with mlx_lm.lora and 200–500 examples — re-use the Taylor Swift lyrics from the author&#x27;s taylor-lstm for the perfect callback: same data, LSTM in 2023, LoRA&#x27;d LLM now. Print trainable vs total params and see &lt;1%.</a></p>
+    <p class="rung-meta">one evening &middot; $0</p>
+  </li>
+  </ol>
+</section>
+<!-- END:CODA -->
+
+    <!-- BEGIN:HANDOFF -->
+<nav class="handoff" aria-label="Paper navigation">
+  <p class="cliffhanger">Text had its cheap customization trick. Image generation was still hurling GPU time at 786,432 pixels per picture — until a Munich lab asked why the painting couldn&#x27;t happen somewhere 48× smaller.</p>
+  <p class="handoff-links">
+    <a class="handoff-prev" data-handoff="prev" href="clip.html">&larr; CLIP (2021)</a>
+    <a class="handoff-next" data-handoff="next" href="stable-diffusion.html">Stable Diffusion (2021) &rarr;</a>
+  </p>
+</nav>
+<!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>Colophon — The Fourteen</title>
+  <meta name="description" content="How The Fourteen was made: figure provenance, baked-data policy, licenses, and the design system.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Colophon — The Fourteen">
+  <meta property="og:description" content="How The Fourteen was made: figure provenance, baked-data policy, licenses, and the design system.">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/colophon.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Colophon — The Fourteen">
+  <meta name="twitter:description" content="How The Fourteen was made: figure provenance, baked-data policy, licenses, and the design system.">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css?v=1">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" aria-label="Timeline">
+    <a class="minimap-back" href="index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap reading"
+        data-description="How The Fourteen was made: figure provenance, baked-data policy, licenses, and the design system.">
+
+    <header class="paper-header">
+      <p class="kicker">colophon · <span class="cat">how this was made</span></p>
+      <h1>Nothing here is <em>copied</em></h1>
+      <div class="lead">
+        <p>Every figure on this site is redrawn from data; every claim traces to a paper or a
+        dated source; every borrowed pixel is licensed and credited. This page is the receipts.</p>
+      </div>
+    </header>
+
+    <section class="section" id="figures">
+      <p class="kicker"><span class="cat">figures</span></p>
+      <h2>Redrawn-figure policy</h2>
+      <div class="prose">
+        <p>No figure is reproduced from a paper's PDF. Diagrams (the residual block, the LoRA
+        decomposition, the CLIP grid, pipeline diagrams) are redrawn as original SVG from the
+        papers' published descriptions and numbers. Data charts are rebuilt from values stated in
+        the papers' text and tables; where a value exists only inside a printed figure, points are
+        traced and the chart's data file carries a <span class="num">"traced, approximate"</span>
+        provenance flag, surfaced in its caption. Data files live in
+        <a href="https://github.com/NavSha/ml-papers/tree/main/docs/data" rel="noopener">docs/data/</a>
+        with the baker script named in each file.</p>
+      </div>
+    </section>
+
+    <section class="section" id="numbers">
+      <p class="kicker"><span class="cat">numbers</span></p>
+      <h2>Prices, dates, and decay</h2>
+      <div class="prose">
+        <p>Dollar figures for training compute use mid-2026 GPU rental prices
+        (<span class="num">$2.50</span>/H100-hour central estimate, <span class="num">40%</span>
+        utilization) — stamped "prices as of 2026-07" wherever they appear and stored in one
+        dated file, <a href="prices.json">prices.json</a>. GPU prices fell roughly
+        <span class="num">70%</span> between late 2024 and 2026; historical models cost far more
+        on the hardware of their day. Community and job-market facts on the
+        <a href="build.html">2026: you</a> page are stamped "checked July 2026". If you're reading
+        this much later: the shapes hold, the numbers decay.</p>
+        <p>Timeline positions use each paper's arXiv v1 date; citation chips cite the publication
+        venue. That's why ResNet sits at 2015 but cites CVPR 2016, Latent Diffusion sits at
+        Dec 2021 but cites CVPR 2022, and MoE/LoRA/CoT sit months before their venues. The
+        discrepancy is intentional: the timeline records when the idea arrived.</p>
+      </div>
+    </section>
+
+    <section class="section" id="borrowed">
+      <p class="kicker"><span class="cat">borrowed</span></p>
+      <h2>Embeds, licenses, credits</h2>
+      <div class="prose">
+        <ul>
+          <li><a href="https://poloclub.github.io/transformer-explainer/" rel="noopener">Transformer
+            Explainer</a> and <a href="https://poloclub.github.io/diffusion-explainer/" rel="noopener">Diffusion
+            Explainer</a> (Georgia Tech Polo Club) are embedded under their MIT licenses, click-to-activate,
+            with attribution beside each embed.</li>
+          <li><a href="https://bbycroft.net/llm" rel="noopener">LLM Visualization</a> (Brendan Bycroft)
+            is linked out only — it carries no open license, so it is never framed, forked, or rehosted here.</li>
+          <li>The diffusion scrubber's source photograph is NASA's <em>Blue Marble</em>
+            (Apollo 17, 1972) — public domain, via
+            <a href="https://commons.wikimedia.org/wiki/File:The_Earth_seen_from_Apollo_17.jpg" rel="noopener">Wikimedia Commons</a>.</li>
+          <li>Fonts: <a href="https://fonts.google.com/specimen/Literata" rel="noopener">Literata</a>,
+            <a href="https://fonts.google.com/specimen/Inter" rel="noopener">Inter</a>, and
+            <a href="https://fonts.google.com/specimen/JetBrains+Mono" rel="noopener">JetBrains Mono</a>
+            via Google Fonts (OFL). The cream paper-chips deliberately use your system's own serif —
+            when the paper speaks, it speaks in print.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="design">
+      <p class="kicker"><span class="cat">design</span></p>
+      <h2>The system, briefly</h2>
+      <div class="prose">
+        <p>Dark graphite ground; five category accents (position on the timeline is chronology's,
+        color is the category's); one continuous SVG loss curve as the spine, drawn from measured
+        DOM positions as you scroll. Cream "paper-chips" mark every place the paper itself speaks.
+        Static HTML with no build step — the full design spec and source are
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">on GitHub</a>. This is the
+        third sibling of <a href="https://navsha.github.io/taylor-transformer/" rel="noopener">taylor-transformer</a>
+        (the machine learns to write) and
+        <a href="https://navsha.github.io/dogs-vs-cats/" rel="noopener">dogs-vs-cats</a>
+        (the machine learns to see).</p>
+      </div>
+    </section>
+
+    <section class="section" id="curation">
+      <p class="kicker"><span class="cat">curation</span></p>
+      <h2>Why fourteen</h2>
+      <div class="prose">
+        <p>The list was curated paper-by-paper with one lens: not "what shaped AI history," but what
+        changes how an engineer, PM, or founder builds, prioritizes, or places bets <em>today</em>.
+        The full keep/drop record — including what was cut and why (word2vec, GANs, BERT, AlphaGo,
+        Chinchilla, FlashAttention…) — is in
+        <a href="https://github.com/NavSha/ml-papers/blob/main/PAPERS.md" rel="noopener">PAPERS.md</a>.
+        Disagree with a cut? The repo takes issues.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p class="footer-links">
+        <a href="index.html">timeline</a>
+        <a href="build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

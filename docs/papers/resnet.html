@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>ResNet · Deep Residual Learning for Image Recognition — The Fourteen</title>
+  <meta name="description" content="A 56-layer network was losing to its own 20-layer version — until two characters of algebra, &#x27;+ x&#x27;, made 152 layers trainable and swept ImageNet.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="ResNet · Deep Residual Learning for Image Recognition — The Fourteen">
+  <meta property="og:description" content="A 56-layer network was losing to its own 20-layer version — until two characters of algebra, &#x27;+ x&#x27;, made 152 layers trainable and swept ImageNet.">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/papers/resnet.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ResNet · Deep Residual Learning for Image Recognition — The Fourteen">
+  <meta name="twitter:description" content="A 56-layer network was losing to its own 20-layer version — until two characters of algebra, &#x27;+ x&#x27;, made 152 layers trainable and swept ImageNet.">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="foundations" data-slug="resnet">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <header class="paper-header reading">
+      <p class="kicker">02 · <span class="cat">ResNet</span> · 2015</p>
+      <h1>Deep <em>Residual</em> Learning for Image Recognition</h1>
+      <div class="paper-chip">
+        <span class="chip-tab">arXiv 1512.03385</span>
+        <p class="chip-title">Deep Residual Learning for Image Recognition</p>
+        <p class="chip-meta">He, Zhang, Ren &amp; Sun, Microsoft Research &middot; CVPR 2016 &middot;
+          <a href="https://arxiv.org/abs/1512.03385" rel="noopener">arXiv 1512.03385</a></p>
+        <button class="chip-copy" type="button" hidden
+                data-cite="He, Zhang, Ren & Sun (2016). Deep Residual Learning for Image Recognition. CVPR 2016. https://arxiv.org/abs/1512.03385">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+<p class="lead hook">A 56-layer network was losing to its own 20-layer version — until two characters of algebra, &#x27;+ x&#x27;, made 152 layers trainable and swept ImageNet.</p>
+<!-- END:HOOK -->
+    </header>
+
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · the residual block, redrawn</p>
+      <h2>Two characters of <em>algebra</em></h2>
+      <figure class="panel" data-figure="resnet">
+        <svg viewBox="0 0 640 260" role="img" aria-label="The residual block: output equals F of x plus x, with a skip connection around the layers" style="width:100%;height:auto;display:block">
+          <defs>
+            <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="var(--muted)"/>
+            </marker>
+          </defs>
+          <!-- input -->
+          <text x="80" y="34" font-family="JetBrains Mono, monospace" font-size="15" fill="var(--text)" text-anchor="middle">x</text>
+          <line x1="80" y1="44" x2="80" y2="82" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <!-- layers -->
+          <rect x="20" y="86" width="120" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="80" y="111" font-family="Inter, sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">layer</text>
+          <line x1="80" y1="126" x2="80" y2="152" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="20" y="156" width="120" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="80" y="181" font-family="Inter, sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">layer</text>
+          <!-- F(x) label -->
+          <text x="160" y="145" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--muted)">F(x)</text>
+          <!-- skip connection -->
+          <path d="M 80 52 C 300 52, 300 52, 300 52 L 300 196" fill="none" stroke="var(--cat-base)" stroke-width="2"/>
+          <text x="310" y="120" font-family="Inter, sans-serif" font-size="13" fill="var(--cat-base)">the skip connection:</text>
+          <text x="310" y="140" font-family="Inter, sans-serif" font-size="13" fill="var(--cat-base)">x passes through untouched</text>
+          <!-- sum -->
+          <line x1="80" y1="196" x2="80" y2="212" stroke="var(--muted)" stroke-width="1.5"/>
+          <path d="M 80 212 L 288 226" stroke="var(--muted)" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+          <circle cx="300" cy="226" r="12" fill="none" stroke="var(--cat-base)" stroke-width="2"/>
+          <text x="300" y="231" font-family="JetBrains Mono, monospace" font-size="15" fill="var(--cat-base)" text-anchor="middle">+</text>
+          <!-- equation -->
+          <text x="420" y="200" font-family="JetBrains Mono, monospace" font-size="22" fill="var(--text)">y = F(x) <tspan fill="var(--cat-base)">+ x</tspan></text>
+          <text x="420" y="228" font-family="Inter, sans-serif" font-size="13" fill="var(--muted)">each block learns only the change</text>
+        </svg>
+        <figcaption class="paper-chip">
+          <p class="chip-caption">Redrawn from Figure 2 of the paper. The entire trick is the
+            "+ x": the input skips around the layers and is added back, so "do nothing" becomes
+            the trivially learnable default.</p>
+        </figcaption>
+      </figure>
+      <div class="prose reading">
+        <p>The paradox that motivated it (the paper's Figure 1): a plain <span class="num">56</span>-layer
+        network had <em>higher training error</em> than a <span class="num">20</span>-layer one. Not
+        overfitting — the optimizer literally couldn't find the deeper solution, because every layer
+        had to re-derive everything the ones before it knew. Make pass-through the default and depth
+        becomes nearly free: <span class="num">152</span> layers, <span class="num">3.57%</span> top-5
+        error, first place at ILSVRC 2015. Think of a document passing through 50 editors as tracked
+        changes, instead of each editor retyping the whole thing from memory.</p>
+      </div>
+    </section>
+
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>You use this <em>every</em> day</h2>
+      <div class="prose reading">
+        <p>The "residual stream" that interpretability work talks about is literally this
+        <span class="num">+ x</span> path — a skip connection sits inside every block of every
+        Transformer serving you today. The design lesson generalizes to systems you build now:
+        when quality degrades as you add stages to a pipeline or an agent chain, make pass-through
+        the default and have each stage contribute only a delta, instead of forcing every stage to
+        reconstruct the whole state.</p>
+      </div>
+    </section>
+
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>Not overfitting, not <em>vanishing</em> gradients</h2>
+      <div class="prose reading">
+        <p><strong>The misconception:</strong> "deep nets failed because they had too many parameters
+        (overfitting) or purely because gradients vanished." The paper's own evidence says otherwise:
+        <em>training</em> error itself got worse with depth — an optimization failure. Skip connections
+        fix it by making identity trivially learnable, so extra depth can only help.</p>
+        <p>The limit: "+ x" buys trainability, not capability. Depth stopped being the bottleneck —
+        two years later the question became what the layers should <em>do</em>, and the answer
+        deleted recurrence entirely.</p>
+      </div>
+    </section>
+
+    <!-- BEGIN:CODA -->
+<section class="coda" aria-labelledby="coda-title">
+  <h2 class="coda-title" id="coda-title">Build it yourself</h2>
+  <p class="coda-chip">build it: $0–5 · a weekend</p>
+  <ol class="coda-rungs">
+  <li class="rung" data-tag="read">
+    <span class="rung-tag">read</span>
+    <p class="rung-text"><a href="https://arxiv.org/abs/1512.03385">Read the paper — Figure 1&#x27;s paradox (deeper plain nets have worse training error) and the one-line fix, y = F(x) + x, are the whole story.</a></p>
+    <p class="rung-meta">1–2 hrs &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="run">
+    <span class="rung-tag">run</span>
+    <p class="rung-text"><a href="https://github.com/akamaster/pytorch_resnet_cifar10">Reproduce Figure 1 yourself: train plain-20 vs plain-56 vs ResNet-20/56 on CIFAR-10 and watch the deeper plain net lose until you add skip connections — the degradation problem and its fix on one chart you made.</a></p>
+    <p class="rung-meta">1–2 days (mostly training wall-clock) &middot; $0–5</p>
+  </li>
+  </ol>
+</section>
+<!-- END:CODA -->
+
+    <!-- BEGIN:HANDOFF -->
+<nav class="handoff" aria-label="Paper navigation">
+  <p class="cliffhanger">Vision could now go as deep as it liked. Language was still trapped reading one word at a time — until a translation team asked what would survive if they deleted the recurrence entirely.</p>
+  <p class="handoff-links">
+    <a class="handoff-prev" data-handoff="prev" href="alexnet.html">&larr; AlexNet (2012)</a>
+    <a class="handoff-next" data-handoff="next" href="transformer.html">Transformer (2017) &rarr;</a>
+  </p>
+</nav>
+<!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

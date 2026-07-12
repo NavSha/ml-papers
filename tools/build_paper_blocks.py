@@ -44,7 +44,7 @@ def render_hook(p):
 def render_coda(p):
     rungs = []
     for i, r in enumerate(p["coda"]["rungs"]):
-        rungs.append(f"""  <li class="coda-rung" data-tag="{esc(r["tag"])}">
+        rungs.append(f"""  <li class="rung" data-tag="{esc(r["tag"])}">
     <span class="rung-tag">{esc(r["tag"])}</span>
     <p class="rung-text"><a href="{esc(r["href"])}">{esc(r["text"])}</a></p>
     <p class="rung-meta">{esc(r["time"])} &middot; {esc(r["cost"])}</p>

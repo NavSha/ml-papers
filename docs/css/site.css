@@ -513,12 +513,18 @@ button:disabled, [aria-disabled="true"] { opacity: .45; pointer-events: none; }
        ≥780px: rail left, cards right. Heights are reserved in static HTML;
        spine.js measures node DOM positions — geometry never lives here. */
 .spine {
+  position: relative;   /* the rail overlays column 1 for the full height */
   display: grid;
   grid-template-columns: var(--rail-w) minmax(0, var(--card-w));
   column-gap: clamp(24px, 4vw, 56px);
 }
 .spine > .act-band, .spine > .gap-caption { grid-column: 1 / -1; }
-.spine-rail { position: relative; }
+.spine-rail {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: var(--rail-w);
+  pointer-events: none;   /* dots are decorative; cards are the links */
+}
 .spine-svg {
   position: absolute;
   inset: 0;
@@ -864,6 +870,23 @@ input[type="text"], input[type="number"], select {
 }
 .breakit-note { font-size: var(--fs-small); font-style: italic; color: var(--muted); }
 
+/* --- build.html ladder ------------------------------------------------- */
+.ladder-group { margin-top: var(--s5); }
+.ladder-paper { margin-top: var(--s3); }
+.ladder-paper-name { font-family: var(--font-serif); font-size: 20px; margin: 0 0 var(--s1); }
+.ladder-paper-name a { color: var(--text); text-decoration: none; }
+.ladder-paper-name a:hover { color: var(--cat-light); text-decoration: underline; text-underline-offset: 3px; }
+.ladder-chip { font-family: var(--font-mono); font-size: 12px; color: var(--muted); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r2); padding: 3px 8px; margin-left: 8px; vertical-align: 2px; }
+.ladder-check { appearance: none; width: 18px; height: 18px; border-radius: var(--r1); border: 1.5px solid var(--dim); background: transparent; cursor: pointer; position: relative; transition: background-color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out); }
+.ladder-check:checked { background: var(--ok); border-color: var(--ok); }
+.ladder-check:checked::after { content: "\2713"; position: absolute; inset: 0; display: grid; place-items: center; font-size: 13px; color: var(--ground); }
+label.rung-text { cursor: pointer; margin: 0; }
+
+/* --- coda container helpers (markup from tools/build_paper_blocks.py) -- */
+.coda-title { font-family: var(--font-mono); font-size: var(--fs-kicker); font-weight: 500; text-transform: uppercase; letter-spacing: .18em; color: var(--cat-base); margin: 0 0 var(--s1); }
+.coda-chip { display: inline-block; font-family: var(--font-mono); font-size: 12px; color: var(--muted); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r2); padding: 5px 10px; margin: 0 0 var(--s2); }
+.coda-rungs { list-style: none; margin: 0; padding: 0; }
+
 /* --- coda rungs (paper pages + build.html ladder) (DESIGN §8) ----------
        .coda gets the panel recipe above + a BUILD THIS YOURSELF kicker.
        All four tags — read / run / tweak / train — share one cat-tinted
@@ -908,6 +931,9 @@ input[type="text"], input[type="number"], select {
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--muted);
+  max-width: 170px;
+  white-space: normal;
+  text-align: right;
   text-align: right;
   white-space: nowrap;
 }

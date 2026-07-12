@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0C0D0F">
+  <meta name="color-scheme" content="dark">
+  <title>AlexNet · ImageNet Classification with Deep Convolutional Neural Networks — The Fourteen</title>
+  <meta name="description" content="Two gaming GPUs beat a decade of hand-built vision — by ten points, in a contest where progress was measured in one.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="AlexNet · ImageNet Classification with Deep Convolutional Neural Networks — The Fourteen">
+  <meta property="og:description" content="Two gaming GPUs beat a decade of hand-built vision — by ten points, in a contest where progress was measured in one.">
+  <meta property="og:url" content="https://navsha.github.io/ml-papers/papers/alexnet.html">
+  <meta property="og:image" content="https://navsha.github.io/ml-papers/og.png">
+  <meta property="og:site_name" content="The Fourteen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AlexNet · ImageNet Classification with Deep Convolutional Neural Networks — The Fourteen">
+  <meta name="twitter:description" content="Two gaming GPUs beat a decade of hand-built vision — by ten points, in a contest where progress was measured in one.">
+  <meta name="twitter:image" content="https://navsha.github.io/ml-papers/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css?v=1">
+  <script type="module" src="../js/main.js"></script>
+</head>
+<body data-cat="foundations" data-slug="alexnet">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="minimap" data-minimap aria-label="Timeline">
+    <a class="minimap-back" href="../index.html">← timeline</a>
+  </nav>
+
+  <main id="main" class="wrap">
+
+    <header class="paper-header reading">
+      <p class="kicker">01 · <span class="cat">AlexNet</span> · 2012</p>
+      <h1>ImageNet Classification with <em>Deep</em> Convolutional Neural Networks</h1>
+      <div class="paper-chip">
+        <span class="chip-tab">NeurIPS 2012</span>
+        <p class="chip-title">ImageNet Classification with Deep Convolutional Neural Networks</p>
+        <p class="chip-meta">Krizhevsky, Sutskever &amp; Hinton, University of Toronto &middot; NeurIPS 2012 &middot;
+          <a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks" rel="noopener">papers.nips.cc</a></p>
+        <button class="chip-copy" type="button" hidden
+                data-cite="Krizhevsky, Sutskever & Hinton (2012). ImageNet Classification with Deep Convolutional Neural Networks. NeurIPS 2012. https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks">
+          copy citation
+        </button>
+      </div>
+
+      <!-- BEGIN:HOOK -->
+<p class="lead hook">Two gaming GPUs beat a decade of hand-built vision — by ten points, in a contest where progress was measured in one.</p>
+<!-- END:HOOK -->
+    </header>
+
+    <section class="section" id="the-aha">
+      <p class="kicker"><span class="cat">the aha</span> · the 2012 leaderboard, redrawn</p>
+      <h2>The gap <em>is</em> the argument</h2>
+      <figure class="panel" data-figure="alexnet">
+        <svg viewBox="0 0 640 240" role="img" aria-label="ILSVRC-2012 top-5 error: AlexNet 15.3 percent versus second place 26.2 percent" style="width:100%;height:auto;display:block">
+          <!-- axis -->
+          <line x1="140" y1="30" x2="140" y2="200" stroke="var(--border)" stroke-width="1"/>
+          <line x1="140" y1="200" x2="620" y2="200" stroke="var(--border)" stroke-width="1"/>
+          <!-- second place: 26.2% -->
+          <rect x="140" y="60" width="437" height="44" rx="4" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="150" y="87" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--muted)">2nd place (hand-engineered features)</text>
+          <text x="588" y="87" font-family="JetBrains Mono, monospace" font-size="16" fill="var(--text)" text-anchor="end">26.2%</text>
+          <!-- alexnet: 15.3% -->
+          <rect x="140" y="130" width="255" height="44" rx="4" fill="var(--cat-deep)"/>
+          <text x="150" y="157" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--cat-light)">AlexNet (one deep CNN, two GPUs)</text>
+          <text x="405" y="157" font-family="JetBrains Mono, monospace" font-size="16" fill="var(--cat-base)">15.3%</text>
+          <!-- the gap -->
+          <line x1="395" y1="152" x2="577" y2="82" stroke="var(--cat-base)" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="486" y="126" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--cat-base)" text-anchor="middle">−10.9 pts</text>
+          <text x="140" y="222" font-family="Inter, sans-serif" font-size="12" fill="var(--muted)">top-5 error, ILSVRC-2012 — lower is better · annual progress before this: 1–2 points</text>
+        </svg>
+        <figcaption class="paper-chip">
+          <p class="chip-caption">Redrawn from the ILSVRC-2012 results reported in the paper.
+            Two percentages on the same test — the gap is the entire argument.</p>
+        </figcaption>
+      </figure>
+      <div class="prose reading">
+        <p>In a contest where a good year moved the needle <span class="num">1–2</span> points,
+        one entry moved it <span class="num">10.9</span>. The entry wasn't a cleverer pipeline —
+        it was a generic deep network, an idea from the 1980s, finally fed enough: <span class="num">1.2M</span>
+        labeled images and a week of training on two consumer gaming GPUs
+        (<span class="num">GTX 580</span>, <span class="num">3GB</span> each). Like fracking, the resource
+        was known for decades — what changed was the extraction technology that suddenly made it economical.</p>
+      </div>
+    </section>
+
+    <section class="section" id="what-it-changed">
+      <p class="kicker"><span class="cat">what it changed</span></p>
+      <h2>Bet on methods that <em>scale</em></h2>
+      <div class="prose reading">
+        <p>Every paper after this one on the timeline is the same bet repeated: general methods
+        that scale with compute and data beat clever hand-engineering. That's still the working
+        rule for reading the field today — paradigm shifts announce themselves as
+        <strong>discontinuities on public benchmarks</strong>, not increments. When you see a
+        10-point jump where the annual rhythm was 1, reprioritize.</p>
+      </div>
+    </section>
+
+    <section class="section" id="honest-limits">
+      <p class="kicker"><span class="cat">honest limits</span></p>
+      <h2>What AlexNet did <em>not</em> invent</h2>
+      <div class="prose reading">
+        <p><strong>The misconception:</strong> "AlexNet invented deep learning." CNNs are from the
+        1980s — LeCun's LeNet was reading ZIP codes in 1989. What changed in 2012 was fuel:
+        ImageNet's <span class="num">1.2M</span> labels, GPU compute, and a few training tricks
+        (ReLU, dropout). The invention was scale, not the network.</p>
+        <p>And the win was narrow: one benchmark, one modality. Nothing in this paper predicted
+        language models — it took the field five more years to find the architecture that would
+        carry the same bet beyond vision.</p>
+      </div>
+    </section>
+
+    <!-- BEGIN:CODA -->
+<section class="coda" aria-labelledby="coda-title">
+  <h2 class="coda-title" id="coda-title">Build it yourself</h2>
+  <p class="coda-chip">build it: $0 · one evening</p>
+  <ol class="coda-rungs">
+  <li class="rung" data-tag="read">
+    <span class="rung-tag">read</span>
+    <p class="rung-text"><a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks">Read the paper — or just the abstract and the results table; the 10.9-point gap is the whole argument.</a></p>
+    <p class="rung-meta">1 hr &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="run">
+    <span class="rung-tag">run</span>
+    <p class="rung-text"><a href="https://docs.pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html">Train an AlexNet-style CNN on CIFAR-10 in a free Colab — conv → pool → FC gets ~60% in minutes; add depth and augmentation and watch accuracy climb. The &#x27;general methods + compute&#x27; lesson, felt firsthand.</a></p>
+    <p class="rung-meta">2–4 hrs &middot; $0</p>
+  </li>
+  <li class="rung" data-tag="tweak">
+    <span class="rung-tag">tweak</span>
+    <p class="rung-text"><a href="https://github.com/NavSha/dogs-vs-cats">Then do it the modern way: transfer-learn MobileNetV2 instead of training from scratch — the author&#x27;s dogs-vs-cats repo is the AlexNet playbook, updated.</a></p>
+    <p class="rung-meta">one evening &middot; $0</p>
+  </li>
+  </ol>
+</section>
+<!-- END:CODA -->
+
+    <!-- BEGIN:HANDOFF -->
+<nav class="handoff" aria-label="Paper navigation">
+  <p class="cliffhanger">Everyone&#x27;s answer was more layers. Then the deeper networks started losing to the shallow ones — not overfitting, failing to train at all.</p>
+  <p class="handoff-links">
+    <a class="handoff-prev" data-handoff="prev" href="../index.html">&larr; timeline</a>
+    <a class="handoff-next" data-handoff="next" href="resnet.html">ResNet (2015) &rarr;</a>
+  </p>
+</nav>
+<!-- END:HANDOFF -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <a class="sibling-banner" href="https://navsha.github.io/interactive-explainers/">
+        <p class="kicker">sibling site</p>
+        <p>Want the <strong>practice</strong>, not the history? AI for PMs —
+           hands-on explainers for the tools these papers became.</p>
+      </a>
+      <p class="footer-links">
+        <a href="../index.html">timeline</a>
+        <a href="../build.html">2026: you</a>
+        <a href="https://github.com/NavSha/ml-papers" rel="noopener">github.com/NavSha/ml-papers</a>
+        <a href="../colophon.html">colophon</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
