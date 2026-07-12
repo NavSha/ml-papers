@@ -71,7 +71,7 @@ python3 tools/check_links.py          # internal link check (also runs in CI)
 
 - [taylor-transformer](https://navsha.github.io/taylor-transformer/) — how a language model writes
 - [dogs-vs-cats](https://navsha.github.io/dogs-vs-cats/) — how a machine learns to see
-- [interactive-explainers](https://navsha.github.io/interactive-explainers/) — AI for PMs: the practice, not the history
+- [interactive-explainers](https://navsha.github.io/interactive-explainers/) — AI for Builders: the practice, not the history
   *(TODO: add a reciprocal ml-papers card on the explainers homepage — tracked, other repo)*
 
 Curated and built in Claude Code sessions, June–July 2026. Figure provenance,
