@@ -43,6 +43,12 @@ const usd = (C, price, mfu) => C * price / (989e12 * mfu * 3600);
 export function fmt(n, unit = '') {
   if (!isFinite(n)) return '—';
   const abs = Math.abs(n);
+  // beyond trillions (e.g. FLOPs at 1e18–1e27) engineering suffixes stop
+  // helping — scientific notation is clearer: "1.0e23"
+  if (abs >= 1e15) {
+    const e = Math.floor(Math.log10(abs));
+    return (n / Math.pow(10, e)).toFixed(1) + 'e' + e + unit;
+  }
   const steps = [[1e12, 'T'], [1e9, 'B'], [1e6, 'M'], [1e3, 'k']];
   for (const [v, s] of steps) if (abs >= v) return trim(n / v) + s + unit;
   return trim(n) + unit;
